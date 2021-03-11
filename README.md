@@ -61,9 +61,11 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 
 TODO =>
-- [ ] écrire une convention de codage, code de conduite/recommandation pour PR
-- [ ] configuration de git (je pense que les développeurs n'utilisent pas tous les mêmes SE, afin d'éviter des déboires avec les fins de lignes, tabulations par défaut aussi)
+- [ ] écrire une convention de codage
+- [ ] recommandation pour les EDI => espaces au lieu de tabulation et nombre d'espaces pour une tabulation
+- [ ] code de conduite/recommandation pour PR
+- [x] configuration de git
 - [x] mettre en place une base (vue-cli, tailwindcss, typescript, autres ?)
-- [ ] écrire les différentes commandes afin de lancer
-- [ ] créer une autre branche develop
+- [x] écrire les différentes commandes afin de lancer le projet
+- [x] créer une autre branche develop
 - [x] s'amuser !
