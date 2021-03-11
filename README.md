@@ -5,6 +5,11 @@
 
 ## Lancer le projet en local
 
+Afin de lancer le projet en local, il est nécessaire d'avoir différents outils installés :
+- (NodeJS)[https://nodejs.org/en/download/]
+- (Git)[https://git-scm.com/downloads]
+- un EDI, par exemple (VSCode)[https://code.visualstudio.com/Download]
+
 ### Installation des dépendances du projet:
 ```bash
 npm install
