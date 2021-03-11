@@ -10,6 +10,8 @@ Afin de lancer le projet en local, il est nécessaire d'avoir différents outils
 - [Git](https://git-scm.com/downloads)
 - un EDI, par exemple [VSCode](https://code.visualstudio.com/Download)
 
+Ensuite, il faut [cloner](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository) ce répertoire sur son ordinateur afin de travailler dessus en local.
+
 ### Installation des dépendances du projet:
 ```bash
 npm install
