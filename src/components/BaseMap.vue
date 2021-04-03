@@ -42,11 +42,13 @@ export default {
       constructor ({
         className = '',
         title = '',
-        eventHandler = undefined
+        eventHandler = undefined,
+        innerHTML = undefined
       }) {
         this._className = className
         this._title = title
         this._eventHandler = eventHandler
+        this._innerHTML = innerHTML
       }
 
       onAdd (map) {
@@ -55,6 +57,7 @@ export default {
         this._btn.type = 'button'
         this._btn.title = this._title
         this._btn.onclick = this._eventHandler
+        this._btn.innerHTML = this._innerHTML
 
         this._container = document.createElement('div')
         this._container.className = 'mapboxgl-ctrl-group mapboxgl-ctrl'
@@ -80,7 +83,8 @@ export default {
     const changeLayers = new MapboxGLButtonControl({
       className: 'mapbox-gl-change_layer',
       title: 'Change Layer',
-      eventHandler: nextLayer
+      eventHandler: nextLayer,
+      innerHTML: 'L'
     })
 
     /* Add Controls to the Map */
