@@ -18,10 +18,13 @@ export default {
 
     const map = new mapboxgl.Map({
       container: 'mapContainer',
-      style: 'mapbox://styles/mapbox/streets-v11',
+      style: 'mapbox://styles/sosmediterranee/ckkdvswwr0ol117t7d91p7wac',
       center: [7.5956888, 41.4316886],
       zoom: 3.5
     })
+
+    // Add zoom and rotation controls to the map.
+    map.addControl(new mapboxgl.NavigationControl())
   }
 }
 </script>
@@ -29,7 +32,10 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .basemap {
-  width: 95vw;
-  height: 60vh;
+  width: 100vw;
+  /* This needs to be made 100% or something to fill rest of vertical space */
+  height: 80vh;
+  /* This works to center horizontally we probably need to do something else to center vertically depending on where this sits */
+  margin: auto;
 }
 </style>

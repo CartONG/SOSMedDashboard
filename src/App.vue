@@ -1,6 +1,5 @@
 <template>
   <Header />
-  <img alt="Vue logo" src="./assets/logo.png">
   <BaseMap/>
 </template>
 
