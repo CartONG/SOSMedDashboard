@@ -7,6 +7,7 @@ import mapboxgl from 'mapbox-gl'
 
 export default {
   name: 'BaseMap',
+  props: ['rescueData'],
   data () {
     return {
       // This token was taken from the demo project we need to replace with a real token
