@@ -7,7 +7,7 @@ import mapboxgl from 'mapbox-gl'
 
 export default {
   name: 'BaseMap',
-  props: ['rescueData'],
+  props: ['opsData'],
   data () {
     return {
       // This token was taken from the demo project we need to replace with a real token
@@ -29,6 +29,15 @@ export default {
       style: layers[0],
       center: [7.5956888, 41.4316886],
       zoom: 3.5
+    })
+
+    // Add data
+    this.opsData.then(function (opsData) {
+      for (const data of opsData) {
+        if (!isNaN(data.longitude) && !isNaN(data.latitude)) {
+          new mapboxgl.Marker().setLngLat([data.longitude, data.latitude]).addTo(map)
+        }
+      }
     })
 
     // Add zoom and rotation controls to the map.

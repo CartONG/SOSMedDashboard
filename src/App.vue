@@ -1,29 +1,35 @@
 <template>
   <Header />
-  <BaseMap :rescueData="rescueData"/>
+  <BaseMap :opsData="opsData"/>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component'
 import BaseMap from './components/BaseMap.vue'
 import Header from './components/Header.vue'
-import { RawRescueData } from './rescueData'
+import { RawOpsData, OpsData, convertOpsData } from './opsData'
 
-/* TODO : Add url for the real test data */
-const dataUrl = 'https://spreadsheets.google.com/feeds/list/1hnTmN_bKoFQiqO8hoeW7TXatPYsXoaCBu4pP1vf1cy4/1/public/values?alt=json'
+const dataRequestUrl = 'https://spreadsheets.google.com/feeds/list/1mK5tq3gfnc0OckQnArz1TXhh4YINAWfF7ilYa5PhOw8/1/public/values?alt=json'
 
-const fetchRescueData = function () {
-  return new Promise<RawRescueData>(function (resolve, reject) {
-    fetch(dataUrl)
+const fetchOpsData = function () {
+  return new Promise<OpsData[]>(function (resolve, reject) {
+    fetch(dataRequestUrl)
       .then(res => res.json())
       .then((out) => {
-        resolve(out.feed.entry)
+        const rawOpsData: RawOpsData[] = out.feed.entry
+        const opsData: OpsData[] = []
+        let i = 0
+        for (const data of rawOpsData) {
+          opsData.push(convertOpsData(data, `line ${i}`))
+          i += 1
+        }
+        resolve(opsData)
       })
       .catch(err => reject(err))
   })
 }
 
-const rescueData = fetchRescueData()
+const opsData = fetchOpsData()
 
 @Options({
   components: {
@@ -34,7 +40,7 @@ const rescueData = fetchRescueData()
 export default class App extends Vue {
   data () {
     return {
-      rescueData: rescueData
+      opsData: opsData
     }
   }
 }
