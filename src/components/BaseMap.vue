@@ -3,18 +3,20 @@
 </template>
 
 <script>
+import { Vue } from 'vue-class-component'
 import mapboxgl from 'mapbox-gl'
+import { store } from '../store'
 
-export default {
-  name: 'BaseMap',
-  props: ['opsData'],
+export default class extends Vue {
+  currentState = store.state;
   data () {
     return {
       // This token was taken from the demo project we need to replace with a real token
       accessToken:
         'pk.eyJ1Ijoid2VzbGV5YmFuZmllbGQiLCJhIjoiY2pmMDRwb202MGlzNDJ3bm44cHA3YXZiNCJ9.b2yOf2vbWnWiV7mlsFAywg'
     }
-  },
+  }
+
   mounted () {
     mapboxgl.accessToken = this.accessToken
 
@@ -32,13 +34,13 @@ export default {
     })
 
     // Add data
-    this.opsData.then(function (opsData) {
-      for (const data of opsData) {
+    if (this.currentState.timeFilteredData) {
+      for (const data of this.currentState.timeFilteredData) {
         if (!isNaN(data.longitude) && !isNaN(data.latitude)) {
           new mapboxgl.Marker().setLngLat([data.longitude, data.latitude]).addTo(map)
         }
       }
-    })
+    }
 
     // Add zoom and rotation controls to the map.
     const nav = new mapboxgl.NavigationControl({
