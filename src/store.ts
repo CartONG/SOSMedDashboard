@@ -14,6 +14,7 @@ export const store = {
         this.state.timeFilteredData.push(data)
       }
     }
+    this.updateMap()
   },
 
   async initStore () {
@@ -21,5 +22,17 @@ export const store = {
     this.state.minDate = new Date('2016-01-01')
     this.state.maxDate = new Date()
     this.filterData(this.state.minDate, this.state.maxDate)
+  },
+
+  displayMap () {
+    this.state.baseMap.display(this.state.timeFilteredData)
+  },
+
+  updateMap () {
+    this.state.baseMap.update(this.state.timeFilteredData)
+  },
+
+  destroyMap () {
+    this.state.baseMap.destroy()
   }
 }
