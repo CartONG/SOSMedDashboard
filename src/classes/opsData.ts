@@ -42,9 +42,14 @@ export class OpsData {
   transfertType = ''
 }
 
+const createDate = function (dateDayFirst: string) {
+  const dateSplit = dateDayFirst.split('/')
+  return new Date(parseInt(dateSplit[2]), parseInt(dateSplit[1]) - 1, parseInt(dateSplit[0]))
+}
+
 const convertOpsData = function (rawOpsData: RawOpsData, metadataErrorLog?: string) {
   const res = new OpsData()
-  res.date = new Date(rawOpsData.gsx$date.$t)
+  res.date = createDate(rawOpsData.gsx$date.$t)
   res.typeOps = rawOpsData.gsx$typeops.$t
   res.nbOps = parseInt(rawOpsData.gsx$nbops.$t)
   res.nbSurvivor = parseInt(rawOpsData.gsx$nbsurvivor.$t)
