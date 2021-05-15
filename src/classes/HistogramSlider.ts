@@ -2,6 +2,7 @@ import * as d3Scale from 'd3-scale'
 import * as d3Array from 'd3-array'
 import * as d3Select from 'd3-selection'
 import * as d3Trans from 'd3-transition'
+import { store } from '../store'
 
 const transitionDuration = 80
 const color = '#0091ff'
@@ -136,7 +137,7 @@ export class HistogramSlider {
       keyboard: keyboard,
       prettify: prettifyDate,
       onChange: (val: any) => {
-        console.log(data)
+        store.filterData(val.from, val.to)
         this.updateBarColor(val)
       }
     })
