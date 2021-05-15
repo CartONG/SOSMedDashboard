@@ -22,6 +22,10 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss7-compat": "^2.0.3",
+    "@types/d3-array": "^2.9.0",
+    "@types/d3-scale": "^3.2.2",
+    "@types/d3-selection": "^2.0.0",
+    "@types/d3-transition": "^2.0.0",
     "@types/mapbox-gl": "^2.1.2",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
