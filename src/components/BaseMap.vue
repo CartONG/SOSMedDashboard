@@ -4,15 +4,21 @@
 
 <script>
 import { Vue } from 'vue-class-component'
-import { store } from '../store'
+import useStore from '../store'
 
 export default class extends Vue {
+  created () {
+    const { displayMap, destroyMap } = useStore()
+    this.displayMap = displayMap
+    this.destroyMap = destroyMap
+  }
+
   mounted () {
-    store.displayMap()
+    this.displayMap()
   }
 
   beforeDestroy () {
-    store.destroyMap()
+    this.destroyMap()
   }
 }
 </script>

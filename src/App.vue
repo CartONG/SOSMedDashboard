@@ -9,7 +9,7 @@ import { Options, Vue } from 'vue-class-component'
 import BaseMap from './components/BaseMap.vue'
 import Header from './components/Header.vue'
 import Slider from './components/Slider.vue'
-import { store } from './store'
+import useStore from './store'
 
 @Options({
   components: {
@@ -20,7 +20,8 @@ import { store } from './store'
 })
 export default class App extends Vue {
   mounted () {
-    store.initStore()
+    const { initStore } = useStore()
+    initStore()
   }
 }
 </script>

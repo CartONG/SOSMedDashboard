@@ -1,38 +1,43 @@
-import { OpsData, fetchOpsData } from './classes/opsData'
+import { fetchOpsData } from './classes/opsData'
 import { State } from './classes/state'
+import { reactive, toRefs } from 'vue'
 
-// Constant to expose and manage the store
-// It could be seen as a static class
-export const store = {
-  allData: [] as OpsData[],
-  state: new State(),
+const state = reactive(new State())
 
-  filterData (minDate: Date, maxDate: Date) {
-    this.state.timeFilteredData = []
-    for (const data of this.allData) {
+export default function useStore () {
+  const updateMap = function () {
+    state.baseMap.update(state.timeFilteredData)
+  }
+
+  const filterData = function (minDate: Date, maxDate: Date) {
+    state.timeFilteredData = []
+    for (const data of state.allData) {
       if ((minDate <= data.date) && (data.date <= maxDate)) {
-        this.state.timeFilteredData.push(data)
+        state.timeFilteredData.push(data)
       }
     }
-    this.updateMap()
-  },
+    updateMap()
+  }
 
-  async initStore () {
-    this.allData = await fetchOpsData()
-    this.state.minDate = new Date('2016-01-01')
-    this.state.maxDate = new Date()
-    this.filterData(this.state.minDate, this.state.maxDate)
-  },
+  const initStore = async function () {
+    state.allData = await fetchOpsData()
+    state.minDate = new Date('2016-01-01')
+    state.maxDate = new Date()
+    filterData(state.minDate, state.maxDate)
+  }
 
-  displayMap () {
-    this.state.baseMap.display(this.state.timeFilteredData)
-  },
+  const displayMap = function () {
+    state.baseMap.display(state.timeFilteredData)
+  }
 
-  updateMap () {
-    this.state.baseMap.update(this.state.timeFilteredData)
-  },
+  const destroyMap = function () {
+    state.baseMap.destroy()
+  }
 
-  destroyMap () {
-    this.state.baseMap.destroy()
+  return {
+    ...toRefs(state),
+    initStore,
+    displayMap,
+    destroyMap
   }
 }

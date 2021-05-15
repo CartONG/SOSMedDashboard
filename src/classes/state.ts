@@ -3,6 +3,7 @@ import { BaseMap } from './BaseMap'
 
 // State class which keeps the current state of the application
 export class State {
+  allData: OpsData[] = [];
   timeFilteredData: OpsData[] = [];
   minDate = new Date();
   maxDate = new Date();
