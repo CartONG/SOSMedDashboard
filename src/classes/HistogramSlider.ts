@@ -3,7 +3,8 @@ import * as d3Array from 'd3-array'
 import * as d3Select from 'd3-selection'
 import * as d3Trans from 'd3-transition'
 
-export const color = '#0091ff'
+export const histColor = '#1a2747'
+export const sliderColor = '#f03e1b'
 export const holderColor = '#dee4ec'
 
 const transitionDuration = 80
@@ -13,7 +14,7 @@ const barGap = 5
 const barRadius = 4
 const type = 'double'
 const grid = true
-const gridNum = 4
+const gridNum = 5
 const step = 1
 const hideMinMax = true
 const hideFromTo = false
@@ -50,7 +51,7 @@ export class HistogramSlider {
       .transition(transition as any)
       .selectAll(`.vue-histogram-slider-bar-${id}`)
       .attr('fill', (d: any) => {
-        return d.x0 <= val.to && d.x0 >= val.from ? color : holderColor
+        return d.x0 <= val.to && d.x0 >= val.from ? histColor : holderColor
       })
   }
 
@@ -109,7 +110,7 @@ export class HistogramSlider {
       .attr('width', barWidth)
       .transition(transition)
       .attr('height', (d: string | any[]) => barHeight - this.y(d.length))
-      .attr('fill', (d: { x0: any }) => color)
+      .attr('fill', (d: { x0: any }) => histColor)
 
     if (this.ionRangeSlider) {
       this.ionRangeSlider.destroy()

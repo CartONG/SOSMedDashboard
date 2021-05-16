@@ -1,9 +1,11 @@
 // Source : https://github.com/oguzhaninan/vue-histogram-slider/blob/master/src/lib/HistogramSlider.vue
 <template>
-  <div :style="style" class="vue-histogram-slider-wrapper">
-    <svg :id="'vue-histogram'" class="vue-histogram-view" />
-    <div class="slider-wrapper">
-      <input type="text" :id="'histogram-slider'" :name="'histogram-slider'" value="" />
+  <div class="vue-histogram-slider-wrapper sm:histogram-slider-position-and-background">
+    <div :style="style" class="vue-histogram-slider-wrapper">
+      <svg :id="'vue-histogram'" class="vue-histogram-view hidden sm:block" />
+      <div class="slider-wrapper">
+        <input type="text" :id="'histogram-slider'" :name="'histogram-slider'" value="" />
+      </div>
     </div>
   </div>
 </template>
@@ -13,9 +15,9 @@
 var $ = require('jquery')
 import '../js/range-slider'
 import { store } from '../store'
-import { holderColor, color } from '../classes/HistogramSlider'
+import { holderColor, sliderColor, histColor } from '../classes/HistogramSlider'
 
-const width = 650
+const width = 0.8*screen.width
 
 export default {
   name: 'HistogramSlider',
@@ -24,11 +26,11 @@ export default {
     style() {
       return `
         width: ${width}px;
-        --primary-color: ${color};
-        --label-color: ${color};
+        --primary-color: ${sliderColor};
+        --label-color: ${histColor};
         --holder-color: ${holderColor};
-        --handle-color: #ffffff;
-        --grid-text-color: silver;
+        --handle-color: #3c3c3b;
+        --grid-text-color: ${histColor};
         --line-height: 6px;
         --font-family: Arial, sans-serif;
         --font-size: 12;
@@ -302,7 +304,7 @@ export default {
   margin-left: -3px;
   overflow: hidden;
   border: 3px solid transparent;
-  border-top-color: var(--primary-color);
+  border-top-color: var(--label-color);
 }
 
 .irs--round .irs-grid {

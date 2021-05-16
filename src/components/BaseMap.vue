@@ -1,5 +1,5 @@
 <template>
-  <div id='mapContainer' class='basemap'></div>
+  <div id='mapContainer' class='basemap basemap-height-mobile sm:basemap-height-sm'></div>
 </template>
 
 <script>
@@ -21,8 +21,6 @@ export default class extends Vue {
 <style scoped>
   .basemap {
     width: 100vw;
-    /* This needs to be made 100% or something to fill rest of vertical space */
-    height: 80vh;
     /* This works to center horizontally we probably need to do something else to center vertically depending on where this sits */
     margin: auto;
   }

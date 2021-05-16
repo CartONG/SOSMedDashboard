@@ -1,3 +1,30 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  @variants responsive {
+    .histogram-slider-position-and-background {
+      position: absolute;
+      bottom: 50px;
+      background-color: rgba(255, 255, 255, 0.7);
+      padding-top: 20px;
+      padding-bottom: 20px;
+      padding-right: 30px;
+      padding-left: 30px;
+      margin-left: 10%
+    }
+  }
+
+  @variants responsive {
+    .basemap-height-mobile {
+      height: 80vh
+    }
+  }
+
+  @variants responsive {
+    .basemap-height-sm {
+      height: 87vh
+    }
+  }
+}
