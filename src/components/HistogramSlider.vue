@@ -12,34 +12,34 @@
 /* eslint-disable */
 var $ = require('jquery')
 import '../js/range-slider'
-import props from '../js/props'
 import { store } from '../store'
+import { holderColor, color } from '../classes/HistogramSlider'
+
+const width = 650
 
 export default {
   name: 'HistogramSlider',
 
-  props,
-
   computed: {
     style() {
       return `
-        width: ${this.width}px;
-        --primary-color: ${this.primaryColor};
-        --label-color: ${this.labelColor};
-        --holder-color: ${this.holderColor};
-        --handle-color: ${this.handleColor};
-        --grid-text-color: ${this.gridTextColor};
-        --line-height: ${this.lineHeight}px;
-        --font-family: ${this.fontFamily};
-        --font-size: ${this.fontSize};
-        --hist-slider-gap: ${-36 + this.histSliderGap}px;
-        --handle-size: ${this.handleSize}px;
+        width: ${width}px;
+        --primary-color: ${color};
+        --label-color: ${color};
+        --holder-color: ${holderColor};
+        --handle-color: #ffffff;
+        --grid-text-color: silver;
+        --line-height: 6px;
+        --font-family: Arial, sans-serif;
+        --font-size: 12;
+        --hist-slider-gap: -30px;
+        --handle-size: 26px;
       `
     }
   },
 
   mounted() {
-    store.displayHistogramSlider(this.width, this.min, this.max, [])
+    store.displayHistogramSlider(width, store.state.minDate.valueOf(), store.state.maxDate.valueOf(), [])
   }
 }
 </script>

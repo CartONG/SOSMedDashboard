@@ -2,11 +2,11 @@ import * as d3Scale from 'd3-scale'
 import * as d3Array from 'd3-array'
 import * as d3Select from 'd3-selection'
 import * as d3Trans from 'd3-transition'
-import { store } from '../store'
+
+export const color = '#0091ff'
+export const holderColor = '#dee4ec'
 
 const transitionDuration = 80
-const color = '#0091ff'
-const holderColor = '#dee4ec'
 const barHeight = 100
 const barWidth = 6
 const barGap = 5
@@ -75,11 +75,9 @@ export class HistogramSlider {
       .attr('height', barHeight)
 
     this.hist = svg.append('g').attr('class', 'histogram')
-
-    this.ionRangeSlider = this.updateHistogram(data)
   }
 
-  updateHistogram (data: number[]) {
+  updateHistogram (data: number[], store: any) {
     const $ = require('jquery')
     const transition = d3Trans.transition().duration(transitionDuration)
     this.hist.selectAll(`.vue-histogram-slider-bar-${id}`).remove()

@@ -20,8 +20,6 @@ export const store = {
   async initStore () {
     this.allData = await fetchOpsData()
     this.updateHistogramSlider()
-    this.state.minDate = new Date('2016-01-01')
-    this.state.maxDate = new Date()
     this.filterData(this.state.minDate, this.state.maxDate)
   },
 
@@ -42,6 +40,6 @@ export const store = {
   },
 
   updateHistogramSlider () {
-    this.state.histogramSlider.updateHistogram(this.allData.map(d => d.date.getTime()))
+    this.state.histogramSlider.updateHistogram(this.allData.map(d => d.date.getTime()), this)
   }
 }

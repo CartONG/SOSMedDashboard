@@ -1,21 +1,21 @@
 <template>
   <Header />
   <BaseMap />
-  <Slider />
+  <HistogramSlider />
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component'
 import BaseMap from './components/BaseMap.vue'
 import Header from './components/Header.vue'
-import Slider from './components/Slider.vue'
+import HistogramSlider from './components/HistogramSlider.vue'
 import { store } from './store'
 
 @Options({
   components: {
     Header,
     BaseMap,
-    Slider
+    HistogramSlider
   }
 })
 export default class App extends Vue {
