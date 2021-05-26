@@ -15,7 +15,7 @@
 var $ = require('jquery')
 import '../js/range-slider'
 import { store } from '../store'
-import { holderColor, sliderColor, histColor } from '../classes/HistogramSlider'
+import { blueColor, orangeColor, grayColor } from '../classes/colors'
 
 const width = 0.8*screen.width
 
@@ -26,11 +26,11 @@ export default {
     style() {
       return `
         width: ${width}px;
-        --primary-color: ${sliderColor};
-        --label-color: ${histColor};
-        --holder-color: ${holderColor};
+        --primary-color: ${orangeColor};
+        --label-color: ${blueColor};
+        --holder-color: ${grayColor};
         --handle-color: #3c3c3b;
-        --grid-text-color: ${histColor};
+        --grid-text-color: ${blueColor};
         --line-height: 6px;
         --font-family: Arial, sans-serif;
         --font-size: 12;

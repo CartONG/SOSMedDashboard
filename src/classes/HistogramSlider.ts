@@ -3,10 +3,10 @@ import * as d3Array from 'd3-array'
 import * as d3Select from 'd3-selection'
 import * as d3Trans from 'd3-transition'
 
-export const histColor = '#1a2747'
-export const sliderColor = '#f03e1b'
-export const holderColor = '#dee4ec'
+import { blueColor, grayColor } from '../classes/colors'
 
+const histColor = blueColor
+const holderColor = grayColor
 const transitionDuration = 80
 const barHeight = 100
 const barWidth = 6
