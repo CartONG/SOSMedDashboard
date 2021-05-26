@@ -1,4 +1,4 @@
-import { OpsData } from './opsData'
+import { OpsData, TypeOps } from './opsData'
 import { MapboxGLButtonControl } from './MapboxGLButtonControl'
 import mapboxgl from 'mapbox-gl'
 
@@ -51,9 +51,12 @@ export class BaseMap {
     for (const marker of this.markers) {
       marker.remove()
     }
+    const rescue = (document.getElementById('rescue') as HTMLInputElement).checked
+    const transfert = (document.getElementById('transfert') as HTMLInputElement).checked
     this.markers = []
     for (const data of timeFilteredData) {
-      if (!isNaN(data.longitude) && !isNaN(data.latitude)) {
+      if (!isNaN(data.longitude) && !isNaN(data.latitude) &&
+           ((rescue && data.typeOps === TypeOps.Rescue) || (transfert && data.typeOps === TypeOps.Transfer))) {
         this.markers.push(new mapboxgl.Marker().setLngLat([data.longitude, data.latitude]).addTo(this.map))
       }
     }

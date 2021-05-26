@@ -2,12 +2,14 @@
   <Header />
   <BaseMap />
   <HistogramSlider />
+  <Legend />
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component'
 import BaseMap from './components/BaseMap.vue'
 import Header from './components/Header.vue'
+import Legend from './components/Legend.vue'
 import HistogramSlider from './components/HistogramSlider.vue'
 import { store } from './store'
 
@@ -15,7 +17,8 @@ import { store } from './store'
   components: {
     Header,
     BaseMap,
-    HistogramSlider
+    HistogramSlider,
+    Legend
   }
 })
 export default class App extends Vue {
