@@ -1,6 +1,7 @@
 import { OpsData, TypeOps } from './opsData'
 import { MapboxGLButtonControl } from './MapboxGLButtonControl'
 import mapboxgl from 'mapbox-gl'
+import { blueColor, orangeColor, grayColor } from './colors'
 
 export class BaseMap {
   private map!: mapboxgl.Map;
@@ -57,7 +58,16 @@ export class BaseMap {
     for (const data of timeFilteredData) {
       if (!isNaN(data.longitude) && !isNaN(data.latitude) &&
            ((rescue && data.typeOps === TypeOps.Rescue) || (transfert && data.typeOps === TypeOps.Transfer))) {
-        this.markers.push(new mapboxgl.Marker().setLngLat([data.longitude, data.latitude]).addTo(this.map))
+        const el = document.createElement('div')
+        el.className = 'marker'
+        if (data.typeOps === TypeOps.Rescue) {
+          el.style.backgroundColor = grayColor
+        } else if (data.typeOps === TypeOps.Transfer) {
+          el.style.backgroundColor = orangeColor
+        } else {
+          el.style.backgroundColor = blueColor
+        }
+        this.markers.push(new mapboxgl.Marker(el).setLngLat([data.longitude, data.latitude]).addTo(this.map))
       }
     }
   }

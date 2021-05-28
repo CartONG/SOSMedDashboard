@@ -1,6 +1,9 @@
 <template>
   <div class="flex flex-row justify-between">
-    <label :for="id" class="text-xs label-color">{{name}}</label>
+    <div class="flex flex-row items-baseline">
+      <div class="legend-marker mr-2" :style="markerStyle"></div>
+      <label :for="id" class="text-xs label-color">{{name}}</label>
+    </div>
     <div class="relative inline-block w-8 mr-2 align-middle select-none transition duration-200 ease-in">
         <input
             type="checkbox"
@@ -8,6 +11,7 @@
             :id="id"
             class="toggle-checkbox absolute block w-3 h-3 rounded-full bg-white border-2 appearance-none cursor-pointer"
             @change="toggle"
+            checked
         />
         <label
             :for="id"
@@ -23,7 +27,7 @@ import { blueColor, orangeColor } from '../classes/colors'
 
 export default {
   name: 'Switch',
-  props: ['id', 'name'],
+  props: ['id', 'name', 'markerStyle'],
   methods: {
     toggle () {
       store.updateMap()
