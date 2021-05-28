@@ -17,7 +17,7 @@ import '../js/range-slider'
 import { store } from '../store'
 import { blueColor, orangeColor, grayColor } from '../classes/colors'
 
-const width = 0.8*screen.width
+const width = screen.width < 500 ? 0.8*screen.width : 0.7*screen.width
 
 export default {
   name: 'HistogramSlider',
