@@ -1,4 +1,4 @@
-import { OpsData } from './opsData'
+import { OpsData, TypeOps } from './opsData'
 import { MapboxGLButtonControl } from './MapboxGLButtonControl'
 import mapboxgl from 'mapbox-gl'
 
@@ -35,7 +35,7 @@ export class BaseMap {
     /* Event Handlers */
     let i = 0
     const map2 = this.map
-    function nextLayer (event: any) {
+    function nextLayer () {
       map2.setStyle(layers[i % layers.length])
       i = i + 1
     }
@@ -51,10 +51,26 @@ export class BaseMap {
     for (const marker of this.markers) {
       marker.remove()
     }
+    const rescue = (document.getElementById('rescue') as HTMLInputElement).checked
+    const transfer = (document.getElementById('transfer') as HTMLInputElement).checked
     this.markers = []
     for (const data of timeFilteredData) {
-      if (!isNaN(data.longitude) && !isNaN(data.latitude)) {
-        this.markers.push(new mapboxgl.Marker().setLngLat([data.longitude, data.latitude]).addTo(this.map))
+      if (!isNaN(data.longitude) && !isNaN(data.latitude) &&
+           ((rescue && data.typeOps === TypeOps.Rescue) || (transfer && data.typeOps === TypeOps.Transfer))) {
+        const el = document.createElement('div')
+        el.className = 'marker'
+        if (data.typeOps === TypeOps.Rescue) {
+          el.className += ' bg-gray-400'
+        } else if (data.typeOps === TypeOps.Transfer) {
+          el.className += ' bg-secondary'
+        } else {
+          el.className += ' bg-main'
+        }
+        this.markers.push(
+          new mapboxgl.Marker(el)
+            .setLngLat([data.longitude, data.latitude])
+            .addTo(this.map)
+        )
       }
     }
   }

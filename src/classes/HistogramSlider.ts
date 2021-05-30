@@ -3,10 +3,10 @@ import * as d3Array from 'd3-array'
 import * as d3Select from 'd3-selection'
 import * as d3Trans from 'd3-transition'
 
-import { blueColor, grayColor } from '../classes/colors'
+import { Colors } from '@/utils/Colors'
 
-const histColor = blueColor
-const holderColor = grayColor
+const histColor = Colors.BLUE
+const holderColor = Colors.GRAY
 const transitionDuration = 80
 const barHeight = 100
 const barWidth = 6
@@ -144,7 +144,7 @@ export class HistogramSlider {
     this.ionRangeSlider = histSlider.data('ionRangeSlider')
 
     setTimeout(
-      () => { 
+      () => {
         if (this.ionRangeSlider) {
           this.updateBarColor(this.ionRangeSlider.result)
         }

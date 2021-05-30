@@ -2,6 +2,11 @@ import convert from 'geo-coordinates-parser'
 
 const dataRequestUrl = 'https://spreadsheets.google.com/feeds/list/1mK5tq3gfnc0OckQnArz1TXhh4YINAWfF7ilYa5PhOw8/1/public/values?alt=json'
 
+export enum TypeOps {
+  Rescue = 'Rescue',
+  Transfer = 'Transfer'
+}
+
 class RawOpsData {
   gsx$date: {$t: string} = { $t: '' }
   gsx$typeops: {$t: string} = { $t: '' }
@@ -24,7 +29,7 @@ class RawOpsData {
 
 export class OpsData {
   date = new Date()
-  typeOps = ''
+  typeOps = TypeOps.Rescue
   nbOps = NaN
   nbSurvivor = NaN
   male = NaN
@@ -50,7 +55,7 @@ const createDate = function (dateDayFirst: string) {
 const convertOpsData = function (rawOpsData: RawOpsData, metadataErrorLog?: string) {
   const res = new OpsData()
   res.date = createDate(rawOpsData.gsx$date.$t)
-  res.typeOps = rawOpsData.gsx$typeops.$t
+  res.typeOps = rawOpsData.gsx$typeops.$t as TypeOps
   res.nbOps = parseInt(rawOpsData.gsx$nbops.$t)
   res.nbSurvivor = parseInt(rawOpsData.gsx$nbsurvivor.$t)
   res.male = parseInt(rawOpsData.gsx$male.$t)
