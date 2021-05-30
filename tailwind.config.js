@@ -10,7 +10,7 @@ module.exports = {
         blockBackground: '#e3e2e9'
       },
       fontFamily: {
-        sans: 'raleway'
+        sans: 'Raleway, Helvetica, Arial'
       },
       fontSize: {
         tiny: ['0.65rem', '0.75rem']
