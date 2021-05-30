@@ -25,7 +25,8 @@
       "dom",
       "dom.iterable",
       "scripthost"
-    ]
+    ],
+    "useDefineForClassFields": true
   },
   "include": [
     "src/**/*.ts",

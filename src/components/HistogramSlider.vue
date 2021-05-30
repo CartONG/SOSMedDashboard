@@ -2,43 +2,41 @@
 <template>
   <div class="vue-histogram-slider-wrapper sm:histogram-slider-position-and-background">
     <div :style="style" class="vue-histogram-slider-wrapper">
-      <svg :id="'vue-histogram'" class="vue-histogram-view hidden sm:block" />
+      <svg :id="'vue-histogram'" class="vue-histogram-view hidden sm:block"/>
       <div class="slider-wrapper">
-        <input type="text" :id="'histogram-slider'" :name="'histogram-slider'" value="" />
+        <input type="text" :id="'histogram-slider'" :name="'histogram-slider'" value=""/>
       </div>
     </div>
   </div>
 </template>
 
-<script lang="js">
+<script lang='ts'>
 /* eslint-disable */
-var $ = require('jquery')
+import {Vue} from "vue-class-component";
 import '../js/range-slider'
-import { store } from '../store'
-import { blueColor, orangeColor, grayColor } from '../classes/colors'
+import {store} from '@/store'
+import {Colors} from '@/utils/Colors'
 
-const width = screen.width < 500 ? 0.8*screen.width : 0.7*screen.width
+var $ = require('jquery')
 
-export default {
-  name: 'HistogramSlider',
+const width = screen.width < 500 ? 0.8 * screen.width : 0.7 * screen.width
 
-  computed: {
-    style() {
-      return `
+export default class HistogramSlider extends Vue {
+  get style() {
+    return `
         width: ${width}px;
-        --primary-color: ${orangeColor};
-        --label-color: ${blueColor};
-        --holder-color: ${grayColor};
+        --primary-color: ${Colors.ORANGE};
+        --label-color: ${Colors.BLUE};
+        --holder-color: ${Colors.GRAY};
         --handle-color: #3c3c3b;
-        --grid-text-color: ${blueColor};
+        --grid-text-color: ${Colors.BLUE};
         --line-height: 6px;
         --font-family: Arial, sans-serif;
         --font-size: 12;
         --hist-slider-gap: -30px;
         --handle-size: 26px;
       `
-    }
-  },
+  }
 
   mounted() {
     store.displayHistogramSlider(width, store.state.minDate.valueOf(), store.state.maxDate.valueOf(), [])

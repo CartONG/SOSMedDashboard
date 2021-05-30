@@ -2,16 +2,16 @@
   <div id='mapContainer' class='basemap basemap-height-mobile sm:basemap-height-sm'></div>
 </template>
 
-<script>
+<script lang='ts'>
 import { Vue } from 'vue-class-component'
-import { store } from '../store'
+import { store } from '@/store'
 
 export default class extends Vue {
   mounted () {
     store.displayMap()
   }
 
-  beforeDestroy () {
+  beforeUnmount () {
     store.destroyMap()
   }
 }
@@ -23,11 +23,5 @@ export default class extends Vue {
     width: 100vw;
     /* This works to center horizontally we probably need to do something else to center vertically depending on where this sits */
     margin: auto;
-  }
-  #menu {
-    position: absolute;
-    background: #efefef;
-    padding: 10px;
-    font-family: 'Open Sans', sans-serif;
   }
 </style>
