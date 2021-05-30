@@ -15,7 +15,7 @@ const fillPopUp = function (data: OpsData) {
   }
   const popUpDate = document.getElementById('popUpDate')
   if (popUpDate) {
-    popUpDate.innerText = data.date.toLocaleDateString()
+    popUpDate.innerText = data.date.toDateString()
   }
   const popUpBoatType = document.getElementById('popUpBoatType')
   if (popUpBoatType) {
