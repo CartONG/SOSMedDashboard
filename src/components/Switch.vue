@@ -32,6 +32,8 @@ class Props {
 export default class Switch extends Vue.with(Props) {
   get markerStyle () {
     switch (this.id) {
+      case 'harbor':
+        return { icon: true, 'icon-anchor-o': true, 'text-black': true }
       case 'rescue':
         return { 'bg-gray-400': true }
       case 'transfer':

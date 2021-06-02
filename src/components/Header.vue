@@ -15,26 +15,14 @@
           </p>
         </div>
         <div class="flex-shrink-0 flex-grow w-2"></div>
-        <svg class="cursor-pointer text-main fill-current w-14" :class="{hidden: menuVisibility}"
-             viewBox="0 0 90 60" @click="setMenuVisibility(true)">
-          <rect width="80" height="15" rx="8"></rect>
-          <rect y="20" width="80" height="15" rx="8"></rect>
-          <rect y="40" width="80" height="15" rx="8"></rect>
-        </svg>
-        <svg class="cursor-pointer text-main fill-current w-14" :class="{hidden: !menuVisibility}"
-             viewBox="0 0 90 60" @click="setMenuVisibility(false)">
-          <line x1="15" y1="5" x2="65" y2="55" stroke="currentColor" stroke-width="15" stroke-linecap="round"
-                stroke-linejoin="round"/>
-          <line x1="65" y1="5" x2="15" y2="55" stroke="currentColor" stroke-width="15" stroke-linecap="round"
-                stroke-linejoin="round"/>
-        </svg>
+        <Menu />
       </div>
       <div class="bg-main h-10">
       </div>
     </div>
     <div class="hidden lg:block">
       <div class="flex my-4 ml-8 ">
-        <div class="flex-none flex">
+        <div class="flex-none flex items-center">
           <div>
             <p class="text-xl leading-6 text-main">Carte Interactive</p>
             <p class="text-base leading-4 text-secondary">
@@ -42,7 +30,7 @@
               Méditerranée
             </p>
           </div>
-          <img class="h-10" alt="Vue logo" src="./../assets/logo.png"/>
+          <i class="ml-14 text-8xl leading-6 icon icon-sosmed-ship"></i>
         </div>
         <div class="flex-grow"></div>
         <div class="flex-none">
@@ -55,20 +43,13 @@
           <a href="#" class="px-1 flex-initial inline-block">Ongoing</a>
           <a href="#" class="px-1 flex-initial inline-block">Past SAR events</a>
           <a href="#" class="px-1 flex-initial inline-block">Our mission</a>
-          <a href="#" class="px-1 flex-initial inline-block"
-          >Legal references</a
-          >
+          <a href="#" class="px-1 flex-initial inline-block">Legal references</a>
           <a href="#" class="px-1 flex-initial inline-block">Glossary</a>
           <a href="#" class="px-1 flex-initial inline-block">FAQ</a>
         </div>
         <div class="flex-grow"></div>
         <div class="flex-none">
-          <a
-            href="#"
-            class="text-center inline-block w-6"
-            style="background-color: #ffffff; color: #000000"
-          >?</a
-          >
+          <a href="#" class="text-center inline-block w-6 bg-white text-black">?</a>
         </div>
       </nav>
     </div>
@@ -76,13 +57,14 @@
 </template>
 
 <script lang='ts'>
-import { Vue } from 'vue-class-component'
+import { Options, Vue } from 'vue-class-component'
 
-export default class Header extends Vue {
-  menuVisibility = false;
+import Menu from '@/components/Menu.vue'
 
-  setMenuVisibility (isVisible: boolean) {
-    this.menuVisibility = isVisible
+@Options({
+  components: {
+    Menu
   }
-}
+})
+export default class Header extends Vue {}
 </script>
