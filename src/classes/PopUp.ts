@@ -8,39 +8,29 @@ const numberToString = function (n: number) {
   }
 }
 
+const setInnerText = function (popUpElemId: string, textToAdd: string) {
+  const popUpElem = document.getElementById(popUpElemId)
+  if (popUpElem) {
+    popUpElem.innerText = textToAdd
+  }
+}
+
 const fillPopUp = function (data: OpsData) {
-  const popUpTypeOps = document.getElementById('popUpTypeOps')
-  if (popUpTypeOps) {
-    popUpTypeOps.innerText = data.typeOps
-  }
-  const popUpDate = document.getElementById('popUpDate')
-  if (popUpDate) {
-    popUpDate.innerText = data.date.toDateString()
-  }
-  const popUpBoatType = document.getElementById('popUpBoatType')
-  if (popUpBoatType) {
-    popUpBoatType.innerText = data.boatType
-  }
-  const popUpNbSurvivor = document.getElementById('popUpNbSurvivor')
-  if (popUpNbSurvivor) {
-    popUpNbSurvivor.innerText = numberToString(data.nbSurvivor)
-  }
-  const popUpWind = document.getElementById('popUpWind')
-  if (popUpWind) {
-    popUpWind.innerText = numberToString(data.windForce)
-  }
-  const popUpWave = document.getElementById('popUpWave')
-  if (popUpWave) {
-    popUpWave.innerText = numberToString(data.waveHeight)
-  }
-  const popUpLat = document.getElementById('popUpLat')
-  if (popUpLat) {
-    popUpLat.innerText = numberToString(data.latitude)
-  }
-  const popUpLon = document.getElementById('popUpLon')
-  if (popUpLon) {
-    popUpLon.innerText = numberToString(data.longitude)
-  }
+  setInnerText('popUpTypeOps', data.typeOps)
+  setInnerText('popUpDate', data.date.toDateString())
+  setInnerText('popUpBoatType', data.boatType)
+  setInnerText('popUpNbSurvivor', numberToString(data.nbSurvivor))
+  setInnerText('popUpFemale', numberToString(data.female))
+  setInnerText('popUpMale', numberToString(data.male))
+  setInnerText('popUpMinor', numberToString(data.under18))
+  setInnerText('popUpPregnant', numberToString(data.pregnantwomen))
+  setInnerText('popUpUnaccompagnied', numberToString(data.under18unacc))
+  setInnerText('popUpChildren', numberToString(data.under5))
+  setInnerText('popUpNationalities', numberToString(data.nbNationalities))
+  setInnerText('popUpWind', numberToString(data.windForce))
+  setInnerText('popUpWave', numberToString(data.waveHeight))
+  setInnerText('popUpLat', numberToString(data.latitude))
+  setInnerText('popUpLon', numberToString(data.longitude))
 }
 
 export const showPopUp = function (data: OpsData) {
