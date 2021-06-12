@@ -1,6 +1,7 @@
 import { OpsData, TypeOps } from './opsData'
 import { MapboxGLButtonControl } from './MapboxGLButtonControl'
 import mapboxgl from 'mapbox-gl'
+import { showPopUp } from './PopUp'
 
 export class BaseMap {
   private map!: mapboxgl.Map;
@@ -66,6 +67,7 @@ export class BaseMap {
         } else {
           el.className += ' bg-main'
         }
+        el.addEventListener('click', () => { showPopUp(data) })
         this.markers.push(
           new mapboxgl.Marker(el)
             .setLngLat([data.longitude, data.latitude])
