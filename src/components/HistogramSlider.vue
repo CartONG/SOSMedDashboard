@@ -46,7 +46,7 @@ export default class HistogramSlider extends Vue {
 
 <style>
 .vue-histogram-view {
-  z-index: 9;
+  z-index: 11;
 }
 
 .slider-wrapper {
@@ -255,7 +255,7 @@ export default class HistogramSlider extends Vue {
   width: var(--handle-size);
   height: var(--handle-size);
   background-color: var(--handle-color);
-  z-index: 9;
+  z-index: 11;
   border-radius: 50%;
   box-shadow: 0 1px 3px rgba(0, 0, 255, 0.3);
 }

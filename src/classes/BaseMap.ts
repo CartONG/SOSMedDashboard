@@ -1,7 +1,7 @@
 import { OpsData, TypeOps } from './opsData'
 import { MapboxGLButtonControl } from './MapboxGLButtonControl'
 import mapboxgl from 'mapbox-gl'
-import { showPopUp } from './PopUp'
+import { showPopUp } from './PopUpAndStats'
 
 export class BaseMap {
   private map!: mapboxgl.Map;

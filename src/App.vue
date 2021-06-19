@@ -4,6 +4,7 @@
   <PopUp />
   <HistogramSlider />
   <Legend />
+  <Stats />
 </template>
 
 <script lang="ts">
@@ -13,6 +14,7 @@ import PopUp from './components/PopUp.vue'
 import Header from './components/Header.vue'
 import Legend from './components/Legend.vue'
 import HistogramSlider from './components/HistogramSlider.vue'
+import Stats from './components/Stats.vue'
 import { store } from './store'
 
 @Options({
@@ -21,7 +23,8 @@ import { store } from './store'
     BaseMap,
     HistogramSlider,
     Legend,
-    PopUp
+    PopUp,
+    Stats
   }
 })
 export default class App extends Vue {

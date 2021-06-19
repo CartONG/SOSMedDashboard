@@ -1,4 +1,5 @@
 import { OpsData, fetchOpsData } from './classes/opsData'
+import { updateStats } from './classes/PopUpAndStats'
 import { State } from './classes/state'
 
 // Constant to expose and manage the store
@@ -8,13 +9,16 @@ export const store = {
   state: new State(),
 
   filterData (minDate: Date, maxDate: Date) {
+    this.state.minDate = new Date(minDate)
+    this.state.maxDate = new Date(maxDate)
     this.state.timeFilteredData = []
     for (const data of this.allData) {
-      if ((minDate <= data.date) && (data.date <= maxDate)) {
+      if ((this.state.minDate <= data.date) && (data.date <= this.state.maxDate)) {
         this.state.timeFilteredData.push(data)
       }
     }
     this.updateMap()
+    this.updateStats()
   },
 
   async initStore () {
@@ -41,5 +45,9 @@ export const store = {
 
   updateHistogramSlider () {
     this.state.histogramSlider.updateHistogram(this.allData.map(d => d.date.getTime()), this)
+  },
+
+  updateStats () {
+    updateStats(this.state)
   }
 }
