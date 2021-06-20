@@ -5,11 +5,11 @@
     <h1 class=' text-sm text-white text-center rounded-t mb-1'><span id='statsMinDate2'/> <span class ='icon icon-calendar'/> - <span id='statsMaxDate2'/><span class ='icon icon-calendar ml-1'/></h1>
     <div class='flex flex-row justify-around'>
       <div class='flex flex-col'>
-        <span class ='icon icon-rescue text-2xl text-center orange-color'/>
+        <span class ='icon icon-rescue text-4xl leading-6  text-center orange-color'/>
         <p class='text-sm blue-color font-bold'><span id='statsNbSurvivor' class='orange-color text-lg'/> people rescued</p>
       </div>
       <div class='flex flex-col'>
-        <span class ='icon icon-sosmed-ship  text-4xl leading-6 text-center detail-color'/>
+        <span class ='icon icon-sosmed-ship text-4xl leading-6 text-center detail-color'/>
         <p class='text-sm text-center blue-color font-bold'><span id='statsNbDays' class='orange-color text-lg'/> operational days</p>
       </div>
     </div>
@@ -95,7 +95,7 @@ export default {
 
   .position-mobile {
     position: absolute;
-    bottom: 55px;
+    bottom: 130px;
   }
 
   h1 {

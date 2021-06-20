@@ -46,7 +46,7 @@ export default class HistogramSlider extends Vue {
 
 <style>
 .vue-histogram-view {
-  z-index: 11;
+  z-index: 15;
 }
 
 .slider-wrapper {
@@ -91,6 +91,7 @@ export default class HistogramSlider extends Vue {
   display: block;
   left: 0;
   width: 0;
+  z-index: 11;
 }
 
 .irs-shadow {
@@ -105,11 +106,11 @@ export default class HistogramSlider extends Vue {
   display: block;
   box-sizing: border-box;
   cursor: default;
-  z-index: 1;
+  z-index: 11;
 }
 
 .irs-handle.type_last {
-  z-index: 2;
+  z-index: 12;
 }
 
 .irs-min,
@@ -186,7 +187,7 @@ export default class HistogramSlider extends Vue {
   height: 100%;
   cursor: default;
   background: rgba(0, 0, 0, 0);
-  z-index: 2;
+  z-index: 12;
 }
 
 .lt-ie9 .irs-disable-mask {
