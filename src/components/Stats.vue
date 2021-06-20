@@ -1,22 +1,25 @@
 <template>
 
   <!-- mobile version -->
-  <div id='stats' :style="style" class="bg-white rounded-xl flex flex-col justify-between w-full pb-10 z-10 position-mobile sm:invisible">
-    <h1 class=' text-sm text-white text-center rounded-t mb-1'><span id='statsMinDate2'/> <span class ='icon icon-calendar'/> - <span id='statsMaxDate2'/><span class ='icon icon-calendar ml-1'/></h1>
-    <div class='flex flex-row justify-around'>
+  <div :style="style" class="bg-white rounded-xl flex flex-col justify-between w-full pb-10 z-10 position-mobile sm:hidden">
+    <h1 class='text-sm text-white rounded-t flex flex-row mb-1'>
+      <div class='text-center flex-1'><span id='statsMinDate2'/> <span class ='icon icon-calendar'/> - <span id='statsMaxDate2'/><span class ='icon icon-calendar ml-1'/></div>
+      <button id='displaying-button' class='icon icon-help-circle flex-0 mr-2' v-on:click='toggleMobileStatsContentVisibility' />
+    </h1>
+    <div id='stats-content' class='flex flex-row justify-around'>
       <div class='flex flex-col'>
         <span class ='icon icon-rescue text-4xl leading-6  text-center orange-color'/>
-        <p class='text-sm blue-color font-bold'><span id='statsNbSurvivor' class='orange-color text-lg'/> people rescued</p>
+        <p class='text-sm blue-color font-bold'><span id='statsNbSurvivor2' class='orange-color text-lg'/> people rescued</p>
       </div>
       <div class='flex flex-col'>
         <span class ='icon icon-sosmed-ship text-4xl leading-6 text-center detail-color'/>
-        <p class='text-sm text-center blue-color font-bold'><span id='statsNbDays' class='orange-color text-lg'/> operational days</p>
+        <p class='text-sm text-center blue-color font-bold'><span id='statsNbDays2' class='orange-color text-lg'/> operational days</p>
       </div>
     </div>
   </div>
 
   <!-- sm version -->
-  <div id='stats' :style="style" class="bg-white rounded-xl flex flex-col justify-between w-1/5 h-1/2 position-desktop invisible sm:visible">
+  <div :style="style" class="bg-white rounded-xl flex-col justify-between w-1/5 h-1/2 position-desktop hidden sm:flex">
     <h1 class='text-white text-center rounded-t mb-3'><span id='statsMinDate'/> <span class ='icon icon-calendar text-sm'/> - <span id='statsMaxDate'/><span class ='icon icon-calendar text-sm ml-1'/></h1>
     <div class='flex flex-col pb-6 pl-6 pr-6'>
       <span class ='icon icon-rescue text-5xl text-center orange-color'/>
@@ -79,6 +82,30 @@ export default {
         --orange-color: ${Colors.ORANGE};
         --blue-color: ${Colors.BLUE};
       `
+    }
+  },
+  methods: {
+    toggleMobileStatsContentVisibility () {
+      // Hide/display ststs content
+      const statsContent = document.getElementById('stats-content')
+      if (statsContent) {
+        if (statsContent.style.display === 'none') {
+          statsContent.style.display = 'flex'
+        } else {
+          statsContent.style.display = 'none'
+        }
+      }
+
+      // Change button icon
+      const button = document.getElementById('displaying-button')
+      if (button) {
+        button.className = 'icon flex-0 mr-2'
+        if (statsContent && statsContent.style.display === 'flex') {
+          button.className += ' icon-help-circle'
+        } else {
+          button.className += ' icon-camera'
+        }
+      }
     }
   }
 }
