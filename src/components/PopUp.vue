@@ -15,17 +15,17 @@
           <div class="ml-3">
             <div class="flex flex-row justify-around mb-5">
               <div class="flex flex-col">
-                <span class ='icon icon-female text-6xl text-center'/>
+                <span class ='icon icon-female text-6xl text-center sm:text-5xl'/>
                 <span id='popUpFemale' class='font-bold text-center'/>
                 <p class='text-xs uppercase text-center'>females</p>
               </div>
               <div class="flex flex-col">
-                <span class ='icon icon-male text-6xl text-center'/>
+                <span class ='icon icon-male text-6xl text-center sm:text-5xl'/>
                 <span id='popUpMale' class='font-bold text-center'/>
                 <p class='text-xs uppercase text-center'>males</p>
               </div>
               <div class="flex flex-col">
-                <span class ='icon icon-kid text-6xl text-center'/>
+                <span class ='icon icon-kid text-6xl text-center sm:text-5xl'/>
                 <span id='popUpMinor' class='font-bold text-center'/>
                 <p class='text-xs uppercase text-center'>minors</p>
               </div>
