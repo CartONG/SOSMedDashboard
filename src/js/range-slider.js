@@ -111,7 +111,7 @@ var jQuery = require('jquery')
     '<span class="irs">' +
     '<span class="irs-line" tabindex="0"></span>' +
     '<span class="irs-min">0</span><span class="irs-max">1</span>' +
-    '<span class="irs-from">0</span><span class="irs-to">0</span><span class="irs-single">0</span>' +
+    '<span class="irs-from hidden sm:inline">0</span><span class="irs-to hidden sm:inline">0</span><span class="irs-single">0</span>' +
     '</span>' +
     '<span class="irs-grid"></span>'
 

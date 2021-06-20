@@ -95,7 +95,7 @@ export default {
 
   .position-mobile {
     position: absolute;
-    bottom: 130px;
+    bottom: 110px;
   }
 
   h1 {
