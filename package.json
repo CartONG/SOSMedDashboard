@@ -18,7 +18,8 @@
     "jquery": "^3.6.0",
     "mapbox-gl": "^2.1.1",
     "vue": "^3.0.0",
-    "vue-class-component": "^8.0.0-0"
+    "vue-class-component": "^8.0.0-0",
+    "vue-router": "^4.0.8"
   },
   "devDependencies": {
     "@tailwindcss/postcss7-compat": "^2.0.3",
