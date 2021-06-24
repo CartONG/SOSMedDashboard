@@ -1,7 +1,7 @@
-import { OpsData, TypeOps } from "./OpsData"
-import { MapboxGLButtonControl } from "./MapboxGLButtonControl"
+import { OpsData, TypeOps } from "./opsData"
 import mapboxgl from "mapbox-gl"
 import { showPopUp } from "./PopUpAndStats"
+import { LayerChooser } from "./LayerChooser"
 
 export class BaseMap {
   private map!: mapboxgl.Map;
@@ -42,10 +42,11 @@ export class BaseMap {
     }
 
     /* Instantiate new controls with custom event handlers */
-    const changeLayers = new MapboxGLButtonControl("mapbox-gl-change_layer", "Change Layer", nextLayer, "<span class ='icon icon-layers text-2xl detail-color'/>")
+    // const changeLayers = new MapboxGLButtonControl('mapbox-gl-change_layer', 'Change Layer', nextLayer, "<span class ='icon icon-layers text-2xl detail-color'/>")
+    const layerChooser = new LayerChooser(this.map)
 
     /* Add Controls to the Map */
-    this.map.addControl(changeLayers, "top-right")
+    this.map.addControl(layerChooser, "top-right")
   }
 
   update (timeFilteredData: OpsData[]): void {

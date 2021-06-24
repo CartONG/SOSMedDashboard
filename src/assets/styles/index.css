@@ -46,4 +46,8 @@
     height: 10px;
     border-radius: 50%;
   }
+
+  #layerChooser {
+    transition: ease-in;
+  }
 }
