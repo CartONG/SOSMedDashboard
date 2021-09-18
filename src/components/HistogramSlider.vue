@@ -1,4 +1,3 @@
-// Source : https://github.com/oguzhaninan/vue-histogram-slider/blob/master/src/lib/HistogramSlider.vue
 <template>
   <div class="vue-histogram-slider-wrapper sm:histogram-slider-position-and-background">
     <div :style="style" class="vue-histogram-slider-wrapper">
@@ -11,20 +10,25 @@
 </template>
 
 <script lang='ts'>
-/* eslint-disable */
-import {Vue} from "vue-class-component";
-import '../js/range-slider'
-import {store} from '@/store'
-import {Colors} from '@/utils/Colors'
+import "../js/range-slider"
+import { store } from "@/store"
+import { Colors } from "@/utils/Colors"
+import { computed, defineComponent, onMounted, ref } from "vue"
 
-var $ = require('jquery')
+import $ from "jquery"
 
-const width = screen.width < 500 ? 0.8 * screen.width : 0.7 * screen.width
+export default defineComponent({
+  setup () {
+    const width = ref(window.innerWidth)
 
-export default class HistogramSlider extends Vue {
-  get style() {
-    return `
-        width: ${width}px;
+    const computedWidth = computed(() => {
+      console.log(width.value)
+      return width.value < 500 ? 0.8 * width.value : 0.7 * width.value
+    })
+
+    const style = computed(() => {
+      return `
+        width: ${computedWidth.value}px;
         --primary-color: ${Colors.ORANGE};
         --label-color: ${Colors.BLUE};
         --holder-color: ${Colors.GRAY};
@@ -36,12 +40,17 @@ export default class HistogramSlider extends Vue {
         --hist-slider-gap: -30px;
         --handle-size: 26px;
       `
-  }
+    })
 
-  mounted() {
-    store.displayHistogramSlider(width, store.state.minDate.valueOf(), store.state.maxDate.valueOf(), [])
+    onMounted(() => {
+      store.displayHistogramSlider(computedWidth.value, store.state.minDate.valueOf(), store.state.maxDate.valueOf(), [])
+    })
+
+    return {
+      style
+    }
   }
-}
+})
 </script>
 
 <style>

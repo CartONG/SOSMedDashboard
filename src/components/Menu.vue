@@ -15,13 +15,16 @@
 </template>
 
 <script lang='ts'>
-import { Vue } from 'vue-class-component'
+import { defineComponent } from "vue"
 
-export default class Menu extends Vue {
-  menuVisibility = false;
-
-  setMenuVisibility (isVisible: boolean) {
-    this.menuVisibility = isVisible
+export default defineComponent({
+  data () {
+    return { menuVisibility: false }
+  },
+  methods: {
+    setMenuVisibility (isVisible: boolean) {
+      this.menuVisibility = isVisible
+    }
   }
-}
+})
 </script>

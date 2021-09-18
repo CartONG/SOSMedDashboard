@@ -2,7 +2,7 @@
   <div class="flex flex-row justify-between">
     <div class="flex flex-row items-baseline">
       <div class="legend-marker mr-2" :class="markerStyle"></div>
-      <label :for="id" class="text-xs label-color">{{name}}</label>
+      <label :for="id" class="text-xs label-color">{{title}}</label>
     </div>
     <div class="relative inline-block w-8 mr-2 align-middle select-none transition duration-200 ease-in">
         <input
@@ -22,31 +22,43 @@
 </template>
 
 <script lang='ts'>
-import { store } from '@/store'
-import { Vue } from 'vue-class-component'
+import { store } from "@/store"
+import { defineComponent } from "vue"
 
-class Props {
-  id!: string
-  name!: string
-}
-export default class Switch extends Vue.with(Props) {
-  get markerStyle () {
-    switch (this.id) {
-      case 'harbor':
-        return { icon: true, 'icon-anchor-o': true, 'text-black': true }
-      case 'rescue':
-        return { 'bg-gray-400': true }
-      case 'transfer':
-        return { 'bg-secondary': true }
-      default:
-        return { 'bg-main': true }
+export default defineComponent({
+  props: {
+    switchId: {
+      type: String,
+      required: true
+    },
+    switchTitle: {
+      type: String,
+      required: true
+    }
+  },
+  data () {
+    return { id: this.switchId, title: this.switchTitle }
+  },
+  computed: {
+    markerStyle () {
+      switch (this.id) {
+        case "harbor":
+          return { icon: true, "icon-anchor-o": true, "text-black": true }
+        case "rescue":
+          return { "bg-gray-400": true }
+        case "transfer":
+          return { "bg-secondary": true }
+        default:
+          return { "bg-main": true }
+      }
+    }
+  },
+  methods: {
+    toggle () {
+      store.updateMap()
     }
   }
-
-  toggle () {
-    store.updateMap()
-  }
-}
+})
 </script>
 
 <style scoped>

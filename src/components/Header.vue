@@ -56,15 +56,13 @@
   </header>
 </template>
 
-<script lang='ts'>
-import { Options, Vue } from 'vue-class-component'
+<script lang="ts">
+import Menu from "@/components/Menu.vue"
+import { defineComponent } from "vue"
 
-import Menu from '@/components/Menu.vue'
-
-@Options({
+export default defineComponent({
   components: {
     Menu
   }
 })
-export default class Header extends Vue {}
 </script>
