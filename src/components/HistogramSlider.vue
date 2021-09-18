@@ -15,6 +15,7 @@ import { store } from "@/store"
 import { Colors } from "@/utils/Colors"
 import { computed, defineComponent, onMounted, ref } from "vue"
 
+// eslint-disable-next-line
 import $ from "jquery"
 
 export default defineComponent({

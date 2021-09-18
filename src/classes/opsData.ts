@@ -1,30 +1,30 @@
-import convert from 'geo-coordinates-parser'
+import convert from "geo-coordinates-parser"
 
-const dataRequestUrl = 'https://spreadsheets.google.com/feeds/list/1mK5tq3gfnc0OckQnArz1TXhh4YINAWfF7ilYa5PhOw8/1/public/values?alt=json'
+const dataRequestUrl = "https://spreadsheets.google.com/feeds/list/1mK5tq3gfnc0OckQnArz1TXhh4YINAWfF7ilYa5PhOw8/1/public/values?alt=json"
 
 export enum TypeOps {
-  Rescue = 'Rescue',
-  Transfer = 'Transfer'
+  Rescue = "Rescue",
+  Transfer = "Transfer"
 }
 
 class RawOpsData {
-  gsx$date: {$t: string} = { $t: '' }
-  gsx$typeops: {$t: string} = { $t: '' }
-  gsx$nbops: {$t: string} = { $t: '' }
-  gsx$nbsurvivor: {$t: string} = { $t: '' }
-  gsx$male: {$t: string} = { $t: '' }
-  gsx$female: {$t: string} = { $t: '' }
-  gsx$under18: {$t: string} = { $t: '' }
-  gsx$under18unacc: {$t: string} = { $t: '' }
-  gsx$under5: {$t: string} = { $t: '' }
-  gsx$pregnantwomen: {$t: string} = { $t: '' }
-  gsx$latitude: {$t: string} = { $t: '' }
-  gsx$longitude: {$t: string} = { $t: '' }
-  gsx$windforce: {$t: string} = { $t: '' }
-  gsx$waveheight: {$t: string} = { $t: '' }
-  gsx$boattype: {$t: string} = { $t: '' }
-  gsx$nbnationalities: {$t: string} = { $t: '' }
-  gsx$transfertype: {$t: string} = { $t: '' }
+  gsx$date: {$t: string} = { $t: "" }
+  gsx$typeops: {$t: string} = { $t: "" }
+  gsx$nbops: {$t: string} = { $t: "" }
+  gsx$nbsurvivor: {$t: string} = { $t: "" }
+  gsx$male: {$t: string} = { $t: "" }
+  gsx$female: {$t: string} = { $t: "" }
+  gsx$under18: {$t: string} = { $t: "" }
+  gsx$under18unacc: {$t: string} = { $t: "" }
+  gsx$under5: {$t: string} = { $t: "" }
+  gsx$pregnantwomen: {$t: string} = { $t: "" }
+  gsx$latitude: {$t: string} = { $t: "" }
+  gsx$longitude: {$t: string} = { $t: "" }
+  gsx$windforce: {$t: string} = { $t: "" }
+  gsx$waveheight: {$t: string} = { $t: "" }
+  gsx$boattype: {$t: string} = { $t: "" }
+  gsx$nbnationalities: {$t: string} = { $t: "" }
+  gsx$transfertype: {$t: string} = { $t: "" }
 }
 
 export class OpsData {
@@ -42,13 +42,13 @@ export class OpsData {
   longitude = NaN
   windForce = NaN
   waveHeight = NaN
-  boatType = ''
+  boatType = ""
   nbNationalities = NaN
-  transfertType = ''
+  transfertType = ""
 }
 
 const createDate = function (dateDayFirst: string) {
-  const dateSplit = dateDayFirst.split('/')
+  const dateSplit = dateDayFirst.split("/")
   return new Date(parseInt(dateSplit[2]), parseInt(dateSplit[1]) - 1, parseInt(dateSplit[0]))
 }
 
@@ -64,7 +64,7 @@ const convertOpsData = function (rawOpsData: RawOpsData, metadataErrorLog?: stri
   res.under18unacc = parseInt(rawOpsData.gsx$under18unacc.$t)
   res.under5 = parseInt(rawOpsData.gsx$under5.$t)
   res.pregnantwomen = parseInt(rawOpsData.gsx$pregnantwomen.$t)
-  const rawCoordinates = rawOpsData.gsx$latitude.$t.concat(' ').concat(rawOpsData.gsx$longitude.$t)
+  const rawCoordinates = rawOpsData.gsx$latitude.$t.concat(" ").concat(rawOpsData.gsx$longitude.$t)
   try {
     const coordinates = convert(rawCoordinates)
     res.latitude = coordinates.decimalLatitude

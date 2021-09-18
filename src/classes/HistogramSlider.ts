@@ -1,9 +1,9 @@
-import * as d3Scale from 'd3-scale'
-import * as d3Array from 'd3-array'
-import * as d3Select from 'd3-selection'
-import * as d3Trans from 'd3-transition'
+import * as d3Scale from "d3-scale"
+import * as d3Array from "d3-array"
+import * as d3Select from "d3-selection"
+import * as d3Trans from "d3-transition"
 
-import { Colors } from '@/utils/Colors'
+import { Colors } from "@/utils/Colors"
 
 const histColor = Colors.BLUE
 const holderColor = Colors.GRAY
@@ -12,7 +12,7 @@ const barHeight = 100
 const barWidth = 6
 const barGap = 5
 const barRadius = 4
-const type = 'double'
+const type = "double"
 const grid = true
 const gridNum = 5
 const step = 1
@@ -24,14 +24,14 @@ const forceEdges = false
 const dragInterval = true
 const block = false
 const keyboard = true
-const id = 'vue-histogram'
-const histogramId = 'histogram-slider'
+const id = "vue-histogram"
+const histogramId = "histogram-slider"
 
 const prettifyDate = function (date: string) {
-  return new Date(date).toLocaleDateString('en', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric'
+  return new Date(date).toLocaleDateString("en", {
+    year: "numeric",
+    month: "short",
+    day: "numeric"
   })
 }
 
