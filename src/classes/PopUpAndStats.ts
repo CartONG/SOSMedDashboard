@@ -24,7 +24,7 @@ const fillPopUp = function (data: OpsData) {
   setInnerText("popUpFemale", numberToString(data.female))
   setInnerText("popUpMale", numberToString(data.male))
   setInnerText("popUpMinor", numberToString(data.under18))
-  setInnerText("popUpPregnant", numberToString(data.pregnantwomen))
+  setInnerText("popUpPregnant", numberToString(data.pregnantWomen))
   setInnerText("popUpUnaccompagnied", numberToString(data.under18unacc))
   setInnerText("popUpChildren", numberToString(data.under5))
   setInnerText("popUpNationalities", numberToString(data.nbNationalities))
@@ -59,7 +59,7 @@ export const updateStats = function (state: State) {
     female = data.female ? female + data.female : female
     male = data.male ? male + data.male : male
     under18 = data.under18 ? under18 + data.under18 : under18
-    pregnantwomen = data.pregnantwomen ? pregnantwomen + data.pregnantwomen : pregnantwomen
+    pregnantwomen = data.pregnantWomen ? pregnantwomen + data.pregnantWomen : pregnantwomen
     under18unacc = data.under18unacc ? under18unacc + data.under18unacc : under18unacc
     under5 = data.under5 ? under5 + data.under5 : under5
     nbNationalities = data.nbNationalities ? Math.max(nbNationalities, data.nbNationalities) : nbNationalities

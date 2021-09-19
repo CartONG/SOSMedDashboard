@@ -1,30 +1,10 @@
 import convert from "geo-coordinates-parser"
 
-const dataRequestUrl = "https://spreadsheets.google.com/feeds/list/1mK5tq3gfnc0OckQnArz1TXhh4YINAWfF7ilYa5PhOw8/1/public/values?alt=json"
+const dataRequestUrl = `https://sheets.googleapis.com/v4/spreadsheets/1mK5tq3gfnc0OckQnArz1TXhh4YINAWfF7ilYa5PhOw8/values/data_sos?key=${process.env.VUE_APP_GOOGLE_API_KEY}`
 
 export enum TypeOps {
   Rescue = "Rescue",
   Transfer = "Transfer"
-}
-
-class RawOpsData {
-  gsx$date: {$t: string} = { $t: "" }
-  gsx$typeops: {$t: string} = { $t: "" }
-  gsx$nbops: {$t: string} = { $t: "" }
-  gsx$nbsurvivor: {$t: string} = { $t: "" }
-  gsx$male: {$t: string} = { $t: "" }
-  gsx$female: {$t: string} = { $t: "" }
-  gsx$under18: {$t: string} = { $t: "" }
-  gsx$under18unacc: {$t: string} = { $t: "" }
-  gsx$under5: {$t: string} = { $t: "" }
-  gsx$pregnantwomen: {$t: string} = { $t: "" }
-  gsx$latitude: {$t: string} = { $t: "" }
-  gsx$longitude: {$t: string} = { $t: "" }
-  gsx$windforce: {$t: string} = { $t: "" }
-  gsx$waveheight: {$t: string} = { $t: "" }
-  gsx$boattype: {$t: string} = { $t: "" }
-  gsx$nbnationalities: {$t: string} = { $t: "" }
-  gsx$transfertype: {$t: string} = { $t: "" }
 }
 
 export class OpsData {
@@ -37,7 +17,7 @@ export class OpsData {
   under18 = NaN
   under18unacc = NaN
   under5 = NaN
-  pregnantwomen = NaN
+  pregnantWomen = NaN
   latitude = NaN
   longitude = NaN
   windForce = NaN
@@ -52,19 +32,19 @@ const createDate = function (dateDayFirst: string) {
   return new Date(parseInt(dateSplit[2]), parseInt(dateSplit[1]) - 1, parseInt(dateSplit[0]))
 }
 
-const convertOpsData = function (rawOpsData: RawOpsData, metadataErrorLog?: string) {
+const convertOpsData = function (rawOpsData: {[key: string]: string}, metadataErrorLog?: string) {
   const res = new OpsData()
-  res.date = createDate(rawOpsData.gsx$date.$t)
-  res.typeOps = rawOpsData.gsx$typeops.$t as TypeOps
-  res.nbOps = parseInt(rawOpsData.gsx$nbops.$t)
-  res.nbSurvivor = parseInt(rawOpsData.gsx$nbsurvivor.$t)
-  res.male = parseInt(rawOpsData.gsx$male.$t)
-  res.female = parseInt(rawOpsData.gsx$female.$t)
-  res.under18 = parseInt(rawOpsData.gsx$under18.$t)
-  res.under18unacc = parseInt(rawOpsData.gsx$under18unacc.$t)
-  res.under5 = parseInt(rawOpsData.gsx$under5.$t)
-  res.pregnantwomen = parseInt(rawOpsData.gsx$pregnantwomen.$t)
-  const rawCoordinates = rawOpsData.gsx$latitude.$t.concat(" ").concat(rawOpsData.gsx$longitude.$t)
+  res.date = createDate(rawOpsData.date)
+  res.typeOps = rawOpsData.typeOps as TypeOps
+  res.nbOps = parseInt(rawOpsData.nbOps)
+  res.nbSurvivor = parseInt(rawOpsData.nbSurvivor)
+  res.male = parseInt(rawOpsData.male)
+  res.female = parseInt(rawOpsData.female)
+  res.under18 = parseInt(rawOpsData.under18)
+  res.under18unacc = parseInt(rawOpsData.under18unacc)
+  res.under5 = parseInt(rawOpsData.under5)
+  res.pregnantWomen = parseInt(rawOpsData.pregnantWomen)
+  const rawCoordinates = rawOpsData.latitude.concat(" ").concat(rawOpsData.longitude)
   try {
     const coordinates = convert(rawCoordinates)
     res.latitude = coordinates.decimalLatitude
@@ -72,28 +52,33 @@ const convertOpsData = function (rawOpsData: RawOpsData, metadataErrorLog?: stri
   } catch {
     console.error(`Invalid coordinates ${rawCoordinates} for ${metadataErrorLog}`)
   }
-  res.windForce = parseInt(rawOpsData.gsx$windforce.$t)
-  res.waveHeight = parseInt(rawOpsData.gsx$waveheight.$t)
-  res.boatType = rawOpsData.gsx$boattype.$t
-  res.nbNationalities = parseInt(rawOpsData.gsx$nbnationalities.$t)
-  res.transfertType = rawOpsData.gsx$transfertype.$t
+  res.windForce = parseInt(rawOpsData.windForce)
+  res.waveHeight = parseInt(rawOpsData.waveHeight)
+  res.boatType = rawOpsData.boatType
+  res.nbNationalities = parseInt(rawOpsData.nbNationalities)
+  res.transfertType = rawOpsData.transfertType
   return res
 }
 
-export const fetchOpsData = function () {
-  return new Promise<OpsData[]>(function (resolve, reject) {
-    fetch(dataRequestUrl)
-      .then(res => res.json())
-      .then((out) => {
-        const rawOpsData: RawOpsData[] = out.feed.entry
-        const opsData: OpsData[] = []
-        let i = 0
-        for (const data of rawOpsData) {
-          opsData.push(convertOpsData(data, `line ${i}`))
-          i += 1
-        }
-        resolve(opsData)
-      })
-      .catch(err => reject(err))
+export const fetchOpsData = async function (): Promise<OpsData[]> {
+  const sheet: { majorDimension: string; range: string; values: string[][] } = await (await fetch(dataRequestUrl)).json()
+
+  const regExp = RegExp("_([a-zA-Z0-9])", "g")
+
+  const model = sheet.values.splice(0, 1)[0].map(value => {
+    let valueFound
+    while ((valueFound = regExp.exec(value)) !== null) {
+      value = value.replace(valueFound[0], valueFound[1].toLocaleUpperCase())
+    }
+    return value
+  })
+
+  return sheet.values.map((value, valueIndex) => {
+    const newValue: { [key: string]: string } = {}
+    model.forEach((currentProperty, index) => {
+      newValue[currentProperty] = value[index]
+    })
+
+    return convertOpsData(newValue, `line ${valueIndex}`)
   })
 }
