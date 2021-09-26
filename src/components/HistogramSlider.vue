@@ -1,17 +1,15 @@
 <template>
-  <div class="vue-histogram-slider-wrapper sm:histogram-slider-position-and-background">
-    <div :style="style" class="vue-histogram-slider-wrapper">
-      <svg :id="'vue-histogram'" class="vue-histogram-view hidden sm:block"/>
-      <div class="slider-wrapper">
-        <input type="text" :id="'histogram-slider'" :name="'histogram-slider'" value=""/>
-      </div>
+  <div :style="style" class="h-16">
+    <svg :id="'vue-histogram'" class="hidden md:block"/>
+    <div class="slider-wrapper">
+      <input type="text" :id="'histogram-slider'" :name="'histogram-slider'" value=""/>
     </div>
   </div>
 </template>
 
 <script lang='ts'>
 import "../js/range-slider"
-import { store } from "@/store"
+import { store } from "@/Store"
 import { Colors } from "@/utils/Colors"
 import { computed, defineComponent, onMounted, ref } from "vue"
 
@@ -38,7 +36,7 @@ export default defineComponent({
         --line-height: 6px;
         --font-family: Arial, sans-serif;
         --font-size: 12;
-        --hist-slider-gap: -30px;
+        --hist-slider-gap: -20px;
         --handle-size: 26px;
       `
     })

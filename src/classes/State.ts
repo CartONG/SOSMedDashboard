@@ -1,4 +1,4 @@
-import { OpsData } from "./opsData"
+import { OpsData } from "./OpsData"
 import { BaseMap } from "./BaseMap"
 import { HistogramSlider } from "@/classes/HistogramSlider"
 
@@ -8,5 +8,5 @@ export class State {
   minDate = new Date(2016, 0, 1);
   maxDate = new Date();
   baseMap = new BaseMap();
-  histogramSlider = new HistogramSlider()
+  histogramSlider = new HistogramSlider();
 }

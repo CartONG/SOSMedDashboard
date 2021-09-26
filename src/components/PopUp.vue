@@ -1,8 +1,8 @@
 <template>
   <div id="popUp" :style="style"
        class="z-100 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 transform scale-0 transition-transform duration-300">
-    <div class="bg-white w-screen h-screen sm:w-1/4 sm:h-1/2 p-12">
-      <button id="closebutton" type="button" class="focus:outline-none relative text-gray">X</button>
+    <div class="bg-white rounded-3xl md:w-screen md:h-screen md:w-1/4 md:h-1/2 p-12">
+      <button id="closebutton" type="button" class="focus:outline-none relative text-grayClose">X</button>
       <div class="flex flex-col justify-around h-3/4">
         <h1 id="popUpTypeOps" class="font-bold text-secondary"/>
         <p id="popUpDate"/>
@@ -17,17 +17,17 @@
           <div class="ml-3">
             <div class="flex flex-row justify-around mb-5">
               <div class="flex flex-col">
-                <span class="icon icon-female text-6xl text-center sm:text-5xl"/>
+                <span class="icon icon-female text-6xl text-center md:text-5xl"/>
                 <span id="popUpFemale" class="font-bold text-center"/>
                 <p class="text-xs uppercase text-center">females</p>
               </div>
               <div class="flex flex-col">
-                <span class="icon icon-male text-6xl text-center sm:text-5xl"/>
+                <span class="icon icon-male text-6xl text-center md:text-5xl"/>
                 <span id="popUpMale" class="font-bold text-center"/>
                 <p class="text-xs uppercase text-center">males</p>
               </div>
               <div class="flex flex-col">
-                <span class="icon icon-kid text-6xl text-center sm:text-5xl"/>
+                <span class="icon icon-kid text-6xl text-center md:text-5xl"/>
                 <span id="popUpMinor" class="font-bold text-center"/>
                 <p class="text-xs uppercase text-center">minors</p>
               </div>

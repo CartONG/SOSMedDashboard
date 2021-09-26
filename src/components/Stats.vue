@@ -1,16 +1,21 @@
 <template>
 
   <!-- mobile version -->
-  <div :style="style"
-       class="bg-white rounded-xl flex flex-col justify-between w-full pb-10 z-10 position-mobile sm:hidden">
-    <div class="text-sm text-white bg-secondary rounded-t flex justify-center mb-1">
+  <div class="bg-white rounded-xl flex flex-col justify-between w-full z-10 md:hidden">
+    <div class="text-xs text-white bg-secondary rounded-t-2xl flex justify-center items-center h-8">
       <span id="statsMinDate2"/>
-      <span class="icon icon-calendar"/> - <span id="statsMaxDate2"/>
+      <span class="icon icon-calendar ml-1 mr-2"/>
+      <svg class="w-20" viewBox="0 0 800 200" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="100" r="30" fill="white" />
+        <line x1="50" y1="100" x2="750" y2="100" stroke="white" stroke-width="15"/>
+        <circle cx="750" cy="100" r="30" fill="white" />
+      </svg>
+      <span id="statsMaxDate2" class="ml-2"/>
       <span class="icon icon-calendar ml-1"/>
     </div>
-    <button id="displaying-button" class="icon icon-help-circle flex-0 mr-2"
-            v-on:click="toggleMobileStatsContentVisibility"/>
-    <div id="stats-content" class="flex flex-row justify-around">
+    <div id="displaying-button" class="text-center icon flex-0 mr-2 cursor-pointer" :class="{ 'icon-help-circle': !displayingStats, 'icon-camera': displayingStats }"
+            v-on:click="displayingStats = !displayingStats"/>
+    <div v-if="displayingStats" id="stats-content" class="flex flex-row justify-around">
       <div class="flex flex-col">
         <span class="icon icon-rescue text-4xl leading-6  text-center text-secondary"/>
         <p class="text-sm text-main font-bold"><span id="statsNbSurvivor2" class="text-secondary text-lg"/> people
@@ -25,7 +30,7 @@
   </div>
 
   <!-- sm version -->
-  <div :style="style" class="bg-white rounded-xl flex-col justify-between w-1/5 h-1/2 position-desktop hidden sm:flex">
+  <div class="bg-white rounded-xl flex-col justify-between w-1/5 h-1/2 position-desktop absolute hidden md:flex">
     <h1 class="bg-secondary text-white text-center rounded-t mb-3"><span id="statsMinDate"/> <span
       class="icon icon-calendar text-sm"/> - <span id="statsMaxDate"/><span class="icon icon-calendar text-sm ml-1"/>
     </h1>
@@ -82,52 +87,20 @@
 
 <script lang="ts">
 
-export default {
-  name: "Stats",
+import { defineComponent } from "vue"
 
-  methods: {
-    toggleMobileStatsContentVisibility () {
-      // Hide/display ststs content
-      const statsContent = document.getElementById("stats-content")
-      if (statsContent) {
-        if (statsContent.style.display === "none") {
-          statsContent.style.display = "flex"
-        } else {
-          statsContent.style.display = "none"
-        }
-      }
-
-      // Change button icon
-      const button = document.getElementById("displaying-button")
-      if (button) {
-        button.className = "icon flex-0 mr-2"
-        if (statsContent && statsContent.style.display === "flex") {
-          button.className += " icon-help-circle"
-        } else {
-          button.className += " icon-camera"
-        }
-      }
-    }
-  }
-}
-
+export default defineComponent({
+  data () {
+    return { displayingStats: true }
+  },
+  name: "Stats"
+})
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .position-desktop {
-  position: absolute;
   top: 20%;
   margin-left: 5%;
-}
-
-.position-mobile {
-  position: absolute;
-  bottom: 110px;
-}
-
-.text-3xs {
-  font-size: 0.5rem;
-  line-height: 0.5rem;
 }
 </style>

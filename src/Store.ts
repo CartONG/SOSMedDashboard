@@ -1,6 +1,6 @@
-import { OpsData, fetchOpsData } from "./classes/opsData"
+import { OpsData, fetchOpsData } from "./classes/OpsData"
 import { updateStats } from "./classes/PopUpAndStats"
-import { State } from "./classes/state"
+import { State } from "./classes/State"
 
 // Constant to expose and manage the store
 // It could be seen as a static class

@@ -8,12 +8,13 @@ module.exports = {
         secondary: "#f03e1b",
         textSubtitles: "#3c3c3b",
         blockBackground: "#e3e2e9",
-        gray: "#999999"
+        grayClose: "#999999"
       },
       fontFamily: {
         sans: "Raleway, Helvetica, Arial"
       },
       fontSize: {
+        "3xs": ["0.5rem", "0.5rem"],
         tiny: ["0.65rem", "0.75rem"]
       },
       zIndex: {

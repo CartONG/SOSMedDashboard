@@ -1,9 +1,9 @@
-import { OpsData } from "./opsData"
-import { State } from "./state"
+import { OpsData } from "./OpsData"
+import { State } from "./State"
 
 const numberToString = function (n: number) {
   if (isNaN(n)) {
-    return ""
+    return "0"
   } else {
     return n.toString()
   }

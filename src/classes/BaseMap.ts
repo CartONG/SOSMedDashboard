@@ -1,4 +1,4 @@
-import { OpsData, TypeOps } from "./opsData"
+import { OpsData, TypeOps } from "./OpsData"
 import { MapboxGLButtonControl } from "./MapboxGLButtonControl"
 import mapboxgl from "mapbox-gl"
 import { showPopUp } from "./PopUpAndStats"
