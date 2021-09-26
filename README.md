@@ -36,6 +36,13 @@ N'oublier pas de vérifier les erreurs et avertissements grâce à l'analyse sta
 npm install
 ```
 
+### Configuration du projet
+À la racine du projet, vous avez besoin d'un fichier `.env`.
+Créez-le et écrivez dedans la ligne suivante :
+```VUE_APP_GOOGLE_API_KEY=**HERE GOES YOUR GOOGLE API KEY**```
+
+Si vous n'avez pas de Google clé API, il faut en créer une [ici](https://console.cloud.google.com/apis/credentials). 
+
 ### Compilation et rechargement à la volée pour le développement
 ```bash
 npm run serve
@@ -66,6 +73,13 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ```
 npm install
 ```
+
+### Configure the project
+At the root of the project, you need a `.env` file.
+Create it and write to it the following line:
+```VUE_APP_GOOGLE_API_KEY=**HERE GOES YOUR GOOGLE API KEY**```
+
+If you don't have one yet, you need to create one [here](https://console.cloud.google.com/apis/credentials).
 
 ### Compiles and hot-reloads for development
 ```
