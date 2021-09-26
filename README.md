@@ -37,11 +37,14 @@ npm install
 ```
 
 ### Configuration du projet
-À la racine du projet, vous avez besoin d'un fichier `.env`.
+À la racine du projet, vous avez besoin d'un fichier `.env.local`.
 Créez-le et écrivez dedans la ligne suivante :
 ```VUE_APP_GOOGLE_API_KEY=**HERE GOES YOUR GOOGLE API KEY**```
 
-Si vous n'avez pas de Google clé API, il faut en créer une [ici](https://console.cloud.google.com/apis/credentials). 
+Si vous n'avez pas de Google clé API, il faut en créer une [ici](https://console.cloud.google.com/apis/credentials).
+
+Vous aurez besoin d'activer Google Sheets API [ici](https://console.cloud.google.com/apis/api/sheets.googleapis.com/overview).
+Il est conseillé de restreindre votre clef à Google Sheets API par sécurité.
 
 ### Compilation et rechargement à la volée pour le développement
 ```bash
@@ -75,11 +78,14 @@ npm install
 ```
 
 ### Configure the project
-At the root of the project, you need a `.env` file.
+At the root of the project, you need a `.env.local` file.
 Create it and write to it the following line:
 ```VUE_APP_GOOGLE_API_KEY=**HERE GOES YOUR GOOGLE API KEY**```
 
 If you don't have one yet, you need to create one [here](https://console.cloud.google.com/apis/credentials).
+
+You need to enable Google Sheets API [ici](https://console.cloud.google.com/apis/api/sheets.googleapis.com/overview).
+It is recommended to restrict your key to Google Sheets API for security.
 
 ### Compiles and hot-reloads for development
 ```
