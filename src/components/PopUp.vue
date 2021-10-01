@@ -1,10 +1,12 @@
 <template>
   <div id="popUp" :style="style"
        class="z-100 fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 transform scale-0 transition-transform duration-300">
-    <div class="bg-white rounded-3xl md:w-screen md:h-screen md:w-1/4 md:h-1/2 p-12">
-      <button id="closebutton" type="button" class="focus:outline-none relative text-grayClose">X</button>
+    <div class="bg-white rounded-3xl p-6">
       <div class="flex flex-col justify-around h-3/4">
-        <h1 id="popUpTypeOps" class="font-bold text-secondary"/>
+        <div class="flex justify-between">
+          <h1 id="popUpTypeOps" class="font-bold text-secondary"/>
+          <button id="closeButton" type="button" class="focus:outline-none text-grayClose">X</button>
+        </div>
         <p id="popUpDate"/>
         <hr class="border-dotted border-main border"/>
         <p class="text-sm"><span class="icon icon-lifebuoy text-xl mr-3"/>Boat in distress: <span id="popUpBoatType"
@@ -82,9 +84,9 @@ export default {
 
   mounted () {
     const popUpMap = document.getElementById("popUp")
-    const closebutton = document.getElementById("closebutton")
-    if (closebutton && popUpMap) {
-      closebutton.addEventListener("click", () => popUpMap.classList.remove("scale-100"))
+    const closeButton = document.getElementById("closeButton")
+    if (closeButton && popUpMap) {
+      closeButton.addEventListener("click", () => popUpMap.classList.remove("scale-100"))
     }
   }
 }

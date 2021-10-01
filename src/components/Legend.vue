@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col rounded-2xl w-1/2 legend-background legend-position-mobile sm:w-60 lg:legend-position-desktop">
+  <div class="flex flex-col rounded-2xl w-1/2 legend-background absolute top-24 ml-4 legend-position-mobile sm:w-60 md:right-5 md:absolute md:bottom-5 md:top-auto">
     <p class="text-xs text-center font-bold text-secondary">VIEW</p>
     <Switch switch-id='rescue' switch-title="Rescue" />
     <Switch switch-id='transfer' switch-title="Transfer" />

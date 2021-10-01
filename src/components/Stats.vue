@@ -30,7 +30,7 @@
   </div>
 
   <!-- sm version -->
-  <div class="bg-white rounded-xl flex-col justify-between w-1/5 h-1/2 position-desktop absolute hidden md:flex">
+  <div class="bg-white rounded-xl flex-col justify-between position-desktop absolute hidden md:flex">
     <h1 class="bg-secondary text-white text-center rounded-t mb-3"><span id="statsMinDate"/> <span
       class="icon icon-calendar text-sm"/> - <span id="statsMaxDate"/><span class="icon icon-calendar text-sm ml-1"/>
     </h1>

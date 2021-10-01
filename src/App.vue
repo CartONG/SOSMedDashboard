@@ -1,14 +1,14 @@
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col h-screen overflow-hidden">
     <Header />
     <BaseMap />
-    <PopUp />
-    <Legend />
-    <div class="absolute bottom-0 flex flex-col w-full items-center bg-white md:static md:block">
-      <Stats />
-      <HistogramSlider />
-    </div>
   </div>
+  <PopUp />
+  <div class="absolute bottom-0 flex flex-col w-full items-center bg-white md:static md:block">
+    <Stats />
+    <HistogramSlider />
+  </div>
+  <Legend />
 </template>
 
 <script lang="ts">
@@ -19,7 +19,7 @@ import Legend from "./components/Legend.vue"
 import HistogramSlider from "./components/HistogramSlider.vue"
 import Stats from "./components/Stats.vue"
 import { store } from "./Store"
-import { defineComponent } from "vue"
+import { defineComponent, onMounted } from "vue"
 
 export default defineComponent({
   components: {
@@ -30,8 +30,10 @@ export default defineComponent({
     PopUp,
     Stats
   },
-  mounted () {
-    store.initStore()
+  setup () {
+    onMounted(() => {
+      store.initStore()
+    })
   }
 })
 </script>

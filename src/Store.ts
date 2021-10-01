@@ -39,8 +39,12 @@ export const store = {
     this.state.baseMap.destroy()
   },
 
-  displayHistogramSlider (askedWidth: number, askedMin: number, askedMax: number, data: number[]) {
-    this.state.histogramSlider.display(askedWidth, askedMin, askedMax, data)
+  displayHistogramSlider (askedMin: number, askedMax: number, data: number[]) {
+    this.state.histogramSlider.display(askedMin, askedMax, data)
+  },
+
+  setWidthHistogramSlider (width: number) {
+    this.state.histogramSlider.setWidth(width)
   },
 
   updateHistogramSlider () {

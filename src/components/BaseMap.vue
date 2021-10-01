@@ -1,5 +1,5 @@
 <template>
-  <div id="mapContainer" class="w-screen m-auto z-0 basemap-height-mobile sm:basemap-height-sm"></div>
+  <div id="mapContainer" class="w-screen z-0 h-full"></div>
 </template>
 
 <script lang="ts">

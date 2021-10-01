@@ -1,33 +1,38 @@
 <template>
-  <div :style="style" class="h-16">
-    <svg :id="'vue-histogram'" class="hidden md:block"/>
+  <div :style="style" class="h-16 mx-auto md:h-32 md:absolute md:bottom-5 md:bg-white md:opacity-80 md:p-6 md:rounded-2xl">
+    <svg :id="'vue-histogram'" class="hidden md:block md:w-full"/>
     <div class="slider-wrapper">
       <input type="text" :id="'histogram-slider'" :name="'histogram-slider'" value=""/>
     </div>
   </div>
-</template>
+*</template>
 
 <script lang='ts'>
 import "../js/range-slider"
 import { store } from "@/Store"
 import { Colors } from "@/utils/Colors"
-import { computed, defineComponent, onMounted, ref } from "vue"
+import { computed, defineComponent, onBeforeUnmount, onMounted, ref } from "vue"
 
 // eslint-disable-next-line
 import $ from "jquery"
 
 export default defineComponent({
   setup () {
-    const width = ref(window.innerWidth)
+    const getWidth = () => {
+      return 0.75 * window.innerWidth
+    }
 
-    const computedWidth = computed(() => {
-      console.log(width.value)
-      return width.value < 500 ? 0.8 * width.value : 0.7 * width.value
-    })
+    const width = ref(getWidth())
+
+    const onResize = () => {
+      width.value = getWidth()
+      store.setWidthHistogramSlider(width.value)
+      store.updateHistogramSlider()
+    }
 
     const style = computed(() => {
       return `
-        width: ${computedWidth.value}px;
+        width: ${width.value}px;
         --primary-color: ${Colors.ORANGE};
         --label-color: ${Colors.BLUE};
         --holder-color: ${Colors.GRAY};
@@ -35,14 +40,20 @@ export default defineComponent({
         --grid-text-color: ${Colors.BLUE};
         --line-height: 6px;
         --font-family: Arial, sans-serif;
-        --font-size: 12;
+        --font-size: 8px;
         --hist-slider-gap: -20px;
         --handle-size: 26px;
       `
     })
 
     onMounted(() => {
-      store.displayHistogramSlider(computedWidth.value, store.state.minDate.valueOf(), store.state.maxDate.valueOf(), [])
+      window.addEventListener("resize", onResize)
+      store.setWidthHistogramSlider(width.value)
+      store.displayHistogramSlider(store.state.minDate.valueOf(), store.state.maxDate.valueOf(), [])
+    })
+
+    onBeforeUnmount(() => {
+      window.removeEventListener("resize", onResize)
     })
 
     return {
