@@ -75,14 +75,14 @@ export default {
   name: "PopUp",
 
   computed: {
-    style () {
+    style (): string {
       return `
         --text-color: ${Colors.BLUE};
       `
     }
   },
 
-  mounted () {
+  mounted (): void {
     const popUpMap = document.getElementById("popUp")
     const closeButton = document.getElementById("closeButton")
     if (closeButton && popUpMap) {

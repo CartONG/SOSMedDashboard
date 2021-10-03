@@ -34,7 +34,7 @@ const fillPopUp = function (data: OpsData) {
   setInnerText("popUpLon", numberToString(data.longitude))
 }
 
-export const showPopUp = function (data: OpsData) {
+export const showPopUp = function (data: OpsData): void {
   const popUp = document.getElementById("popUp")
   if (popUp) {
     popUp.classList.add("scale-100")
@@ -42,7 +42,7 @@ export const showPopUp = function (data: OpsData) {
   fillPopUp(data)
 }
 
-export const updateStats = function (state: State) {
+export const updateStats = function (state: State): void {
   setInnerText("statsMinDate", state.minDate.toDateString())
   setInnerText("statsMaxDate", state.maxDate.toDateString())
   let nbSurvivor = 0

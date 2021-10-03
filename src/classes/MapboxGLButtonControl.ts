@@ -14,7 +14,7 @@ export class MapboxGLButtonControl {
     this._innerHTML = innerHTML
   }
 
-  onAdd () {
+  onAdd (): HTMLDivElement {
     this._btn = document.createElement("button")
     this._btn.className = "mapboxgl-ctrl-icon" + " " + this._className
     this._btn.type = "button"
@@ -29,7 +29,7 @@ export class MapboxGLButtonControl {
     return this._container
   }
 
-  onRemove () {
+  onRemove (): void{
     if (this._container.parentNode) {
       this._container.parentNode.removeChild(this._container)
     }

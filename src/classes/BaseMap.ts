@@ -7,7 +7,7 @@ export class BaseMap {
   private map!: mapboxgl.Map;
   private markers: mapboxgl.Marker[] = [];
 
-  display (timeFilteredData: OpsData[]) {
+  display (timeFilteredData: OpsData[]): void {
     // This token was taken from the demo project we need to replace with a real token
     mapboxgl.accessToken = "pk.eyJ1Ijoid2VzbGV5YmFuZmllbGQiLCJhIjoiY2pmMDRwb202MGlzNDJ3bm44cHA3YXZiNCJ9.b2yOf2vbWnWiV7mlsFAywg"
 
@@ -48,7 +48,7 @@ export class BaseMap {
     this.map.addControl(changeLayers, "top-right")
   }
 
-  update (timeFilteredData: OpsData[]) {
+  update (timeFilteredData: OpsData[]): void {
     for (const marker of this.markers) {
       marker.remove()
     }
@@ -77,7 +77,7 @@ export class BaseMap {
     }
   }
 
-  destroy () {
+  destroy (): void {
     this.map.remove()
   }
 }
