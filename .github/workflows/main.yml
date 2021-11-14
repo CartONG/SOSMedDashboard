@@ -1,0 +1,40 @@
+# Nom de notre workflow
+name: "Build and deploy Github pages"
+
+# Événements sur lesquels il doit être déclenché
+on:
+  push: # <- Déclenché lorsque l'on pousse du code...
+    branches:
+      - preview # <- ... mais seulement sur la branche "preview"
+
+jobs:
+  # Notre job
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    # Tâches à effectuer, comme expliquées ci-dessus
+    steps:
+
+      # 1. On récupère le contenu du dépôt
+      - name: "Checkout"
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      # 2. Install npm depencencies and build the project
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.4.1
+        with:
+          node-version: '16'
+      - run: npm install --progress=false
+      - run: npm run build
+        env: # Or as an environment variable
+          VUE_APP_GOOGLE_API_KEY: ${{ secrets.GAPI_KEY }}
+
+      # 3. Déploiement sur les Github Pages
+      - name: "Deploy Github Pages"
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: preview-page # <- Branche sur laquelle seront commités les fichiers
+          FOLDER: dist
