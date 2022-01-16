@@ -2,7 +2,11 @@
   <header>
     <div class="lg:hidden">
       <div class="flex">
-        <div class="mt-4 ml-2 text-main leading-3 font-black">
+        <div
+          class="mt-4 ml-2 text-main leading-3 font-black"
+          onclick="location.href='https://www.sosmediterranee.fr/';"
+          style="cursor: pointer"
+        >
           <p class="text-center">SOS</p>
           <p class="text-tiny uppercase">Mediterranee</p>
         </div>
@@ -30,7 +34,11 @@
           <i class="ml-14 text-8xl leading-6 icon icon-sosmed-ship"></i>
         </div>
         <div class="flex-grow"></div>
-        <div class="flex-none">
+        <div
+          class="flex-none"
+          onclick="location.href='https://www.sosmediterranee.fr/';"
+          style="cursor: pointer"
+        >
           <p class="text-center font-black leading-5">SOS</p>
           <p class="font-black leading-5">MEDITERRANEE</p>
         </div>
