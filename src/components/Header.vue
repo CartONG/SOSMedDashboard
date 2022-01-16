@@ -47,6 +47,11 @@
         <div class="flex-none flex ml-8">
           <a href="#" class="px-1 flex-initial inline-block">Glossary</a>
         </div>
+        <div class="flex-none flex ml-8">
+          <a href="https://onboard.sosmediterranee.org/" class="px-1 flex-initial inline-block">
+            Log Book
+          </a>
+        </div>
         <div class="flex-grow"></div>
         <div class="flex-none mr-8">
           <a href="#" class="text-center inline-block w-6 bg-white text-black"
