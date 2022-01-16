@@ -10,24 +10,21 @@
         <div class="flex-auto">
           <p class="text-main uppercase">Carte Interactive</p>
           <p class="text-tiny leading-tight text-secondary">
-            Historique des activités et observations
-            des secours en Méditerranée
+            Historique des opérations de secours en Méditerranée
           </p>
         </div>
         <div class="flex-shrink-0 flex-grow w-2"></div>
         <Menu />
       </div>
-      <div class="bg-main h-10">
-      </div>
+      <div class="bg-main h-10"></div>
     </div>
     <div class="hidden lg:block">
-      <div class="flex my-4 ml-8 ">
+      <div class="flex my-4 ml-8">
         <div class="flex-none flex items-center">
           <div>
             <p class="text-xl leading-6 text-main">Carte Interactive</p>
             <p class="text-base leading-4 text-secondary">
-              Historique des activités et observations des secours en
-              Méditerranée
+              Historique des opérations de secours en Méditerranée
             </p>
           </div>
           <i class="ml-14 text-8xl leading-6 icon icon-sosmed-ship"></i>
@@ -43,13 +40,17 @@
           <a href="#" class="px-1 flex-initial inline-block">Ongoing</a>
           <a href="#" class="px-1 flex-initial inline-block">Past SAR events</a>
           <a href="#" class="px-1 flex-initial inline-block">Our mission</a>
-          <a href="#" class="px-1 flex-initial inline-block">Legal references</a>
+          <a href="#" class="px-1 flex-initial inline-block"
+            >Legal references</a
+          >
           <a href="#" class="px-1 flex-initial inline-block">Glossary</a>
           <a href="#" class="px-1 flex-initial inline-block">FAQ</a>
         </div>
         <div class="flex-grow"></div>
         <div class="flex-none">
-          <a href="#" class="text-center inline-block w-6 bg-white text-black">?</a>
+          <a href="#" class="text-center inline-block w-6 bg-white text-black"
+            >?</a
+          >
         </div>
       </nav>
     </div>
