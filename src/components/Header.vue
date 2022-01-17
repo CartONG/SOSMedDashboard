@@ -1,26 +1,26 @@
 <template>
   <header>
     <div class="lg:hidden">
-      <div class="flex">
+      <div class="flex align-middle items-center">
+
         <div
-          class="mt-4 ml-2 mr-2 text-main leading-3 font-black"
+          class="m-2 text-main leading-3 font-black"
           onclick="location.href='https://www.sosmediterranee.fr/';"
           style="cursor: pointer"
         >
           <p class="text-center">SOS</p>
           <p class="text-tiny uppercase">Mediterranee</p>
         </div>
-        <div class="flex-shrink-0 flex-grow w-2"></div>
-        <div class="flex-auto">
-          <p class="text-main uppercase">Carte Interactive</p>
-          <p class="text-tiny leading-tight text-secondary">
+        <div>
+          <p class="text-xl align-middle leading-5 text-main">Carte Interactive</p>
+          <p class="text-base align-middle leading-3 text-secondary">
             Historique des opérations de secours en Méditerranée
           </p>
         </div>
         <div class="flex-shrink-0 flex-grow w-2"></div>
         <Menu />
       </div>
-      <div class="bg-main h-10"></div>
+      <div class="bg-main h-1"></div>
     </div>
     <div class="hidden lg:block">
       <div class="flex my-4 ml-8">
