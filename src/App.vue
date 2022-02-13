@@ -6,6 +6,7 @@
   <PopUp/>
   <div class="absolute bottom-0 flex flex-col w-full items-center bg-white md:static md:block">
     <Stats/>
+    <KeyNumbers/>
     <HistogramSlider/>
   </div>
   <Legend/>
@@ -18,6 +19,7 @@ import Header from "./components/Header.vue"
 import Legend from "./components/Legend.vue"
 import HistogramSlider from "./components/HistogramSlider.vue"
 import Stats from "./components/Stats.vue"
+import KeyNumbers from "./components/KeyNumbers.vue"
 import { store } from "./Store"
 import { defineComponent, onMounted } from "vue"
 
@@ -28,7 +30,8 @@ export default defineComponent({
     HistogramSlider,
     Legend,
     PopUp,
-    Stats
+    Stats,
+    KeyNumbers
   },
   setup () {
     onMounted(() => {
