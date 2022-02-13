@@ -45,9 +45,9 @@ export default defineComponent({
         case "harbor":
           return { icon: true, "icon-anchor-o": true, "text-black": true }
         case "rescue":
-          return { "bg-gray-400": true }
-        case "transfer":
           return { "bg-secondary": true }
+        case "transfer":
+          return { "bg-gray-400": true }
         default:
           return { "bg-main": true }
       }
