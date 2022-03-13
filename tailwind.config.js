@@ -8,6 +8,8 @@ module.exports = {
         secondary: "#f03e1b",
         textSubtitles: "#3c3c3b",
         blockBackground: "#e3e2e9",
+        donationText: "#e8e6e3",
+        donationHoverBackground: "#333",
         grayClose: "#999999"
       },
       fontFamily: {

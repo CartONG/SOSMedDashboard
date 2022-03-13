@@ -1,13 +1,9 @@
 <template>
   <header>
     <div class="lg:hidden">
-      <div class="flex align-middle items-center">
-
-        <div
-          class="m-2 text-main leading-3 font-black"
-          onclick="location.href='https://www.sosmediterranee.fr/';"
-          style="cursor: pointer"
-        >
+      <div class="flex items-center">
+        <div class="m-2 text-main leading-3 font-black" onclick="location.href='https://www.sosmediterranee.fr/';"
+             style="cursor: pointer">
           <p class="text-center">SOS</p>
           <p class="text-tiny uppercase">Mediterranee</p>
         </div>
@@ -18,7 +14,7 @@
           </p>
         </div>
         <div class="flex-shrink-0 flex-grow w-2"></div>
-        <Menu />
+        <BurgerMenu @click="updateMenuVisibility()"/>
       </div>
       <div class="bg-main h-1"></div>
     </div>
@@ -34,11 +30,9 @@
           <i class="ml-14 text-8xl leading-6 icon icon-sosmed-ship"></i>
         </div>
         <div class="flex-grow"></div>
-        <div
-          class="flex-none mr-8"
-          onclick="location.href='https://www.sosmediterranee.fr/';"
-          style="cursor: pointer"
-        >
+        <a class="bg-secondary font-black text-donationText uppercase flex items-center mr-8 pl-2 pr-2 text-lg hover:bg-donationHoverBackground"
+           href="https://don.sosmediterranee.org/?utm_source=sitesosmediterranee&utm_medium=site&utm_campaign=don_site_faireundon" target="_blank">Faire un don</a>
+        <div class="flex-none mr-8" onclick="location.href='https://www.sosmediterranee.fr/';" style="cursor: pointer">
           <p class="text-center font-black leading-5">SOS</p>
           <p class="font-black leading-5">MEDITERRANEE</p>
         </div>
@@ -54,9 +48,7 @@
         </div>
         <div class="flex-grow"></div>
         <div class="flex-none mr-8">
-          <a href="#" class="text-center inline-block w-6 bg-white text-black"
-            >?</a
-          >
+          <a href="#" class="text-center inline-block w-6 bg-white text-black">?</a>
         </div>
       </nav>
     </div>
@@ -64,12 +56,21 @@
 </template>
 
 <script lang="ts">
-import Menu from "@/components/Menu.vue"
+import BurgerMenu from "@/components/Mobile/BurgerMenu.vue"
 import { defineComponent } from "vue"
+import { store } from "@/Store"
 
 export default defineComponent({
   components: {
-    Menu
+    BurgerMenu
+  },
+  setup () {
+    return { store }
+  },
+  methods: {
+    updateMenuVisibility () {
+      store.updateMenuVisibility()
+    }
   },
   name: "Dashboard-Header"
 })

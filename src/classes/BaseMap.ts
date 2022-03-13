@@ -1,23 +1,22 @@
 import { OpsData, TypeOps } from "./OpsData"
 import { MapboxGLButtonControl } from "./MapboxGLButtonControl"
-import mapboxgl from "mapbox-gl"
+import { Map, Marker, NavigationControl } from "mapbox-gl"
 import { showPopUp } from "./PopUpAndStats"
 
 export class BaseMap {
-  private map!: mapboxgl.Map;
-  private markers: mapboxgl.Marker[] = [];
+  private map!: Map;
+  private markers: Marker[] = [];
 
   display (timeFilteredData: OpsData[]): void {
-    // This token was taken from the demo project we need to replace with a real token
-    mapboxgl.accessToken = "pk.eyJ1Ijoid2VzbGV5YmFuZmllbGQiLCJhIjoiY2pmMDRwb202MGlzNDJ3bm44cHA3YXZiNCJ9.b2yOf2vbWnWiV7mlsFAywg"
-
     const layers = [
       "mapbox://styles/sosmediterranee/ckkdvswwr0ol117t7d91p7wac",
       "mapbox://styles/mapbox/satellite-v9",
       "mapbox://styles/mapbox/dark-v10"
     ]
 
-    this.map = new mapboxgl.Map({
+    // This token was taken from the demo project we need to replace with a real token
+    this.map = new Map({
+      accessToken: "pk.eyJ1Ijoid2VzbGV5YmFuZmllbGQiLCJhIjoiY2pmMDRwb202MGlzNDJ3bm44cHA3YXZiNCJ9.b2yOf2vbWnWiV7mlsFAywg",
       container: "mapContainer",
       style: layers[0],
       center: [7.5956888, 41.4316886],
@@ -27,7 +26,7 @@ export class BaseMap {
     this.update(timeFilteredData)
 
     // Add zoom and rotation controls to the map.
-    const nav = new mapboxgl.NavigationControl({
+    const nav = new NavigationControl({
       showCompass: false,
       showZoom: true
     })
@@ -69,7 +68,7 @@ export class BaseMap {
         }
         el.addEventListener("click", () => { showPopUp(data) })
         this.markers.push(
-          new mapboxgl.Marker(el)
+          new Marker(el)
             .setLngLat([data.longitude, data.latitude])
             .addTo(this.map)
         )

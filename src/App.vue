@@ -1,14 +1,15 @@
 <template>
   <div class="flex flex-col h-screen overflow-hidden">
-    <Header />
-    <BaseMap />
+    <Header/>
+    <BaseMap/>
   </div>
-  <PopUp />
+  <PopUp/>
   <div class="absolute bottom-0 flex flex-col w-full items-center bg-white md:static md:block">
-    <Stats />
-    <HistogramSlider />
+    <Stats/>
+    <HistogramSlider/>
   </div>
-  <Legend />
+  <MenuMobile/>
+  <Legend/>
 </template>
 
 <script lang="ts">
@@ -20,9 +21,11 @@ import HistogramSlider from "./components/HistogramSlider.vue"
 import Stats from "./components/Stats.vue"
 import { store } from "./Store"
 import { defineComponent, onMounted } from "vue"
+import MenuMobile from "@/components/Mobile/Menu.vue"
 
 export default defineComponent({
   components: {
+    MenuMobile,
     Header,
     BaseMap,
     HistogramSlider,
