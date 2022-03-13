@@ -93,7 +93,7 @@ export default defineComponent({
   data () {
     return { displayingStats: true }
   },
-  name: "Stats"
+  name: "Base-Map-Stats"
 })
 </script>
 

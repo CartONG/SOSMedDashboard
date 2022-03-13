@@ -70,6 +70,7 @@ import { defineComponent } from "vue"
 export default defineComponent({
   components: {
     Menu
-  }
+  },
+  name: "Dashboard-Header"
 })
 </script>

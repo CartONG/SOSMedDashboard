@@ -29,7 +29,7 @@ export class MapboxGLButtonControl {
     return this._container
   }
 
-  onRemove (): void{
+  onRemove (): void {
     if (this._container.parentNode) {
       this._container.parentNode.removeChild(this._container)
     }

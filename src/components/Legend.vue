@@ -18,6 +18,7 @@ import { defineComponent } from "vue"
 export default defineComponent({
   components: {
     Switch
-  }
+  },
+  name: "Base-Map-Legend"
 })
 </script>

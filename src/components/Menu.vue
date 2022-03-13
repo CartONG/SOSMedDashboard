@@ -25,6 +25,7 @@ export default defineComponent({
     setMenuVisibility (isVisible: boolean) {
       this.menuVisibility = isVisible
     }
-  }
+  },
+  name: "Dashboard-Menu"
 })
 </script>

@@ -63,11 +63,9 @@ const convertOpsData = function (rawOpsData: {[key: string]: string}, metadataEr
 export const fetchOpsData = async function (): Promise<OpsData[]> {
   const sheet: { majorDimension: string; range: string; values: string[][] } = await (await fetch(dataRequestUrl)).json()
 
-  const regExp = RegExp("_([a-zA-Z0-9])", "g")
-
   const model = sheet.values.splice(0, 1)[0].map(value => {
     let valueFound
-    while ((valueFound = regExp.exec(value)) !== null) {
+    while ((valueFound = /_([a-zA-Z0-9])/g.exec(value)) !== null) {
       value = value.replace(valueFound[0], valueFound[1].toLocaleUpperCase())
     }
     return value

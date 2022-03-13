@@ -57,7 +57,8 @@ export default defineComponent({
     toggle () {
       store.updateMap()
     }
-  }
+  },
+  name: "Legend-Switch"
 })
 </script>
 

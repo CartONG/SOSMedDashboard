@@ -6,7 +6,7 @@
 ## Lancer le projet en local
 
 Afin de lancer le projet en local, il est nécessaire d'avoir différents outils installés :
-- [NodeJS](https://nodejs.org/download/release/v15.11.0/) (version 15.11.0)
+- [NodeJS](https://nodejs.org/download/release/v16.14.0/) (version 16.14.0 latest LTS version 13/03)
 - [Git](https://git-scm.com/downloads)
 - un EDI, par exemple [VSCode](https://code.visualstudio.com/Download)
 
