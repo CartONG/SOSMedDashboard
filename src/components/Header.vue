@@ -19,8 +19,8 @@
       <div class="bg-main h-1"></div>
     </div>
     <div class="hidden lg:block">
-      <div class="flex my-4 ml-8">
-        <div class="flex-none flex items-center">
+      <div class="flex ml-8">
+        <div class="flex-none flex items-center my-4">
           <div>
             <p class="text-xl leading-6 text-main">Carte Interactive</p>
             <p class="text-base leading-4 text-secondary">
@@ -30,9 +30,43 @@
           <i class="ml-14 text-8xl leading-6 icon icon-sosmed-ship"></i>
         </div>
         <div class="flex-grow"></div>
-        <a class="bg-secondary font-black text-donationText uppercase flex items-center mr-8 pl-2 pr-2 text-lg hover:bg-donationHoverBackground"
-           href="https://don.sosmediterranee.org/?utm_source=sitesosmediterranee&utm_medium=site&utm_campaign=don_site_faireundon" target="_blank">Faire un don</a>
-        <div class="flex-none mr-8" onclick="location.href='https://www.sosmediterranee.fr/';" style="cursor: pointer">
+        <div @click="showForm = !showForm" class="bg-secondary text-donationText cursor-pointer w-60">
+          <div class="p-4">
+            <p class="text-center text-2xl">Sauver des vies</p>
+            <div class="flex justify-center items-center">
+              <span class="icon icon-down text-xs" :class="{'up-arrow': showForm, 'pl-1': showForm, 'pr-1': !showForm}"></span>
+              <span class="text-lg">Maintenant</span>
+              <span class="icon icon-down text-xs" :class="{'up-arrow': showForm, 'pr-1': showForm, 'pl-1': !showForm}"></span>
+            </div>
+          </div>
+          <form action="https://don.sosmediterranee.org"
+                class="z-100 absolute transition-[max-height] ease-in-out duration-500 overflow-hidden"
+                :style="formStyle">
+            <div class="p-4 bg-secondary w-60 text-xl font-black">
+              <input name="utm_source" type="hidden" value="sitesosmediterranee">
+              <input name="utm_medium" type="hidden" value="site">
+              <input name="utm_campaign" type="hidden" value="don_site_je_donne">
+              <div class="text-center">
+                <label class="amount">
+                  <input type="radio" name="amount" value="30"> 30 €
+                </label>
+              </div>
+              <div class="radio text-center">
+                <label class="amount">
+                  <input type="radio" name="amount" value="50"> 50 €
+                </label>
+              </div>
+              <div class="radio text-center">
+                <label class="amount">
+                  <input type="radio" name="amount" value="100"> 100 €
+                </label>
+              </div>
+              <input class="bg-main text-uppercase w-40 m-8 mb-2 p-4 font-black" type="submit" value="Je donne">
+            </div>
+          </form>
+        </div>
+        <div class="flex-none mt-4 mr-4 ml-4" onclick="location.href='https://www.sosmediterranee.fr/';"
+             style="cursor: pointer">
           <p class="text-center font-black leading-5">SOS</p>
           <p class="font-black leading-5">MEDITERRANEE</p>
         </div>
@@ -64,8 +98,13 @@ export default defineComponent({
   components: {
     BurgerMenu
   },
-  setup () {
-    return { store }
+  computed: {
+    formStyle (): { "max-height" : string | number } {
+      return { "max-height": (this.showForm ? "300px" : 0) }
+    }
+  },
+  data () {
+    return { showForm: false }
   },
   methods: {
     updateMenuVisibility () {
@@ -75,3 +114,9 @@ export default defineComponent({
   name: "Dashboard-Header"
 })
 </script>
+
+<style scoped>
+.up-arrow {
+  transform: rotate(180deg);
+}
+</style>

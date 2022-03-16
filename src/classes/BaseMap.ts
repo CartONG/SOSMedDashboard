@@ -41,7 +41,7 @@ export class BaseMap {
     }
 
     /* Instantiate new controls with custom event handlers */
-    const changeLayers = new MapboxGLButtonControl("mapbox-gl-change_layer", "Change Layer", nextLayer, "L")
+    const changeLayers = new MapboxGLButtonControl("mapbox-gl-change_layer icon icon-layers", "Change Layer", nextLayer, "")
 
     /* Add Controls to the Map */
     this.map.addControl(changeLayers, "top-right")
