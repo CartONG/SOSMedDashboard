@@ -3,11 +3,7 @@ import { updateStats } from "./classes/PopUpAndStats"
 import { State } from "./classes/State"
 import { reactive } from "vue"
 
-// Constant to expose and manage the store
-// It could be seen as a static class
-export const store = reactive({
-  allData: [] as OpsData[],
-  state: new State(),
+export const reactiveStore = reactive({
   _isMenuVisible: false,
 
   updateMenuVisibility () {
@@ -17,6 +13,23 @@ export const store = reactive({
   get isMenuVisible (): boolean {
     return this._isMenuVisible
   },
+
+  _isPopUpVisible: false,
+
+  updatePopUpVisibility () {
+    this._isPopUpVisible = !this._isPopUpVisible
+  },
+
+  get isPopUpVisible (): boolean {
+    return this._isPopUpVisible
+  }
+})
+
+// Constant to expose and manage the store
+// It could be seen as a static class
+export const store = {
+  allData: [] as OpsData[],
+  state: new State(),
 
   filterData (minDate: Date, maxDate: Date): void {
     this.state.minDate = new Date(minDate)
@@ -64,4 +77,4 @@ export const store = reactive({
   updateStats (): void {
     updateStats(this.state)
   }
-})
+}

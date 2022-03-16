@@ -92,7 +92,7 @@
 <script lang="ts">
 import BurgerMenu from "@/components/Mobile/BurgerMenu.vue"
 import { defineComponent } from "vue"
-import { store } from "@/Store"
+import { reactiveStore } from "@/Store"
 
 export default defineComponent({
   components: {
@@ -108,7 +108,7 @@ export default defineComponent({
   },
   methods: {
     updateMenuVisibility () {
-      store.updateMenuVisibility()
+      reactiveStore.updateMenuVisibility()
     }
   },
   name: "Dashboard-Header"
