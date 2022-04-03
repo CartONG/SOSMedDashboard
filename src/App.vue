@@ -8,7 +8,6 @@
     <Stats/>
     <HistogramSlider/>
   </div>
-  <MenuMobile/>
   <Legend/>
 </template>
 
@@ -21,11 +20,9 @@ import HistogramSlider from "./components/HistogramSlider.vue"
 import Stats from "./components/Stats.vue"
 import { store } from "./Store"
 import { defineComponent, onMounted } from "vue"
-import MenuMobile from "@/components/Mobile/Menu.vue"
 
 export default defineComponent({
   components: {
-    MenuMobile,
     Header,
     BaseMap,
     HistogramSlider,

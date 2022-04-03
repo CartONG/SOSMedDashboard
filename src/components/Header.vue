@@ -14,9 +14,21 @@
           </p>
         </div>
         <div class="flex-shrink-0 flex-grow w-2"></div>
-        <BurgerMenu @click="updateMenuVisibility()"/>
+        <BurgerMenu :is-menu-visible="reactiveStore.isMenuVisible" @click="updateMenuVisibility()"/>
       </div>
       <div class="bg-main h-1"></div>
+      <div :style="maxHeightStyle(reactiveStore.isMenuVisible)"
+           :class="transitionClasses()"
+           class="right-0 bg-white w-full">
+        <nav class="text-lg text-main flex flex-col font-black">
+          <ul class="list-disc pl-12 pt-6 pb-6 space-y-3">
+            <li><a href="#">Glossary</a></li>
+            <li><a href="https://onboard.sosmediterranee.org/">Log Book</a></li>
+          </ul>
+          <a class="bg-secondary text-donationText uppercase hover:bg-donationHoverBackground text-center rounded-b-lg"
+             href="https://don.sosmediterranee.org/?utm_source=sitesosmediterranee&utm_medium=site&utm_campaign=don_site_faireundon" target="_blank">Faire un don</a>
+        </nav>
+      </div>
     </div>
     <div class="hidden lg:block">
       <div class="flex ml-8">
@@ -40,8 +52,8 @@
             </div>
           </div>
           <form action="https://don.sosmediterranee.org"
-                class="z-100 absolute transition-[max-height] ease-in-out duration-500 overflow-hidden"
-                :style="formStyle">
+                :class="transitionClasses()"
+                :style="maxHeightStyle(showForm)">
             <div class="px-5 py-6 bg-secondary w-52 text-xl font-blac flex flex-col">
               <input name="utm_source" type="hidden" value="sitesosmediterranee">
               <input name="utm_medium" type="hidden" value="site">
@@ -98,15 +110,16 @@ export default defineComponent({
   components: {
     BurgerMenu
   },
-  computed: {
-    formStyle (): { "max-height" : string | number } {
-      return { "max-height": (this.showForm ? "300px" : 0) }
-    }
-  },
   data () {
-    return { showForm: false }
+    return { reactiveStore, showForm: false }
   },
   methods: {
+    maxHeightStyle (booleanValue: boolean): { "max-height" : string | number } {
+      return { "max-height": (booleanValue ? "300px" : 0) }
+    },
+    transitionClasses () : string[] {
+      return ["z-100", "absolute", "transition-[max-height]", "ease-in-out", "duration-500", "overflow-hidden"]
+    },
     updateMenuVisibility () {
       reactiveStore.updateMenuVisibility()
     }
