@@ -39,6 +39,6 @@ export default defineComponent({
 <style scoped>
 .position-desktop {
   top: 17%;
-  right: 50px;
+  right: 1em;
 }
 </style>
