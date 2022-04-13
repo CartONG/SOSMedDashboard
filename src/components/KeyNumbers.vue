@@ -29,9 +29,6 @@
 import { defineComponent } from "vue"
 
 export default defineComponent({
-  data () {
-    return { displayingStats: true }
-  },
   name: "KeyNumbers"
 })
 </script>
