@@ -61,9 +61,9 @@ export class BaseMap {
         const el = document.createElement("div")
         el.className = "marker"
         if (data.typeOps === TypeOps.Rescue) {
-          el.className += " bg-gray-400"
-        } else if (data.typeOps === TypeOps.Transfer) {
           el.className += " bg-secondary"
+        } else if (data.typeOps === TypeOps.Transfer) {
+          el.className += " bg-gray-400"
         } else {
           el.className += " bg-main"
         }
