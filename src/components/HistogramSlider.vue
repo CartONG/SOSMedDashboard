@@ -5,7 +5,7 @@
       <input type="text" :id="'histogram-slider'" :name="'histogram-slider'" value=""/>
     </div>
   </div>
-*</template>
+</template>
 
 <script lang='ts'>
 import "../js/range-slider"
