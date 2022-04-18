@@ -21,6 +21,7 @@ const fillPopUp = function (data: OpsData) {
   setInnerText("popUpTypeOps", data.typeOps)
   setInnerText("popUpDate", data.date.toDateString())
   setInnerText("popUpBoatType", data.boatType)
+  setInnerText("popUpPort", data.portDisembarkation)
   setInnerText("popUpNbSurvivor", numberToString(data.nbSurvivor))
   setInnerText("popUpFemale", numberToString(data.female))
   setInnerText("popUpMale", numberToString(data.male))

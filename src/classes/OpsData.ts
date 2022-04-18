@@ -25,6 +25,7 @@ export class OpsData {
   boatType = ""
   nbNationalities = NaN
   transfertType = ""
+  portDisembarkation = ""
 }
 
 const createDate = function (dateDayFirst: string) {
@@ -57,6 +58,7 @@ const convertOpsData = function (rawOpsData: {[key: string]: string}, metadataEr
   res.boatType = rawOpsData.boatType
   res.nbNationalities = parseInt(rawOpsData.nbNationalities)
   res.transfertType = rawOpsData.transfertType
+  res.portDisembarkation = rawOpsData.PortDisembarkation
   return res
 }
 

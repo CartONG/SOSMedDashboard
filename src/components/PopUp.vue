@@ -14,6 +14,9 @@
         <p class="text-sm"><span class="icon icon-lifebuoy text-xl mr-3"/>Boat in distress: <span id="popUpBoatType"
                                                                                                   class="font-bold"/>
         </p>
+        <p class="text-sm"><span class="icon icon-anchor text-xl mr-3"/>Disembarkation port: <span id="popUpPort"
+                                                                                                  class="font-bold"/>
+        </p>
         <p class="text-sm"><span class="icon icon-rescue text-xl mr-3"/><span id="popUpNbSurvivor" class="font-bold"/>
           people rescued</p>
         <div class="flex flex-row">
