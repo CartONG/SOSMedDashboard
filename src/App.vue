@@ -1,14 +1,14 @@
 <template>
   <div class="flex flex-col h-screen overflow-hidden">
-    <Header />
-    <BaseMap />
+    <Header/>
+    <BaseMap/>
   </div>
-  <PopUp />
+  <PopUp/>
   <div class="absolute bottom-0 flex flex-col w-full items-center bg-white md:static md:block">
-    <Stats />
-    <HistogramSlider />
+    <Stats/>
+    <HistogramSlider/>
   </div>
-  <Legend />
+  <Legend/>
 </template>
 
 <script lang="ts">

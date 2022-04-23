@@ -1,5 +1,6 @@
 import { OpsData } from "./OpsData"
 import { State } from "./State"
+import { reactiveStore } from "@/Store"
 
 const numberToString = function (n: number) {
   if (isNaN(n)) {
@@ -35,10 +36,7 @@ const fillPopUp = function (data: OpsData) {
 }
 
 export const showPopUp = function (data: OpsData): void {
-  const popUp = document.getElementById("popUp")
-  if (popUp) {
-    popUp.classList.add("scale-100")
-  }
+  reactiveStore.updatePopUpVisibility()
   fillPopUp(data)
 }
 
