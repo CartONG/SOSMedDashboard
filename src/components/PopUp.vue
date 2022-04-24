@@ -1,7 +1,8 @@
 <template>
   <div class="z-100 fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-50" :class="scaleClass"></div>
   <div id="popUp" :style="style"
-       class="z-100 fixed top-0 left-0 w-screen h-screen flex items-center justify-center transform transition-transform duration-300" :class="scaleClass">
+       class="z-100 fixed top-0 left-0 w-screen h-screen flex items-center justify-center transform transition-transform duration-300"
+       :class="scaleClass">
     <div class="bg-white rounded-3xl p-6">
       <div class="flex flex-col justify-around h-3/4">
         <div class="flex justify-between">
@@ -71,14 +72,16 @@
 
 <script lang="ts">
 import { Colors } from "@/utils/Colors"
-import { reactiveStore } from "@/Store"
+import { ReactiveStore, reactiveStore } from "@/Store"
 
 export default {
   name: "PopUp",
 
   computed: {
-    scaleClass () {
-      if (reactiveStore.isPopUpVisible) { return "scale-100" }
+    scaleClass (): string {
+      if (reactiveStore.isPopUpVisible) {
+        return "scale-100"
+      }
       return "scale-0"
     },
     style (): string {
@@ -87,7 +90,7 @@ export default {
       `
     }
   },
-  data () {
+  data (): { reactiveStore: ReactiveStore } {
     return { reactiveStore }
   },
   mounted (): void {

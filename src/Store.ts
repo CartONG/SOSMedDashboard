@@ -3,7 +3,15 @@ import { updateStats } from "./classes/PopUpAndStats"
 import { State } from "./classes/State"
 import { reactive } from "vue"
 
-export const reactiveStore = reactive({
+export interface ReactiveStore {
+  updateMenuVisibility: () => void;
+  isMenuVisible: boolean;
+
+  updatePopUpVisibility: () => void;
+  isPopUpVisible: boolean;
+}
+
+export const reactiveStore : ReactiveStore = reactive({
   _isMenuVisible: false,
 
   updateMenuVisibility () {
