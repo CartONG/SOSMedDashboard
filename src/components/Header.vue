@@ -73,7 +73,7 @@
                   <input type="radio" name="amount" value="100"> 100 €
                 </label>
               </div>
-              <input class="bg-main text-uppercase p-4 font-black" type="submit" value="Je donne">
+              <input class="bg-main text-uppercase p-4 font-black cursor-pointer" type="submit" value="Je donne">
             </div>
           </form>
         </div>
