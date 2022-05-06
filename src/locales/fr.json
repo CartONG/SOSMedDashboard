@@ -12,5 +12,12 @@
             "button": "Je donne",
             "button2": "Faire un don"
         }
+    },
+    "legend": {
+        "title": "View",
+        "rescue": "Rescue", 
+        "transfer": "Transfer", 
+        "med": "Medical Evaluation",
+        "harbors": "Harbors"
     }
 }
