@@ -1,2 +1,16 @@
 {
+    "header": {
+        "sos": "SOS",
+        "mediterranee": "Mediterranee",
+        "title": "Carte interactive",
+        "subtitle": "Historique des opérations de secours en Méditerranée",
+        "glossary": "Glossaire",
+        "logBook": "Log Book",
+        "donate": {
+            "title": "Sauver des vies",
+            "subtitle": "Maintenant",
+            "button": "Je donne",
+            "button2": "Faire un don"
+        }
+    }
 }
