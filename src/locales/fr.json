@@ -19,5 +19,16 @@
         "transfer": "Transfer", 
         "med": "Medical Evaluation",
         "harbors": "Harbors"
+    },
+    "stats": {
+        "females": "Femmes",
+        "males": "Hommes", 
+        "minors": "Mineurs",
+        "pregnant": "Enceinte",
+        "unaccompagned": "Isolé",
+        "children": "Enfants",
+        "nationalities": "Nationalités",
+        "peoples": "Personnes secourues",
+        "opDays": "Jours d'opérations"
     }
 }
