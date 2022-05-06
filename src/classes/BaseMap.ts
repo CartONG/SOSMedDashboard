@@ -18,9 +18,9 @@ export class BaseMap {
     this.map = new Map({
       accessToken: "pk.eyJ1Ijoid2VzbGV5YmFuZmllbGQiLCJhIjoiY2pmMDRwb202MGlzNDJ3bm44cHA3YXZiNCJ9.b2yOf2vbWnWiV7mlsFAywg",
       container: "mapContainer",
-      style: layers[0],
-      center: [7.5956888, 41.4316886],
-      zoom: 3.5
+      style: basemaps.basemaps[basemaps.currentBaseMapIndex].style,
+      center: [9, 35],
+      zoom: 4
     })
 
     this.update(timeFilteredData)
