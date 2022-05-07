@@ -25,6 +25,7 @@ export class OpsData {
   boatType = ""
   nbNationalities = NaN
   transfertType = ""
+  media = ""
   portDisembarkation = ""
 }
 
@@ -58,6 +59,7 @@ const convertOpsData = function (rawOpsData: {[key: string]: string}, metadataEr
   res.boatType = rawOpsData.boatType
   res.nbNationalities = parseInt(rawOpsData.nbNationalities)
   res.transfertType = rawOpsData.transfertType
+  res.media = rawOpsData.media
   res.portDisembarkation = rawOpsData.PortDisembarkation
   return res
 }

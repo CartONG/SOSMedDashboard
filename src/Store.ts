@@ -9,6 +9,9 @@ export interface ReactiveStore {
 
   updatePopUpVisibility: () => void;
   isPopUpVisible: boolean;
+
+  setVideoAndPicturePopUpVisibility: (visible: boolean) => void;
+  isVideoAndPicturePopUpVisible: boolean;
 }
 
 export const reactiveStore : ReactiveStore = reactive({
@@ -30,6 +33,16 @@ export const reactiveStore : ReactiveStore = reactive({
 
   get isPopUpVisible (): boolean {
     return this._isPopUpVisible
+  },
+
+  _isVideoAndPicturePopUpVisible: false,
+
+  setVideoAndPicturePopUpVisibility (visible: boolean) {
+    this._isVideoAndPicturePopUpVisible = visible
+  },
+
+  get isVideoAndPicturePopUpVisible (): boolean {
+    return this._isVideoAndPicturePopUpVisible
   }
 })
 
