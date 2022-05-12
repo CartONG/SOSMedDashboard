@@ -39,7 +39,9 @@ const fillPopUp = function (data: OpsData) {
 export const showPopUp = function (data: OpsData): void {
   reactiveStore.updatePopUpVisibility()
   fillPopUp(data)
-  reactiveStore.setVideoAndPicturePopUpVisibility(data.media !== "")
+  reactiveStore.setVideoAndPicturePopUpVisibility(data.imageSrc.length > 0 || data.videoSrc.length > 0)
+  reactiveStore.setPopUpVideoUrls(data.videoSrc)
+  reactiveStore.setPopUpImageUrls(data.imageSrc)
 }
 
 export const updateStats = function (state: State): void {

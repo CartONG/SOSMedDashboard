@@ -70,18 +70,10 @@
           id="popUpLon"/></p>
         <p v-if="videoAndPictures" class="text-sm"><span class="icon icon-camera text-xl mr-3"/>Videos and pictures</p>
         <div v-if="videoAndPictures" class="flex flex-wrap">
-          <video class="max-w-[50%] p-1" controls>
-            <source src="https://d2csxpduxe849s.cloudfront.net/media/66EA9C7F-A9A4-42AD-8C599E61222580B8/CF8BA4CF-3922-460B-B37355D9887EC364/880E034F-BA4E-406F-B450BF326C36083E.mp4" type="video/mp4">
+          <video v-for="url in videoUrls" :key="url" class="max-w-[50%] p-1" controls>
+            <source :src="url" type="video/mp4">
           </video>
-          <video class="max-w-[50%] p-1" controls>
-            <source src="https://d2csxpduxe849s.cloudfront.net/media/66EA9C7F-A9A4-42AD-8C599E61222580B8/9545FBE7-DD24-44CD-87CA3EBB7311A116/229DFEAD-7920-4F7E-ADF5AEB2A2230295.mp4" type="video/mp4">
-          </video>
-          <img class="max-w-[50%] p-1" src="https://d2csxpduxe849s.cloudfront.net/media/66EA9C7F-A9A4-42AD-8C599E61222580B8/8313313F-E4A6-4A2E-82D5BCCF624CEF15/webimage-129E7C51-85BF-4015-B4FFF9BBCA7501EE.jpg">
-          <img class="max-w-[50%] p-1" src="https://d2csxpduxe849s.cloudfront.net/media/66EA9C7F-A9A4-42AD-8C599E61222580B8/0914427E-16A0-4A79-A88D3794C591F6BC/webimage-58805A86-F14C-47D1-80E4ABC4C2263277.jpg">
-          <img class="max-w-[50%] p-1" src="https://d2csxpduxe849s.cloudfront.net/media/66EA9C7F-A9A4-42AD-8C599E61222580B8/E853768A-7AAA-45B5-B20E7CAB6539D14F/webimage-402339B5-B0C4-4CE8-999BD0503CDC9C5F.jpg">
-          <img class="max-w-[50%] p-1" src="https://d2csxpduxe849s.cloudfront.net/media/66EA9C7F-A9A4-42AD-8C599E61222580B8/009ABC55-32C5-4227-AB2D62A445BB1F85/webimage-4D1B7471-43A0-48C1-8FC092654ACC1F0D.jpg">
-          <img class="max-w-[50%] p-1" src="https://d2csxpduxe849s.cloudfront.net/media/66EA9C7F-A9A4-42AD-8C599E61222580B8/4FD79A31-D585-47C3-994F84A5F226F901/webimage-B1D79186-49F7-46C8-9D0B61363AD74C87.jpg">
-          <img class="max-w-[50%] p-1" src="https://d2csxpduxe849s.cloudfront.net/media/66EA9C7F-A9A4-42AD-8C599E61222580B8/A2848D9F-E5E0-449A-96AD580B22876604/webimage-6C500BC9-15A1-4B85-AF92A57300BC6774.jpg">
+          <img v-for="url in imageUrls" :key="url" class="max-w-[50%] p-1" :src="url">
         </div>
       </div>
     </div>
@@ -109,6 +101,12 @@ export default {
     },
     videoAndPictures (): boolean {
       return reactiveStore.isVideoAndPicturePopUpVisible
+    },
+    videoUrls (): string[] {
+      return reactiveStore.popUpVideoUrls
+    },
+    imageUrls (): string[] {
+      return reactiveStore.popUpImageUrls
     }
   },
   data (): { reactiveStore: ReactiveStore } {

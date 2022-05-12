@@ -25,7 +25,8 @@ export class OpsData {
   boatType = ""
   nbNationalities = NaN
   transfertType = ""
-  media = ""
+  imageSrc: string[] = []
+  videoSrc: string[] = []
   portDisembarkation = ""
 }
 
@@ -59,7 +60,8 @@ const convertOpsData = function (rawOpsData: {[key: string]: string}, metadataEr
   res.boatType = rawOpsData.boatType
   res.nbNationalities = parseInt(rawOpsData.nbNationalities)
   res.transfertType = rawOpsData.transfertType
-  res.media = rawOpsData.media
+  res.imageSrc = rawOpsData.imageSrc ? rawOpsData.imageSrc.split(";") : []
+  res.videoSrc = rawOpsData.videoSrv ? rawOpsData.videoSrv.split(";") : []
   res.portDisembarkation = rawOpsData.PortDisembarkation
   return res
 }
