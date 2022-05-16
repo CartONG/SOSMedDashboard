@@ -2,12 +2,9 @@
   <header>
     <div class="lg:hidden">
       <div class="flex items-center">
-        <div class="m-2 text-main leading-3 font-black" onclick="location.href='https://www.sosmediterranee.fr/';"
-             style="cursor: pointer">
-          <p class="text-center">SOS</p>
-          <p class="text-tiny uppercase">Mediterranee</p>
-        </div>
-        <div>
+        <img alt="logo SOS Méditerranée" class="cursor-pointer w-28" src="../assets/logo.png"
+             onclick="location.href='https://www.sosmediterranee.fr/';"/>
+        <div class="ml-2">
           <p class="text-xl align-middle leading-5 text-main">Carte Interactive</p>
           <p class="text-base align-middle leading-3 text-secondary">
             Historique des opérations de secours en Méditerranée
@@ -26,7 +23,8 @@
             <li><a href="https://onboard.sosmediterranee.org/">Log Book</a></li>
           </ul>
           <a class="bg-secondary text-donationText uppercase hover:bg-donationHoverBackground text-center rounded-b-lg"
-             href="https://don.sosmediterranee.org/?utm_source=sitesosmediterranee&utm_medium=site&utm_campaign=don_site_faireundon" target="_blank">Faire un don</a>
+             href="https://don.sosmediterranee.org/?utm_source=sitesosmediterranee&utm_medium=site&utm_campaign=don_site_faireundon"
+             target="_blank">Faire un don</a>
         </nav>
       </div>
     </div>
@@ -46,9 +44,11 @@
           <div class="p-2">
             <p class="text-center text-2xl">Sauver des vies</p>
             <div class="flex justify-center items-center">
-              <span class="icon icon-down text-xs" :class="{'up-arrow': showForm, 'pl-1': showForm, 'pr-1': !showForm}"></span>
+              <span class="icon icon-down text-xs"
+                    :class="{'up-arrow': showForm, 'pl-1': showForm, 'pr-1': !showForm}"></span>
               <span class="text-lg">Maintenant</span>
-              <span class="icon icon-down text-xs" :class="{'up-arrow': showForm, 'pr-1': showForm, 'pl-1': !showForm}"></span>
+              <span class="icon icon-down text-xs"
+                    :class="{'up-arrow': showForm, 'pr-1': showForm, 'pl-1': !showForm}"></span>
             </div>
           </div>
           <form action="https://don.sosmediterranee.org"
@@ -62,11 +62,8 @@
             </div>
           </form>
         </div>
-        <div class="flex-none mt-4 mr-4 ml-4" onclick="location.href='https://www.sosmediterranee.fr/';"
-             style="cursor: pointer">
-          <p class="text-center font-black leading-5 text-3xl">SOS</p>
-          <p class="font-black leading-5">MEDITERRANEE</p>
-        </div>
+        <img alt="logo SOS Méditerranée" class="cursor-pointer w-44" src="../assets/logo.png"
+             onclick="location.href='https://www.sosmediterranee.fr/';"/>
       </div>
       <nav class="bg-main text-white flex h-10 items-center">
         <div class="flex-none flex ml-8">
@@ -99,10 +96,10 @@ export default defineComponent({
     return { reactiveStore, showForm: false }
   },
   methods: {
-    maxHeightStyle (booleanValue: boolean): { "max-height" : string | number } {
+    maxHeightStyle (booleanValue: boolean): { "max-height": string | number } {
       return { "max-height": (booleanValue ? "300px" : 0) }
     },
-    transitionClasses () : string[] {
+    transitionClasses (): string[] {
       return ["z-100", "absolute", "transition-[max-height]", "ease-in-out", "duration-500", "overflow-hidden"]
     },
     updateMenuVisibility () {
