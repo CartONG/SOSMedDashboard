@@ -5,7 +5,7 @@
         <img alt="logo SOS Méditerranée" class="cursor-pointer w-28" src="../assets/logo.png"
              onclick="location.href='https://www.sosmediterranee.fr/';"/>
         <div class="ml-2">
-          <p class="text-xl align-middle leading-5 text-main">Carte Interactive</p>
+          <p class="text-xl align-middle leading-5 text-main font-black">Carte Interactive</p>
           <p class="text-base align-middle leading-3 text-secondary">
             Historique des opérations de secours en Méditerranée
           </p>
@@ -32,7 +32,7 @@
       <div class="flex ml-8">
         <div class="flex-none flex items-center my-4">
           <div>
-            <p class="text-xl leading-6 text-main">Carte Interactive</p>
+            <p class="text-xl leading-6 text-main font-black">Carte Interactive</p>
             <p class="text-base leading-4 text-secondary">
               Historique des opérations de secours en Méditerranée
             </p>
