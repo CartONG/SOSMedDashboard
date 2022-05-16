@@ -58,21 +58,6 @@
               <input name="utm_source" type="hidden" value="sitesosmediterranee">
               <input name="utm_medium" type="hidden" value="site">
               <input name="utm_campaign" type="hidden" value="don_site_je_donne">
-              <div class="text-center">
-                <label class="amount">
-                  <input type="radio" name="amount" value="30"> 30 €
-                </label>
-              </div>
-              <div class="text-center p-1">
-                <label class="amount">
-                  <input type="radio" name="amount" value="50"> 50 €
-                </label>
-              </div>
-              <div class="text-center pb-4">
-                <label class="amount">
-                  <input type="radio" name="amount" value="100"> 100 €
-                </label>
-              </div>
               <input class="bg-main text-uppercase p-4 font-black cursor-pointer" type="submit" value="Je donne">
             </div>
           </form>
