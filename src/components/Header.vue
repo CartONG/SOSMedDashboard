@@ -2,13 +2,10 @@
   <header>
     <div class="lg:hidden">
       <div class="flex items-center">
-        <div class="m-2 text-main leading-3 font-black" onclick="location.href='https://www.sosmediterranee.fr/';"
-             style="cursor: pointer">
-          <p class="text-center">{{ $t("header.sos") }}</p>
-          <p class="text-tiny uppercase">{{ $t("header.mediterranee") }}</p>
-        </div>
-        <div>
-          <p class="text-xl align-middle leading-5 text-main">{{ $t("header.title") }}</p>
+        <img alt="logo SOS Méditerranée" class="cursor-pointer w-28" src="../assets/logo.png"
+             onclick="location.href='https://www.sosmediterranee.fr/';"/>
+        <div class="ml-2">
+          <p class="text-xl align-middle leading-5 text-main font-black">{{ $t("header.mediterranee") }}</p>
           <p class="text-base align-middle leading-3 text-secondary">
             {{ $t("header.subtitle") }}
           </p>
@@ -26,7 +23,8 @@
             <li><a href="https://onboard.sosmediterranee.org/">{{ $t("header.logBook") }}</a></li>
           </ul>
           <a class="bg-secondary text-donationText uppercase hover:bg-donationHoverBackground text-center rounded-b-lg"
-             href="https://don.sosmediterranee.org/?utm_source=sitesosmediterranee&utm_medium=site&utm_campaign=don_site_faireundon" target="_blank">{{ $t("header.donate.button2") }}</a>
+             href="https://don.sosmediterranee.org/?utm_source=sitesosmediterranee&utm_medium=site&utm_campaign=don_site_faireundon"
+             target="_blank">{{ $t("header.donate.button2") }}</a>
         </nav>
       </div>
     </div>
@@ -34,7 +32,7 @@
       <div class="flex ml-8">
         <div class="flex-none flex items-center my-4">
           <div>
-            <p class="text-xl leading-6 text-main">{{ $t("header.title") }}</p>
+            <p class="text-xl leading-6 text-main font-black">{{ $t("header.title") }}</p>
             <p class="text-base leading-4 text-secondary">
               {{ $t("header.subtitle") }}
             </p>
@@ -46,9 +44,11 @@
           <div class="p-2">
             <p class="text-center text-2xl">{{ $t("header.donate.title") }}</p>
             <div class="flex justify-center items-center">
-              <span class="icon icon-down text-xs" :class="{'up-arrow': showForm, 'pl-1': showForm, 'pr-1': !showForm}"></span>
+              <span class="icon icon-down text-xs"
+                    :class="{'up-arrow': showForm, 'pl-1': showForm, 'pr-1': !showForm}"></span>
               <span class="text-lg">{{ $t("header.donate.subtitle") }}</span>
-              <span class="icon icon-down text-xs" :class="{'up-arrow': showForm, 'pr-1': showForm, 'pl-1': !showForm}"></span>
+              <span class="icon icon-down text-xs"
+                    :class="{'up-arrow': showForm, 'pr-1': showForm, 'pl-1': !showForm}"></span>
             </div>
           </div>
           <form action="https://don.sosmediterranee.org"
@@ -58,30 +58,12 @@
               <input name="utm_source" type="hidden" value="sitesosmediterranee">
               <input name="utm_medium" type="hidden" value="site">
               <input name="utm_campaign" type="hidden" value="don_site_je_donne">
-              <div class="text-center">
-                <label class="amount">
-                  <input type="radio" name="amount" value="30"> 30 €
-                </label>
-              </div>
-              <div class="text-center p-1">
-                <label class="amount">
-                  <input type="radio" name="amount" value="50"> 50 €
-                </label>
-              </div>
-              <div class="text-center pb-4">
-                <label class="amount">
-                  <input type="radio" name="amount" value="100"> 100 €
-                </label>
-              </div>
-              <input class="bg-main text-uppercase p-4 font-black cursor-pointer" type="submit" :value="$t('header.donate.button')">
+              <input class="bg-main text-uppercase p-4 font-black cursor-pointer" type="submit" value="$t('header.donate.button')">
             </div>
           </form>
         </div>
-        <div class="flex-none mt-4 mr-4 ml-4" onclick="location.href='https://www.sosmediterranee.fr/';"
-             style="cursor: pointer">
-          <p class="text-center font-black leading-5 text-3xl">{{ $t("header.sos") }}</p>
-          <p class="font-black leading-5">{{ $t("header.mediterranee").toUpperCase() }}</p>
-        </div>
+        <img alt="logo SOS Méditerranée" class="cursor-pointer w-44" src="../assets/logo.png"
+             onclick="location.href='https://www.sosmediterranee.fr/';"/>
       </div>
       <nav class="bg-main text-white flex h-10 items-center">
         <div class="flex-none flex ml-8">
@@ -114,10 +96,10 @@ export default defineComponent({
     return { reactiveStore, showForm: false }
   },
   methods: {
-    maxHeightStyle (booleanValue: boolean): { "max-height" : string | number } {
+    maxHeightStyle (booleanValue: boolean): { "max-height": string | number } {
       return { "max-height": (booleanValue ? "300px" : 0) }
     },
-    transitionClasses () : string[] {
+    transitionClasses (): string[] {
       return ["z-100", "absolute", "transition-[max-height]", "ease-in-out", "duration-500", "overflow-hidden"]
     },
     updateMenuVisibility () {
