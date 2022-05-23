@@ -64,7 +64,7 @@
         <div class="flex flex-col">
           <span class="icon text-4xl text-center text-secondary"/>
           <span id="statsUnaccompagnied" class="font-bold text-center text-secondary"/>
-          <p class="text-3xs uppercase text-center text-secondary">{{ $t("stats.unaccompagned") }}</p>
+          <p class="text-3xs uppercase text-center text-secondary">{{ $t("stats.unaccompanied") }}</p>
         </div>
         <div class="flex flex-row">
           <span class="icon icon-bib text-3xl text-left text-secondary"/>
