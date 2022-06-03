@@ -1,16 +1,18 @@
 import { OpsData, TypeOps } from "./OpsData"
 import { MapboxGLButtonControl } from "./MapboxGLButtonControl"
-import { Map, Marker, NavigationControl, Style } from "mapbox-gl"
+import { Map, Marker, NavigationControl } from "mapbox-gl"
 import { showPopUp } from "./PopUpAndStats"
 
-const basemaps: {
+export interface SingleBasemap {
+  id: number;
+  name: string;
+  img: string;
+  style: string;
+}
+
+export const BASEMAPS: {
   currentBaseMapIndex: number,
-  basemaps: Array<{
-    id: number;
-    name: string;
-    img: string;
-    style: string;
-  }>
+  basemaps: Array<SingleBasemap>
 } = {
   currentBaseMapIndex: 0,
   basemaps: [{
@@ -35,15 +37,21 @@ const basemaps: {
 }
 
 export class BaseMap {
-  private map!: Map;
+  map!: Map;
   private markers: Marker[] = [];
+
+  setCurrentBasemap (index: number): void {
+    console.log("hop hop hop")
+    BASEMAPS.currentBaseMapIndex = index
+    this.map.setStyle(BASEMAPS.basemaps[BASEMAPS.currentBaseMapIndex].style)
+  }
 
   display (timeFilteredData: OpsData[]): void {
     // This token was taken from the demo project we need to replace with a real token
     this.map = new Map({
       accessToken: "pk.eyJ1Ijoid2VzbGV5YmFuZmllbGQiLCJhIjoiY2pmMDRwb202MGlzNDJ3bm44cHA3YXZiNCJ9.b2yOf2vbWnWiV7mlsFAywg",
       container: "mapContainer",
-      style: basemaps.basemaps[basemaps.currentBaseMapIndex].style,
+      style: BASEMAPS.basemaps[BASEMAPS.currentBaseMapIndex].style,
       center: [9, 35],
       zoom: 4
     })
@@ -60,8 +68,8 @@ export class BaseMap {
     /* Event Handlers */
     const map2 = this.map
     function nextLayer () {
-      basemaps.currentBaseMapIndex = (basemaps.currentBaseMapIndex + 1) % basemaps.basemaps.length
-      map2.setStyle(basemaps.basemaps[basemaps.currentBaseMapIndex].style)
+      BASEMAPS.currentBaseMapIndex = (BASEMAPS.currentBaseMapIndex + 1) % BASEMAPS.basemaps.length
+      map2.setStyle(BASEMAPS.basemaps[BASEMAPS.currentBaseMapIndex].style)
     }
 
     /* Instantiate new controls with custom event handlers */
