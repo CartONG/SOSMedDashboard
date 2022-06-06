@@ -82,6 +82,11 @@ export const store = {
     this.state.histogramSlider.updateHistogram(this.allData.map(d => d.date.getTime()), this)
   },
 
+  updateHistogramSliderFromTo (): void {
+    this.state.histogramSlider.updateSlider(this.state.minDate.valueOf(), this.state.maxDate.valueOf())
+    this.updateHistogramSlider()
+  },
+
   updateStats (): void {
     updateStats(this.state)
   }
