@@ -1,10 +1,11 @@
 import { OpsData, TypeOps } from "./OpsData"
 import { MapboxGLButtonControl } from "./MapboxGLButtonControl"
-import { Map, Marker, NavigationControl } from "mapbox-gl"
+import { LngLatBounds, Map, Marker, NavigationControl } from "mapbox-gl"
 import { showPopUp } from "./PopUpAndStats"
 
 export class BaseMap {
   private map!: Map;
+  private defaultExtent!: LngLatBounds
   private markers: Marker[] = [];
 
   display (timeFilteredData: OpsData[]): void {
@@ -22,6 +23,7 @@ export class BaseMap {
       center: [7.5956888, 41.4316886],
       zoom: 3.5
     })
+    this.defaultExtent = this.map.getBounds()
 
     this.update(timeFilteredData)
 
@@ -42,8 +44,10 @@ export class BaseMap {
 
     /* Instantiate new controls with custom event handlers */
     const changeLayers = new MapboxGLButtonControl("mapbox-gl-change_layer icon icon-layers", "Change Layer", nextLayer, "")
+    const viewResetter = new MapboxGLButtonControl("mapbox-gl-change_layer icon icon-view", "Reset view", this.resetView.bind(this), "")
 
     /* Add Controls to the Map */
+    this.map.addControl(viewResetter, "top-right")
     this.map.addControl(changeLayers, "top-right")
   }
 
@@ -74,6 +78,10 @@ export class BaseMap {
         )
       }
     }
+  }
+
+  resetView (): void {
+    this.map.fitBounds(this.defaultExtent)
   }
 
   destroy (): void {
