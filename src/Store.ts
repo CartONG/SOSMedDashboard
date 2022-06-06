@@ -9,6 +9,15 @@ export interface ReactiveStore {
 
   updatePopUpVisibility: () => void;
   isPopUpVisible: boolean;
+
+  setVideoAndPicturePopUpVisibility: (visible: boolean) => void;
+  isVideoAndPicturePopUpVisible: boolean;
+
+  setPopUpVideoUrls: (popUpVideoUrls: string[]) => void;
+  popUpVideoUrls: string[];
+
+  setPopUpImageUrls: (popUpImageUrls: string[]) => void;
+  popUpImageUrls: string[];
 }
 
 export const reactiveStore : ReactiveStore = reactive({
@@ -30,6 +39,36 @@ export const reactiveStore : ReactiveStore = reactive({
 
   get isPopUpVisible (): boolean {
     return this._isPopUpVisible
+  },
+
+  _isVideoAndPicturePopUpVisible: false,
+
+  setVideoAndPicturePopUpVisibility (visible: boolean) {
+    this._isVideoAndPicturePopUpVisible = visible
+  },
+
+  get isVideoAndPicturePopUpVisible (): boolean {
+    return this._isVideoAndPicturePopUpVisible
+  },
+
+  _popUpVideoUrls: [""],
+
+  setPopUpVideoUrls (popUpVideoUrls: string[]) {
+    this._popUpVideoUrls = popUpVideoUrls
+  },
+
+  get popUpVideoUrls (): string[] {
+    return this._popUpVideoUrls
+  },
+
+  _popUpImageUrls: [""],
+
+  setPopUpImageUrls (popUpImageUrls: string[]) {
+    this._popUpImageUrls = popUpImageUrls
+  },
+
+  get popUpImageUrls (): string[] {
+    return this._popUpImageUrls
   }
 })
 
