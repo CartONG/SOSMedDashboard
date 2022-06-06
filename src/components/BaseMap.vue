@@ -1,6 +1,6 @@
 <template>
   <div id="mapContainer" class="mapContainer w-screen z-0 h-full">
-    <BaseMapPicker class="basemap-picker" :basemaps="basemaps" />
+    <BaseMapPicker class="basemap-picker" />
   </div>
 </template>
 
@@ -8,7 +8,6 @@
 import { store } from "@/Store"
 import { defineComponent } from "vue"
 
-import { BASEMAPS } from "@/classes/BaseMap"
 import BaseMapPicker from "@/components/BaseMapPicker.vue"
 
 export default defineComponent({
@@ -22,12 +21,6 @@ export default defineComponent({
 
   beforeUnmount () {
     store.destroyMap()
-  },
-
-  data () {
-    return {
-      basemaps: BASEMAPS
-    }
   }
 })
 </script>
@@ -38,8 +31,8 @@ export default defineComponent({
 
 .basemap-picker{
   position: absolute;
-  top: 8px;
-  left: 8px;
+  top: 70px;
+  right: 2px;
   z-index: 2048;
 }
 

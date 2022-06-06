@@ -1,5 +1,4 @@
 import { OpsData, TypeOps } from "./OpsData"
-import { MapboxGLButtonControl } from "./MapboxGLButtonControl"
 import { Map, Marker, NavigationControl } from "mapbox-gl"
 import { showPopUp } from "./PopUpAndStats"
 
@@ -10,48 +9,37 @@ export interface SingleBasemap {
   style: string;
 }
 
-export const BASEMAPS: {
-  currentBaseMapIndex: number,
-  basemaps: Array<SingleBasemap>
-} = {
-  currentBaseMapIndex: 0,
-  basemaps: [{
-    id: 0,
-    name: "SOS Mediterranee",
-    img: "https://raw.githubusercontent.com/CartONG/opsmap-icons/main/basemap_opsmap.png",
-    style: "mapbox://styles/sosmediterranee/ckkdvswwr0ol117t7d91p7wac"
-  },
-  {
-    id: 1,
-    name: "Satellite Imagery",
-    img: "https://raw.githubusercontent.com/CartONG/opsmap-icons/main/basemap_satellite.png",
-    style: "mapbox://styles/mapbox/satellite-v9"
-  },
-  {
-    id: 2,
-    name: "Dark",
-    img: "https://raw.githubusercontent.com/CartONG/opsmap-icons/main/basemap_osm.png",
-    style: "mapbox://styles/mapbox/dark-v10"
-  }
-  ]
+export const BASEMAPS: Array<SingleBasemap> = [{
+  id: 0,
+  name: "SOS Mediterranee",
+  img: "https://raw.githubusercontent.com/CartONG/opsmap-icons/main/basemap_opsmap.png",
+  style: "mapbox://styles/sosmediterranee/ckkdvswwr0ol117t7d91p7wac"
+},
+{
+  id: 1,
+  name: "Satellite Imagery",
+  img: "https://raw.githubusercontent.com/CartONG/opsmap-icons/main/basemap_satellite.png",
+  style: "mapbox://styles/mapbox/satellite-v9"
+},
+{
+  id: 2,
+  name: "Dark",
+  img: "https://raw.githubusercontent.com/CartONG/opsmap-icons/main/basemap_osm.png",
+  style: "mapbox://styles/mapbox/dark-v10"
 }
+]
 
 export class BaseMap {
   map!: Map;
   private markers: Marker[] = [];
-
-  setCurrentBasemap (index: number): void {
-    console.log("hop hop hop")
-    BASEMAPS.currentBaseMapIndex = index
-    this.map.setStyle(BASEMAPS.basemaps[BASEMAPS.currentBaseMapIndex].style)
-  }
+  currentBasemap = 0;
 
   display (timeFilteredData: OpsData[]): void {
     // This token was taken from the demo project we need to replace with a real token
     this.map = new Map({
       accessToken: "pk.eyJ1Ijoid2VzbGV5YmFuZmllbGQiLCJhIjoiY2pmMDRwb202MGlzNDJ3bm44cHA3YXZiNCJ9.b2yOf2vbWnWiV7mlsFAywg",
       container: "mapContainer",
-      style: BASEMAPS.basemaps[BASEMAPS.currentBaseMapIndex].style,
+      style: BASEMAPS[this.currentBasemap].style,
       center: [9, 35],
       zoom: 4
     })
@@ -64,19 +52,11 @@ export class BaseMap {
       showZoom: true
     })
     this.map.addControl(nav)
+  }
 
-    /* Event Handlers */
-    const map2 = this.map
-    function nextLayer () {
-      BASEMAPS.currentBaseMapIndex = (BASEMAPS.currentBaseMapIndex + 1) % BASEMAPS.basemaps.length
-      map2.setStyle(BASEMAPS.basemaps[BASEMAPS.currentBaseMapIndex].style)
-    }
-
-    /* Instantiate new controls with custom event handlers */
-    const changeLayers = new MapboxGLButtonControl("mapbox-gl-change_layer icon icon-layers", "Change Layer", nextLayer, "")
-
-    /* Add Controls to the Map */
-    this.map.addControl(changeLayers, "top-right")
+  setCurrentBasemap (index: number): void {
+    this.currentBasemap = index
+    this.map.setStyle(BASEMAPS[this.currentBasemap].style)
   }
 
   update (timeFilteredData: OpsData[]): void {

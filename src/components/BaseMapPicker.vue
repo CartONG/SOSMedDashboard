@@ -1,32 +1,31 @@
 <template>
   <div class="BaseMapPicker" @click="triggerShowBasemap()">
-    <button class="mapboxgl-ctrl-icon BaseMapPicker__btn">
+  <div class="mapboxgl-ctrl-group mapboxgl-ctrl BaseMapPicker__btnGrp">
+    <button class="mapboxgl-ctrl-icon mapbox-gl-change_layer icon icon-layers BaseMapPicker__btn">
     </button>
-     <div id="BaseMapPicker__dropdownItem" class="BaseMapPicker__dropdownContent">
-        <div class="BaseMapPicker__basemap" v-for="(basemap, key) in basemaps.basemaps" :key="key" :style="setBasemapSelectorStyle(basemap)" @click="setBasemap(basemap.id)">
-        </div>
-      </div>
+  </div>
+  <div id="BaseMapPicker__dropdownItem" class="BaseMapPicker__dropdownContent">
+    <div class="BaseMapPicker__basemap" v-for="(basemap, key) in basemaps" :key="key" :style="setBasemapSelectorStyle(basemap)" @click="setBasemap(basemap.id)">
+    </div>
+  </div>
   </div>
 </template>
 
 <script lang="ts">
 import { store } from "@/Store"
-import { SingleBasemap } from "@/classes/BaseMap"
-import { defineComponent, PropType } from "vue"
+import { BASEMAPS, SingleBasemap } from "@/classes/BaseMap"
+import { defineComponent } from "vue"
+import { Colors } from "@/utils/Colors"
 
 export default defineComponent({
   components: {},
   name: "BaseMap-Picker",
-  props: {
-    basemaps: {
-      type: Object as PropType<{
-        currentBaseMapIndex: number,
-        basemaps: Array<SingleBasemap>
-      }>,
-      required: true
-    }
-  },
-  data: () => ({ showBasemaps: false }),
+
+  data: () => ({
+    showBasemaps: false,
+    basemaps: BASEMAPS,
+    currentBasemap: 0
+  }),
 
   mounted () {
     // Close the dropdown menu if the user clicks outside of it
@@ -50,11 +49,12 @@ export default defineComponent({
     },
     setBasemapSelectorStyle (basemap: SingleBasemap) {
       return {
-        // border: this.basemaps.currentBaseMapIndex === basemap.id ? "#428fdf solid 3px" : "",
+        border: this.currentBasemap === basemap.id ? `${Colors.ORANGE} solid 2px` : "none",
         backgroundImage: `url(${basemap.img})`
       }
     },
     setBasemap (id: number) {
+      this.currentBasemap = id
       store.updateBasemap(id)
     }
   }
@@ -64,27 +64,16 @@ export default defineComponent({
 .BaseMapPicker {
   display: flex;
   flex-flow: column nowrap;
-
-  position: relative;
-  display: inline-block;
-}
-/* Dropdown Button */
-.BaseMapPicker__btn {
   width: 29px;
   height: 29px;
   margin-top: 8px;
-  margin-left: 8px;
-  background-color: white;
-  border: 10px solid rgba(229, 231, 235, 0.5);
-  border-radius: 6px;
-  cursor: pointer;
+  margin-right: 8px;
+  position: relative;
+  display: inline-block;
 }
 
-/* Dropdown button on hover & focus */
-.BaseMapPicker__btn:hover,
-.BaseMapPicker__btn:focus {
-
-  background-color: #f2f2f2;
+.BaseMapPicker__btnGrp {
+  overflow: hidden;
 }
 
 /* Dropdown Content (Hidden by Default) */
@@ -101,7 +90,6 @@ export default defineComponent({
 
 .BaseMapPicker__basemap{
   margin-top: 8px;
-  margin-left: 8px;
   width: 29px;
   height: 29px;
   border-radius: 50%;
