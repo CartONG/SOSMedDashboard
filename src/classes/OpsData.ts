@@ -8,6 +8,7 @@ export enum TypeOps {
 }
 
 export class OpsData {
+  id!: number
   date = new Date()
   typeOps = TypeOps.Rescue
   nbOps = NaN

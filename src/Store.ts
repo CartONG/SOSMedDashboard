@@ -82,11 +82,14 @@ export const store = {
     this.state.minDate = new Date(minDate)
     this.state.maxDate = new Date(maxDate)
     this.state.timeFilteredData = []
-    for (const data of this.allData) {
-      if ((this.state.minDate <= data.date) && (data.date <= this.state.maxDate)) {
-        this.state.timeFilteredData.push(data)
+    for (let i = 0; i < this.allData.length; i++) {
+      if ((this.state.minDate <= this.allData[i].date) && (this.allData[i].date <= this.state.maxDate)) {
+        this.allData[i].id = i
+        this.state.timeFilteredData.push(this.allData[i])
       }
     }
+    // for (const [i, data] of this.allData) {
+    // }
     initialisation ? this.displayMap() : this.updateMap()
     this.updateStats()
   },

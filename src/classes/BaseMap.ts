@@ -3,6 +3,7 @@ import { MapboxGLButtonControl } from "./MapboxGLButtonControl"
 import { LngLatBounds, Map, Marker, NavigationControl, GeoJSONSource } from "mapbox-gl"
 import { showPopUp } from "./PopUpAndStats"
 import { FeatureCollection, GeoJsonProperties, Geometry } from "geojson"
+import { store } from "@/Store"
 
 export class BaseMap {
   private map!: Map;
@@ -93,12 +94,7 @@ export class BaseMap {
     })
     this.map.on("click", "Ops", (e) => {
       if (e.features && e.features?.length > 0) {
-        console.log(e.features[0].properties)
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        e.features[0].properties!.date = new Date(e.features![0].properties!.date)
-        if (e.features[0].properties!.imageSrc === "[]") e.features[0].properties!.imageSrc = []
-        if (e.features[0].properties!.videoSrc === "[]") e.features[0].properties!.videoSrc = []
-        showPopUp(e.features?.[0].properties as OpsData)
+        showPopUp(store.state.timeFilteredData.filter(x => x.id === e.features![0].properties!.id).pop() as OpsData)
       }
     })
     this.map.on("mouseenter", "Ops", () => { this.map.getCanvas().style.cursor = "pointer" })
@@ -106,36 +102,8 @@ export class BaseMap {
   }
 
   update (timeFilteredData: OpsData[]): void {
-    console.log("Update")
-    console.log(timeFilteredData)
     const source: GeoJSONSource = this.map.getSource("OpsData") as GeoJSONSource
     source.setData(this.datasetToGeoJSON(timeFilteredData))
-    // for (const marker of this.markers) {
-    //   marker.remove()
-    // }
-    // const rescue = (document.getElementById("rescue") as HTMLInputElement).checked
-    // const transfer = (document.getElementById("transfer") as HTMLInputElement).checked
-    // this.markers = []
-    // for (const data of timeFilteredData) {
-    //   if (!isNaN(data.longitude) && !isNaN(data.latitude) &&
-    //        ((rescue && data.typeOps === TypeOps.Rescue) || (transfer && data.typeOps === TypeOps.Transfer))) {
-    //     const el = document.createElement("div")
-    //     el.className = "marker"
-    //     if (data.typeOps === TypeOps.Rescue) {
-    //       el.className += " bg-secondary"
-    //     } else if (data.typeOps === TypeOps.Transfer) {
-    //       el.className += " bg-gray-400"
-    //     } else {
-    //       el.className += " bg-main"
-    //     }
-    //     el.addEventListener("click", () => { showPopUp(data) })
-    //     this.markers.push(
-    //       new Marker(el)
-    //         .setLngLat([data.longitude, data.latitude])
-    //         .addTo(this.map)
-    //     )
-    //   }
-    // }
   }
 
   resetView (): void {
@@ -147,6 +115,7 @@ export class BaseMap {
       type: "FeatureCollection",
       features: []
     }
+    console.log(timeFilteredData)
     // eslint-disable-next-line array-callback-return
     timeFilteredData.map(x => {
       geojson.features.push({
