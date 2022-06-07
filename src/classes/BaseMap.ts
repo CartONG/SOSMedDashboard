@@ -1,27 +1,51 @@
 import { OpsData, TypeOps } from "./OpsData"
 import { MapboxGLButtonControl } from "./MapboxGLButtonControl"
-import { Map, Marker, NavigationControl } from "mapbox-gl"
+import { LngLatBounds, Map, Marker, NavigationControl } from "mapbox-gl"
 import { showPopUp } from "./PopUpAndStats"
+
+export interface SingleBasemap {
+  id: number;
+  name: string;
+  img: string;
+  style: string;
+}
+
+export const BASEMAPS: Array<SingleBasemap> = [{
+  id: 0,
+  name: "SOS Mediterranee",
+  img: "/basemaps-icons/sosmed.png",
+  style: "mapbox://styles/sosmediterranee/ckkdvswwr0ol117t7d91p7wac"
+},
+{
+  id: 1,
+  name: "Satellite Imagery",
+  img: "/basemaps-icons/satellite.png",
+  style: "mapbox://styles/mapbox/satellite-v9"
+},
+{
+  id: 2,
+  name: "Dark",
+  img: "/basemaps-icons/dark.png",
+  style: "mapbox://styles/mapbox/dark-v10"
+}
+]
 
 export class BaseMap {
   private map!: Map;
+  private defaultExtent!: LngLatBounds
   private markers: Marker[] = [];
+  currentBasemap = 0;
 
   display (timeFilteredData: OpsData[]): void {
-    const layers = [
-      "mapbox://styles/sosmediterranee/ckkdvswwr0ol117t7d91p7wac",
-      "mapbox://styles/mapbox/satellite-v9",
-      "mapbox://styles/mapbox/dark-v10"
-    ]
-
     // This token was taken from the demo project we need to replace with a real token
     this.map = new Map({
       accessToken: "pk.eyJ1Ijoid2VzbGV5YmFuZmllbGQiLCJhIjoiY2pmMDRwb202MGlzNDJ3bm44cHA3YXZiNCJ9.b2yOf2vbWnWiV7mlsFAywg",
       container: "mapContainer",
-      style: layers[0],
-      center: [7.5956888, 41.4316886],
-      zoom: 3.5
+      style: BASEMAPS[this.currentBasemap].style,
+      center: [9, 35],
+      zoom: 4
     })
+    this.defaultExtent = this.map.getBounds()
 
     this.update(timeFilteredData)
 
@@ -32,19 +56,19 @@ export class BaseMap {
     })
     this.map.addControl(nav)
 
-    /* Event Handlers */
-    let i = 0
-    const map2 = this.map
-    function nextLayer () {
-      map2.setStyle(layers[i % layers.length])
-      i = i + 1
-    }
-
     /* Instantiate new controls with custom event handlers */
-    const changeLayers = new MapboxGLButtonControl("mapbox-gl-change_layer icon icon-layers", "Change Layer", nextLayer, "")
+    const viewResetter = new MapboxGLButtonControl("mapbox-gl-change_layer icon icon-view", "Reset view", this.resetView.bind(this), "")
 
     /* Add Controls to the Map */
-    this.map.addControl(changeLayers, "top-right")
+    this.map.addControl(viewResetter, "top-right")
+
+    // Warning: The button for changing the basemap is added elsewhere --> Basemap.vue.
+    // This is because the button needed to trigger a popup, with multiple button.
+  }
+
+  setCurrentBasemap (index: number): void {
+    this.currentBasemap = index
+    this.map.setStyle(BASEMAPS[this.currentBasemap].style)
   }
 
   update (timeFilteredData: OpsData[]): void {
@@ -74,6 +98,10 @@ export class BaseMap {
         )
       }
     }
+  }
+
+  resetView (): void {
+    this.map.fitBounds(this.defaultExtent)
   }
 
   destroy (): void {

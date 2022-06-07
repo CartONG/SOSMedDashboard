@@ -9,6 +9,15 @@ export interface ReactiveStore {
 
   updatePopUpVisibility: () => void;
   isPopUpVisible: boolean;
+
+  setVideoAndPicturePopUpVisibility: (visible: boolean) => void;
+  isVideoAndPicturePopUpVisible: boolean;
+
+  setPopUpVideoUrls: (popUpVideoUrls: string[]) => void;
+  popUpVideoUrls: string[];
+
+  setPopUpImageUrls: (popUpImageUrls: string[]) => void;
+  popUpImageUrls: string[];
 }
 
 export const reactiveStore : ReactiveStore = reactive({
@@ -30,6 +39,36 @@ export const reactiveStore : ReactiveStore = reactive({
 
   get isPopUpVisible (): boolean {
     return this._isPopUpVisible
+  },
+
+  _isVideoAndPicturePopUpVisible: false,
+
+  setVideoAndPicturePopUpVisibility (visible: boolean) {
+    this._isVideoAndPicturePopUpVisible = visible
+  },
+
+  get isVideoAndPicturePopUpVisible (): boolean {
+    return this._isVideoAndPicturePopUpVisible
+  },
+
+  _popUpVideoUrls: [""],
+
+  setPopUpVideoUrls (popUpVideoUrls: string[]) {
+    this._popUpVideoUrls = popUpVideoUrls
+  },
+
+  get popUpVideoUrls (): string[] {
+    return this._popUpVideoUrls
+  },
+
+  _popUpImageUrls: [""],
+
+  setPopUpImageUrls (popUpImageUrls: string[]) {
+    this._popUpImageUrls = popUpImageUrls
+  },
+
+  get popUpImageUrls (): string[] {
+    return this._popUpImageUrls
   }
 })
 
@@ -62,6 +101,10 @@ export const store = {
     this.state.baseMap.display(this.state.timeFilteredData)
   },
 
+  updateBasemap (index: number): void {
+    this.state.baseMap.setCurrentBasemap(index)
+  },
+
   updateMap (): void {
     this.state.baseMap.update(this.state.timeFilteredData)
   },
@@ -80,6 +123,11 @@ export const store = {
 
   updateHistogramSlider (): void {
     this.state.histogramSlider.updateHistogram(this.allData.map(d => d.date.getTime()), this)
+  },
+
+  updateHistogramSliderFromTo (): void {
+    this.state.histogramSlider.updateSlider(this.state.minDate.valueOf(), this.state.maxDate.valueOf())
+    this.updateHistogramSlider()
   },
 
   updateStats (): void {

@@ -1,10 +1,16 @@
 <template>
-  <div :style="style" class="h-16 mx-auto md:h-32 md:absolute md:bottom-5 md:bg-white md:opacity-80 md:p-6 md:rounded-2xl">
-    <svg :id="'vue-histogram'" class="hidden md:block md:w-full"/>
-    <div class="slider-wrapper">
-      <input type="text" :id="'histogram-slider'" :name="'histogram-slider'" value=""/>
+  <div :style="style" class="h-16 mx-auto flex md:h-32 md:absolute md:bottom-5 md:bg-white md:opacity-80 md:p-6 md:rounded-2xl">
+    <span class="hidden md:block icon icon-calendar text-4xl text-right color-secondary cursor-pointer" @click="toggleMinDateVisibility"/>
+    <div class="w-full">
+      <svg :id="'vue-histogram'" class="hidden md:block md:w-full"/>
+      <div class="slider-wrapper">
+        <input type="text" :id="'histogram-slider'" :name="'histogram-slider'" value=""/>
+      </div>
     </div>
+    <span class="hidden md:block icon icon-calendar text-4xl text-right color-secondary cursor-pointer" @click="toggleMaxDateVisibility"/>
   </div>
+  <Date :visible="minDateVisibility" :toggleVisible="toggleMinDateVisibility" :isMinDate="true"/>
+  <Date :visible="maxDateVisibility" :toggleVisible="toggleMaxDateVisibility" :isMinDate="false" />
 </template>
 
 <script lang='ts'>
@@ -15,19 +21,33 @@ import { computed, defineComponent, onBeforeUnmount, onMounted, ref } from "vue"
 
 // eslint-disable-next-line
 import $ from "jquery"
+import Date from "./Date.vue"
 
 export default defineComponent({
+  components: {
+    Date
+  },
   setup () {
     const getWidth = () => {
       return 0.75 * window.innerWidth
     }
 
     const width = ref(getWidth())
+    const minDateVisibility = ref(false)
+    const maxDateVisibility = ref(false)
 
     const onResize = () => {
       width.value = getWidth()
       store.setWidthHistogramSlider(width.value)
       store.updateHistogramSlider()
+    }
+
+    const toggleMinDateVisibility = () => {
+      minDateVisibility.value = !minDateVisibility.value
+    }
+
+    const toggleMaxDateVisibility = () => {
+      maxDateVisibility.value = !maxDateVisibility.value
     }
 
     const style = computed(() => {
@@ -57,7 +77,7 @@ export default defineComponent({
     })
 
     return {
-      style
+      style, minDateVisibility, toggleMinDateVisibility, maxDateVisibility, toggleMaxDateVisibility
     }
   }
 })
