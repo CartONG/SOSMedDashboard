@@ -75,6 +75,8 @@
           </a>
         </div>
         <div class="flex-grow"></div>
+        <img alt="logo CartONG" class="cursor-pointer inline-block h-6 mr-8" src="../assets/Cartong_logo.png"
+             @click="triggerContributorsPopup"/>
         <div class="flex-none mr-8">
           <a href="#" class="text-center inline-block w-6 bg-white text-black">?</a>
         </div>
@@ -104,6 +106,9 @@ export default defineComponent({
     },
     updateMenuVisibility () {
       reactiveStore.updateMenuVisibility()
+    },
+    triggerContributorsPopup () {
+      console.log("todo")
     }
   },
   name: "Dashboard-Header"
