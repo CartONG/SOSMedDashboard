@@ -5,7 +5,9 @@
     </button>
   </div>
   <div id="BaseMapPicker__dropdownItem" class="BaseMapPicker__dropdownContent">
-    <div class="BaseMapPicker__basemap" v-for="(basemap, key) in basemaps" :key="key" :style="setBasemapSelectorStyle(basemap)" @click="setBasemap(basemap.id)">
+    <div class="mapboxgl-ctrl-group mapboxgl-ctrl BaseMapPicker__itemBtnGrp" v-for="(basemap, key) in basemaps" :key="key">
+      <button class="mapboxgl-ctrl-icon BaseMapPicker__btn"  :style="setBasemapSelectorStyle(basemap)" @click="setBasemap(basemap.id)">
+      </button>
     </div>
   </div>
   </div>
@@ -84,14 +86,10 @@ export default defineComponent({
   display: block;
 }
 
-.BaseMapPicker__basemap{
-  margin-top: 8px;
+.BaseMapPicker__itemBtnGrp{
   width: 29px;
   height: 29px;
-  border-radius: 50%;
-  background-size: 45px;
-  background-color: white;
-  box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2),
-    0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  margin-top: 8px;
 }
 </style>
