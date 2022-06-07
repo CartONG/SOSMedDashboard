@@ -57,7 +57,7 @@
         <div class="flex flex-row">
           <div class="flex flex-col">
             <span id="statsPregnant" class="font-bold text-right text-secondary"/>
-            <p class="text-3xs uppercase text-right text-secondary">{{ $t("stats.pregnant") }}</p>
+            <p class="text-3xs uppercase text-right text-secondary">{{ $t("stats.pregnants") }}</p>
           </div>
           <span class="icon icon-pregnant text-4xl text-right text-secondary"/>
         </div>

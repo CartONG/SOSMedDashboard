@@ -40,7 +40,7 @@
               <div class="flex flex-row">
                 <div class="flex flex-col">
                   <span id="popUpPregnant" class="font-bold text-right color-secondary"/>
-                  <p class="text-3xs uppercase text-right color-secondary">{{ $t("stats.pregnant") }}</p>
+                  <p class="text-3xs uppercase text-right color-secondary">{{ $t("stats.pregnants") }}</p>
                 </div>
                 <span class="icon icon-pregnant text-4xl text-right color-secondary"/>
               </div>
