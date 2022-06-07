@@ -104,6 +104,10 @@ export const store = {
     this.state.baseMap.display(this.state.timeFilteredData)
   },
 
+  updateBasemap (index: number): void {
+    this.state.baseMap.setCurrentBasemap(index)
+  },
+
   updateMap (): void {
     this.state.baseMap.update(this.state.timeFilteredData)
   },
