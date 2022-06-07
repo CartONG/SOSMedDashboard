@@ -58,7 +58,7 @@
               <input name="utm_source" type="hidden" value="sitesosmediterranee">
               <input name="utm_medium" type="hidden" value="site">
               <input name="utm_campaign" type="hidden" value="don_site_je_donne">
-              <input class="bg-main text-uppercase p-4 font-black cursor-pointer" type="submit" value="$t('header.donate.button')">
+              <input class="bg-main text-uppercase p-4 font-black cursor-pointer" type="submit" :value="$t('header.donate.button')">
             </div>
           </form>
         </div>
