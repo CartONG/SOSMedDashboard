@@ -15,7 +15,6 @@
 import { store } from "@/Store"
 import { BASEMAPS, SingleBasemap } from "@/classes/BaseMap"
 import { defineComponent } from "vue"
-import { Colors } from "@/utils/Colors"
 
 export default defineComponent({
   components: {},
@@ -48,7 +47,7 @@ export default defineComponent({
     },
     setBasemapSelectorStyle (basemap: SingleBasemap) {
       return {
-        backgroundImage: `url(${basemap.img})`
+        backgroundImage: `url(${process.env.BASE_URL}${basemap.img})`
       }
     },
     setBasemap (id: number) {

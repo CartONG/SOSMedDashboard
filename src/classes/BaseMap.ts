@@ -13,19 +13,19 @@ export interface SingleBasemap {
 export const BASEMAPS: Array<SingleBasemap> = [{
   id: 0,
   name: "SOS Mediterranee",
-  img: "https://raw.githubusercontent.com/CartONG/opsmap-icons/main/basemap_opsmap.png",
+  img: "/basemaps-icons/sosmed.png",
   style: "mapbox://styles/sosmediterranee/ckkdvswwr0ol117t7d91p7wac"
 },
 {
   id: 1,
   name: "Satellite Imagery",
-  img: "https://raw.githubusercontent.com/CartONG/opsmap-icons/main/basemap_satellite.png",
+  img: "/basemaps-icons/satellite.png",
   style: "mapbox://styles/mapbox/satellite-v9"
 },
 {
   id: 2,
   name: "Dark",
-  img: "https://raw.githubusercontent.com/CartONG/opsmap-icons/main/basemap_osm.png",
+  img: "/basemaps-icons/dark.png",
   style: "mapbox://styles/mapbox/dark-v10"
 }
 ]
