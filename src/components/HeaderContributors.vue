@@ -1,36 +1,36 @@
 <template>
   <div class="Contributors__container">
-    <img alt="logo CartONG" class="cursor-pointer inline-block h-6 mr-8" src="../assets/Cartong_logo.png"/>
+    <img alt="logo CartONG" class="cursor-pointer inline-block h-6 mr-8" src="../assets/Cartong_logo-square.png"/>
     <div class="Contributors__content rounded-3xl overflow-hidden text-main">
-      <div class="Contributors__contentContent m-6">
-        <h1 class="font-bold text-secondary">
-          Contributors
-        </h1>
-        <h2 class="text-main whitespace-nowrap">
-          CartONG volunteers
-        </h2>
+      <div class="Contributors__contentContent m-8 gap-3">
+        <div class="flex flex-col gap-0" >
+          <h1 class="font-bold text-xl text-secondary">
+            Contributors
+          </h1>
+          <h2 class="font-bold text-lg text-main whitespace-nowrap">
+            CartONG volunteers
+          </h2>
+        </div>
         <hr class="border-dotted border-main border"/>
-        <p class="text-sm align-middle whitespace-nowrap">
-          <span class="icon icon-lifebuoy text-xl mr-3 align-middle"/> <span class="font-bold align-middle">Developer team</span>
-        </p>
-        <div class="flex flex-row gap-4 ">
-          <div class="border border-main"> </div>
-          <div class="flex flex-col align-middle whitespace-nowrap">
-            <p v-for="dev, key in developers" :key="key">
-              {{ dev.name }}
-            </p>
+        <div>
+        <div v-for="people, key in volunteers" :key="key" class="flex flex-col">
+          <p class="text-sm align-middle whitespace-nowrap">
+            <span class="icon icon-rescue text-2xl mr-3 align-middle"/>
+            <span class="font-bold align-middle text-lg">{{ people.type }}</span>
+          </p>
+          <div class="flex flex-row gap-4 ml-3">
+            <div class="border border-main"> </div>
+            <div class="flex flex-col align-middle whitespace-nowrap ml-2">
+              <span class="text-sm" v-for="dev, key in people.people" :key="key">
+                {{ dev.name }}
+              </span>
+            </div>
+          </div>
           </div>
         </div>
-        <p class="text-sm align-middle whitespace-nowrap">
-          <span class="icon icon-lifebuoy text-xl mr-3 align-middle" /> <span class="font-bold align-middle">Others</span>
-        </p>
-        <div class="flex flex-row gap-4 ">
-          <div class="border border-main"> </div>
-          <div class="flex flex-col align-middle whitespace-nowrap">
-            <p v-for="dev, key in others" :key="key">
-              {{ dev.name }}
-            </p>
-          </div>
+        <div class="flex flex-row mt-4 align-middle gap-1">
+          <img alt="logo CartONG" class="cursor-pointer inline-block h-8 align-middle" src="../assets/Cartong_logo-square.png"/>
+          <a :href="cartongWebsite" target="_blank"><span class="text-sm align-middle">{{ cartongWebsite }}</span></a>
         </div>
       </div>
     </div>
@@ -50,9 +50,15 @@ const compare = (a: Contributor, b: Contributor) => {
     return a.name.localeCompare(b.name)
   }
 }
-
-const developers = CONTRIBUTORS.developpers.sort(compare)
-const others = CONTRIBUTORS.others.sort(compare)
+const volunteers = [{
+  type: "Developer team",
+  people: CONTRIBUTORS.developpers.sort(compare)
+}, {
+  type: "Others",
+  people: CONTRIBUTORS.others.sort(compare)
+}
+]
+const cartongWebsite = "https://www.cartong.org/"
 </script>
 
 <style scoped>
@@ -65,7 +71,7 @@ const others = CONTRIBUTORS.others.sort(compare)
 }
 
 .Contributors__content {
-  display: flex;
+  display: none;
   position: absolute;
   top: 100%;
   right: 0;
