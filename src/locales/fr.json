@@ -35,6 +35,9 @@
         "wind": "Vent",
         "windUnit": "noeuds",
         "waves": "Hauteur des vagues",
-        "boat": "Bateau en détresse"
+        "boat": "Bateau en détresse",
+        "port": "Port de débarquement",
+        "videosAndPictures": "Images et vidéos",
+        "dateFilter": "Date de filtrage"
     }
 }

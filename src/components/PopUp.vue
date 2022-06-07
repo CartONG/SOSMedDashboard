@@ -14,7 +14,7 @@
         <p class="text-sm"><span class="icon icon-lifebuoy text-xl mr-3"/> {{ $t("popup.boat") }}: <span id="popUpBoatType"
                                                                                                   class="font-bold"/>
         </p>
-        <p class="text-sm"><span class="icon icon-anchor text-xl mr-3"/>Disembarkation port: <span id="popUpPort"
+        <p class="text-sm"><span class="icon icon-anchor text-xl mr-3"/>{{ $t("popup.port") }}: <span id="popUpPort"
                                                                                                   class="font-bold"/>
         </p>
         <p class="text-sm"><span class="icon icon-rescue text-xl mr-3"/><span id="popUpNbSurvivor" class="font-bold"/>
@@ -67,7 +67,7 @@
         <p class="text-sm"><span class="icon icon-weather text-xl mr-3"/>{{ $t("popup.wind") }}: <span id="popUpWind"/> {{ $t("popup.windUnit") }} - {{ $t("popup.waves") }}: <span id="popUpWave"/> m</p>
         <p class="text-sm"><span class="icon icon-marker text-xl mr-3"/>Lat: <span id="popUpLat"/> - Lon: <span
           id="popUpLon"/></p>
-        <p v-if="videoAndPictures" class="text-sm"><span class="icon icon-camera text-xl mr-3"/>Videos and pictures</p>
+        <p v-if="videoAndPictures" class="text-sm"><span class="icon icon-camera text-xl mr-3"/>{{ $t("popup.videosAndPictures") }}</p>
         <div v-if="videoAndPictures" class="flex flex-wrap">
           <video v-for="url in videoUrls" :key="url" class="max-w-[50%] p-1" controls>
             <source :src="url" type="video/mp4">
