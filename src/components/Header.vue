@@ -75,12 +75,7 @@
           </a>
         </div>
         <div class="flex-grow"></div>
-        <div class="Contributors__container">
-          <img alt="logo CartONG" class="cursor-pointer inline-block h-6 mr-8" src="../assets/Cartong_logo.png"/>
-          <div class="Contributors__content">
-            CONTRIBUTORS
-          </div>
-        </div>
+        <HeaderContributors />
         <div class="flex-none mr-8">
           <a href="#" class="text-center inline-block w-6 bg-white text-black">?</a>
         </div>
@@ -91,12 +86,14 @@
 
 <script lang="ts">
 import BurgerMenu from "@/components/Mobile/BurgerMenu.vue"
+import HeaderContributors from "@/components/HeaderContributors.vue"
 import { defineComponent } from "vue"
 import { reactiveStore } from "@/Store"
 
 export default defineComponent({
   components: {
-    BurgerMenu
+    BurgerMenu,
+    HeaderContributors
   },
   data () {
     return { reactiveStore, showForm: false }
@@ -110,9 +107,6 @@ export default defineComponent({
     },
     updateMenuVisibility () {
       reactiveStore.updateMenuVisibility()
-    },
-    triggerContributorsPopup () {
-      console.log("todo")
     }
   },
   name: "Dashboard-Header"
