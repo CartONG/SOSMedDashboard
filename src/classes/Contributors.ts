@@ -44,7 +44,7 @@ export const CONTRIBUTORS: {
       isCartONGStaff: true
     },
     {
-      name: "Sylvie  (Project Manager)",
+      name: "Sylvie Chollet (Project Manager)",
       isCartONGStaff: true
     }
   ]
