@@ -3,7 +3,7 @@ export interface Contributor {
   isCartONGStaff: boolean
 }
 
-const CONTRIBUTORS: {
+export const CONTRIBUTORS: {
   developpers: Array<Contributor>,
   others: Array<Contributor>
 } = {
@@ -41,6 +41,10 @@ const CONTRIBUTORS: {
     },
     {
       name: "Clémence Beugnot (Coordinator)",
+      isCartONGStaff: true
+    },
+    {
+      name: "Sylvie  (Project Manager)",
       isCartONGStaff: true
     }
   ]
