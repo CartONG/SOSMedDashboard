@@ -140,4 +140,11 @@ export class HistogramSlider {
       this.transitionDuration + 10
     )
   }
+
+  updateSlider(from: number, to: number): void {
+    this.ionRangeSlider.options.from = from
+    this.ionRangeSlider.options.to = to
+    this.ionRangeSlider.updateResult()
+    this.ionRangeSlider.update(this.ionRangeSlider.options)
+  }
 }

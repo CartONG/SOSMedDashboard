@@ -1,5 +1,6 @@
 import { OpsData, TypeOps } from "./OpsData"
-import { Map, Marker, NavigationControl } from "mapbox-gl"
+import { MapboxGLButtonControl } from "./MapboxGLButtonControl"
+import { LngLatBounds, Map, Marker, NavigationControl } from "mapbox-gl"
 import { showPopUp } from "./PopUpAndStats"
 
 export interface SingleBasemap {
@@ -30,7 +31,8 @@ export const BASEMAPS: Array<SingleBasemap> = [{
 ]
 
 export class BaseMap {
-  map!: Map;
+  private map!: Map;
+  private defaultExtent!: LngLatBounds
   private markers: Marker[] = [];
   currentBasemap = 0;
 
@@ -43,6 +45,7 @@ export class BaseMap {
       center: [9, 35],
       zoom: 4
     })
+    this.defaultExtent = this.map.getBounds()
 
     this.update(timeFilteredData)
 
@@ -52,6 +55,15 @@ export class BaseMap {
       showZoom: true
     })
     this.map.addControl(nav)
+
+    /* Instantiate new controls with custom event handlers */
+    const viewResetter = new MapboxGLButtonControl("mapbox-gl-change_layer icon icon-view", "Reset view", this.resetView.bind(this), "")
+
+    /* Add Controls to the Map */
+    this.map.addControl(viewResetter, "top-right")
+
+    // Warning: The button for changing the basemap is added elsewhere --> Basemap.vue.
+    // This is because the button needed to trigger a popup, with multiple button.
   }
 
   setCurrentBasemap (index: number): void {
@@ -86,6 +98,10 @@ export class BaseMap {
         )
       }
     }
+  }
+
+  resetView (): void {
+    this.map.fitBounds(this.defaultExtent)
   }
 
   destroy (): void {

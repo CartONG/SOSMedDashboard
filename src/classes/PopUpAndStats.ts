@@ -21,6 +21,7 @@ const fillPopUp = function (data: OpsData) {
   setInnerText("popUpTypeOps", data.typeOps)
   setInnerText("popUpDate", data.date.toDateString())
   setInnerText("popUpBoatType", data.boatType)
+  setInnerText("popUpPort", data.portDisembarkation)
   setInnerText("popUpNbSurvivor", numberToString(data.nbSurvivor))
   setInnerText("popUpFemale", numberToString(data.female))
   setInnerText("popUpMale", numberToString(data.male))
@@ -38,6 +39,9 @@ const fillPopUp = function (data: OpsData) {
 export const showPopUp = function (data: OpsData): void {
   reactiveStore.updatePopUpVisibility()
   fillPopUp(data)
+  reactiveStore.setVideoAndPicturePopUpVisibility(data.imageSrc.length > 0 || data.videoSrc.length > 0)
+  reactiveStore.setPopUpVideoUrls(data.videoSrc)
+  reactiveStore.setPopUpImageUrls(data.imageSrc)
 }
 
 export const updateStats = function (state: State): void {

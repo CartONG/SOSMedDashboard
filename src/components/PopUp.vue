@@ -3,7 +3,7 @@
   <div id="popUp" :style="style"
        class="z-100 fixed top-0 left-0 w-screen h-screen flex items-center justify-center transform transition-transform duration-300"
        :class="scaleClass">
-    <div class="bg-white rounded-3xl p-6">
+    <div class="bg-white rounded-3xl p-6 max-w-[90%] sm:max-w-[20%] max-h-[80%] overflow-auto">
       <div class="flex flex-col justify-around h-3/4">
         <div class="flex justify-between">
           <h1 id="popUpTypeOps" class="font-bold text-secondary"/>
@@ -12,6 +12,9 @@
         <p id="popUpDate"/>
         <hr class="border-dotted border-main border"/>
         <p class="text-sm"><span class="icon icon-lifebuoy text-xl mr-3"/>Boat in distress: <span id="popUpBoatType"
+                                                                                                  class="font-bold"/>
+        </p>
+        <p class="text-sm"><span class="icon icon-anchor text-xl mr-3"/>Disembarkation port: <span id="popUpPort"
                                                                                                   class="font-bold"/>
         </p>
         <p class="text-sm"><span class="icon icon-rescue text-xl mr-3"/><span id="popUpNbSurvivor" class="font-bold"/>
@@ -65,6 +68,13 @@
           height: <span id="popUpWave"/> m</p>
         <p class="text-sm"><span class="icon icon-marker text-xl mr-3"/>Lat: <span id="popUpLat"/> - Lon: <span
           id="popUpLon"/></p>
+        <p v-if="videoAndPictures" class="text-sm"><span class="icon icon-camera text-xl mr-3"/>Videos and pictures</p>
+        <div v-if="videoAndPictures" class="flex flex-wrap">
+          <video v-for="url in videoUrls" :key="url" class="max-w-[50%] p-1" controls>
+            <source :src="url" type="video/mp4">
+          </video>
+          <img v-for="url in imageUrls" :key="url" class="max-w-[50%] p-1" :src="url">
+        </div>
       </div>
     </div>
   </div>
@@ -88,6 +98,15 @@ export default {
       return `
         --text-color: ${Colors.BLUE};
       `
+    },
+    videoAndPictures (): boolean {
+      return reactiveStore.isVideoAndPicturePopUpVisible
+    },
+    videoUrls (): string[] {
+      return reactiveStore.popUpVideoUrls
+    },
+    imageUrls (): string[] {
+      return reactiveStore.popUpImageUrls
     }
   },
   data (): { reactiveStore: ReactiveStore } {

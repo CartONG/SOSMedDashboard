@@ -25,6 +25,9 @@ export class OpsData {
   boatType = ""
   nbNationalities = NaN
   transfertType = ""
+  imageSrc: string[] = []
+  videoSrc: string[] = []
+  portDisembarkation = ""
 }
 
 const createDate = function (dateDayFirst: string) {
@@ -57,6 +60,9 @@ const convertOpsData = function (rawOpsData: {[key: string]: string}, metadataEr
   res.boatType = rawOpsData.boatType
   res.nbNationalities = parseInt(rawOpsData.nbNationalities)
   res.transfertType = rawOpsData.transfertType
+  res.imageSrc = rawOpsData.imageSrc ? rawOpsData.imageSrc.split(";") : []
+  res.videoSrc = rawOpsData.videoSrv ? rawOpsData.videoSrv.split(";") : []
+  res.portDisembarkation = rawOpsData.PortDisembarkation
   return res
 }
 

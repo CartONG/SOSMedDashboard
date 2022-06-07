@@ -31,7 +31,7 @@ export default defineComponent({
 
 .basemap-picker{
   position: absolute;
-  top: 70px;
+  top: 110px;
   right: 2px;
   z-index: 2048;
 }

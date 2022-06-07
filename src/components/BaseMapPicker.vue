@@ -23,8 +23,7 @@ export default defineComponent({
 
   data: () => ({
     showBasemaps: false,
-    basemaps: BASEMAPS,
-    currentBasemap: 0
+    basemaps: BASEMAPS
   }),
 
   mounted () {
@@ -49,12 +48,10 @@ export default defineComponent({
     },
     setBasemapSelectorStyle (basemap: SingleBasemap) {
       return {
-        border: this.currentBasemap === basemap.id ? `${Colors.ORANGE} solid 2px` : "none",
         backgroundImage: `url(${basemap.img})`
       }
     },
     setBasemap (id: number) {
-      this.currentBasemap = id
       store.updateBasemap(id)
     }
   }
