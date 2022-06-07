@@ -88,8 +88,6 @@ export const store = {
         this.state.timeFilteredData.push(this.allData[i])
       }
     }
-    // for (const [i, data] of this.allData) {
-    // }
     initialisation ? this.displayMap() : this.updateMap()
     this.updateStats()
   },
