@@ -1,7 +1,14 @@
 <template>
   <div class="Contributors__container flex flex-col h-8 justify-center items-center">
-    <img alt="logo CartONG" class="Contributors__img cursor-pointer inline-block h-full bg-white" src="../assets/Cartong_logo-square.png"/>
-    <HeaderContributorsContent class="Contributors__content rounded-3xl overflow-hidden"/>
+    <img alt="logo CartONG" class="Contributors__img cursor-pointer inline-block h-full bg-white" src="@/assets/Cartong_logo-square.png"/>
+    <div class="Contributors__content text-main bg-white p-0 rounded-3xl overflow-hidden ">
+      <div class="m-8 flex flex-col">
+      <h1 class="font-bold text-xl text-secondary">
+        Contributors
+      </h1>
+      <HeaderContributorsContent />
+    </div>
+    </div>
   </div>
 
 </template>
@@ -26,6 +33,8 @@ import HeaderContributorsContent from "./HeaderContributorsContent.vue"
 
 .Contributors__content {
   display: none;
+  flex-flow: column nowrap;
+  justify-content: top;
   position: absolute;
   top: 100%;
   right: 0;

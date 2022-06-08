@@ -21,6 +21,7 @@
           <ul class="list-disc pl-12 pt-6 pb-6 space-y-3">
             <li><a href="#">Glossary</a></li>
             <li><a href="https://onboard.sosmediterranee.org/">Log Book</a></li>
+            <li><HeaderContributorsMobile/></li>
           </ul>
           <a class="bg-secondary text-donationText uppercase hover:bg-donationHoverBackground text-center rounded-b-lg"
              href="https://don.sosmediterranee.org/?utm_source=sitesosmediterranee&utm_medium=site&utm_campaign=don_site_faireundon"
@@ -85,12 +86,14 @@
 <script lang="ts">
 import BurgerMenu from "@/components/Mobile/BurgerMenu.vue"
 import HeaderContributors from "@/components/HeaderContributors.vue"
+import HeaderContributorsMobile from "@/components/Mobile/HeaderContributorsMobile.vue"
 import { defineComponent } from "vue"
 import { reactiveStore } from "@/Store"
 
 export default defineComponent({
   components: {
     BurgerMenu,
+    HeaderContributorsMobile,
     HeaderContributors
   },
   data () {
@@ -98,7 +101,7 @@ export default defineComponent({
   },
   methods: {
     maxHeightStyle (booleanValue: boolean): { "max-height": string | number } {
-      return { "max-height": (booleanValue ? "300px" : 0) }
+      return { "max-height": (booleanValue ? "1000px" : 0) }
     },
     transitionClasses (): string[] {
       return ["z-100", "absolute", "transition-[max-height]", "ease-in-out", "duration-500", "overflow-hidden"]
