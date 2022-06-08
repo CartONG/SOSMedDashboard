@@ -29,7 +29,7 @@
           </div>
         </div>
         <div class="flex flex-row mt-4 align-middle gap-1">
-          <img alt="logo CartONG" class="cursor-pointer inline-block h-8 align-middle" src="../assets/Cartong_logo-square.png"/>
+          <img alt="logo CartONG" class="inline-block h-8 align-middle" src="../assets/Cartong_logo-square.png"/>
           <a :href="cartongWebsite" target="_blank"><span class="text-sm align-middle">{{ cartongWebsite }}</span></a>
         </div>
       </div>
