@@ -1,0 +1,43 @@
+{
+    "header": {
+        "sos": "SOS",
+        "mediterranee": "Mediterranee",
+        "title": "Carte interactive",
+        "subtitle": "Historique des opérations de secours en Méditerranée",
+        "glossary": "Glossaire",
+        "logBook": "Journal de bord",
+        "donate": {
+            "title": "Sauver des vies",
+            "subtitle": "Maintenant",
+            "button": "Je donne",
+            "button2": "Faire un don"
+        }
+    },
+    "legend": {
+        "title": "Vue",
+        "rescue": "Sauvetage", 
+        "transfer": "Transfert", 
+        "med": "Evaluation Médicale",
+        "harbors": "Ports"
+    },
+    "stats": {
+        "females": "Femmes",
+        "males": "Hommes", 
+        "minors": "Mineurs",
+        "pregnants": "Enceintes",
+        "unaccompanied": "Isolés",
+        "children": "Enfants",
+        "nationalities": "Nationalités",
+        "peoples": "Personnes secourues",
+        "opDays": "Jours d'opérations"
+    },
+    "popup": {
+        "wind": "Vent",
+        "windUnit": "noeuds",
+        "waves": "Hauteur des vagues",
+        "boat": "Bateau en détresse",
+        "port": "Port de débarquement",
+        "videosAndPictures": "Images et vidéos",
+        "dateFilter": "Date de filtrage"
+    }
+}

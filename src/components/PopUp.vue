@@ -11,14 +11,14 @@
         </div>
         <p id="popUpDate"/>
         <hr class="border-dotted border-main border"/>
-        <p class="text-sm"><span class="icon icon-lifebuoy text-xl mr-3"/>Boat in distress: <span id="popUpBoatType"
+        <p class="text-sm"><span class="icon icon-lifebuoy text-xl mr-3"/> {{ $t("popup.boat") }}: <span id="popUpBoatType"
                                                                                                   class="font-bold"/>
         </p>
-        <p class="text-sm"><span class="icon icon-anchor text-xl mr-3"/>Disembarkation port: <span id="popUpPort"
+        <p class="text-sm"><span class="icon icon-anchor text-xl mr-3"/>{{ $t("popup.port") }}: <span id="popUpPort"
                                                                                                   class="font-bold"/>
         </p>
         <p class="text-sm"><span class="icon icon-rescue text-xl mr-3"/><span id="popUpNbSurvivor" class="font-bold"/>
-          people rescued</p>
+          {{ $t("stats.peoples") }}</p>
         <div class="flex flex-row">
           <div class="vertical-separator border-main ml-3"/>
           <div class="ml-3">
@@ -26,49 +26,48 @@
               <div class="flex flex-col">
                 <span class="icon icon-female text-6xl text-center md:text-5xl"/>
                 <span id="popUpFemale" class="font-bold text-center"/>
-                <p class="text-xs uppercase text-center">females</p>
+                <p class="text-xs uppercase text-center">{{ $t("stats.females") }}</p>
               </div>
               <div class="flex flex-col">
                 <span class="icon icon-male text-6xl text-center md:text-5xl"/>
                 <span id="popUpMale" class="font-bold text-center"/>
-                <p class="text-xs uppercase text-center">males</p>
+                <p class="text-xs uppercase text-center">{{ $t("stats.males") }}</p>
               </div>
               <div class="flex flex-col">
                 <span class="icon icon-kid text-6xl text-center md:text-5xl"/>
                 <span id="popUpMinor" class="font-bold text-center"/>
-                <p class="text-xs uppercase text-center">minors</p>
+                <p class="text-xs uppercase text-center">{{ $t("stats.minors") }}</p>
               </div>
             </div>
             <div class="flex flex-row justify-around border-dotted border-secondary border-2 rounded-xl p-4 mb-5">
               <div class="flex flex-row">
                 <div class="flex flex-col">
                   <span id="popUpPregnant" class="font-bold text-right color-secondary"/>
-                  <p class="text-3xs uppercase text-right color-secondary">pregnant</p>
+                  <p class="text-3xs uppercase text-right color-secondary">{{ $t("stats.pregnants") }}</p>
                 </div>
                 <span class="icon icon-pregnant text-4xl text-right color-secondary"/>
               </div>
               <div class="flex flex-col">
                 <span class="icon text-4xl text-center color-secondary"/>
                 <span id="popUpUnaccompagnied" class="font-bold text-center color-secondary"/>
-                <p class="text-3xs uppercase text-center color-secondary">unaccompagnied</p>
+                <p class="text-3xs uppercase text-center color-secondary">{{ $t("stats.unaccompanied") }}</p>
               </div>
               <div class="flex flex-row">
                 <span class="icon icon-bib text-3xl text-left color-secondary"/>
                 <div class="flex flex-col">
                   <span id="popUpChildren" class="font-bold text-left color-secondary"/>
-                  <p class="text-3xs uppercase text-left color-secondary">children</p>
+                  <p class="text-3xs uppercase text-left color-secondary">{{ $t("stats.children") }}</p>
                 </div>
               </div>
             </div>
             <p class="text-sm text-center"><span class="icon icon-planet text-sm mr-3"/><span id="popUpNationalities"/>
-              nationalities</p>
+              {{ $t("stats.nationalities") }}</p>
           </div>
         </div>
-        <p class="text-sm"><span class="icon icon-weather text-xl mr-3"/>Wind: <span id="popUpWind"/> knots - Wave
-          height: <span id="popUpWave"/> m</p>
+        <p class="text-sm"><span class="icon icon-weather text-xl mr-3"/>{{ $t("popup.wind") }}: <span id="popUpWind"/> {{ $t("popup.windUnit") }} - {{ $t("popup.waves") }}: <span id="popUpWave"/> m</p>
         <p class="text-sm"><span class="icon icon-marker text-xl mr-3"/>Lat: <span id="popUpLat"/> - Lon: <span
           id="popUpLon"/></p>
-        <p v-if="videoAndPictures" class="text-sm"><span class="icon icon-camera text-xl mr-3"/>Videos and pictures</p>
+        <p v-if="videoAndPictures" class="text-sm"><span class="icon icon-camera text-xl mr-3"/>{{ $t("popup.videosAndPictures") }}</p>
         <div v-if="videoAndPictures" class="flex flex-wrap">
           <video v-for="url in videoUrls" :key="url" class="max-w-[50%] p-1" controls>
             <source :src="url" type="video/mp4">
