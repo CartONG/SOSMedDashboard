@@ -76,9 +76,7 @@
         </div>
         <div class="flex-grow"></div>
         <HeaderContributors />
-        <div class="flex-none mr-8">
-          <a href="#" class="text-center inline-block w-6 bg-white text-black">?</a>
-        </div>
+        <a href="#" class=" text-center inline-block h-6 w-6 bg-white ml-4 mr-3 text-black">?</a>
       </nav>
     </div>
   </header>
