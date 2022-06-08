@@ -1,6 +1,6 @@
 <template>
-  <div class="Contributors__container">
-    <img alt="logo CartONG" class="cursor-pointer inline-block h-6 mr-8" src="../assets/Cartong_logo-square.png"/>
+  <div class="Contributors__container flex flex-col h-8 justify-center items-center">
+    <img alt="logo CartONG" class="Contributors__img cursor-pointer inline-block h-full bg-white" src="../assets/Cartong_logo-square.png"/>
     <div class="Contributors__content rounded-3xl overflow-hidden text-main">
       <div class="Contributors__contentContent m-8 gap-3">
         <div class="flex flex-col gap-0" >
@@ -68,6 +68,11 @@ const cartongWebsite = "https://www.cartong.org/"
   flex-flow: column nowrap;
   justify-content: flex-start;
   position: relative;
+}
+
+.Contributors__img{
+  border-radius: 3px;
+  overflow: hidden;
 }
 
 .Contributors__content {
