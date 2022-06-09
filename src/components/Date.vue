@@ -5,7 +5,7 @@
       class="z-100 fixed top-0 left-0 w-screen h-screen flex items-center justify-center transform transition-transform duration-300">
       <div class="bg-white rounded-3xl p-6">
         <div class="flex justify-between mb-5">
-          <h1 class="font-bold text-secondary">Filter date</h1>
+          <h1 class="font-bold text-secondary">{{ $t("popup.dateFilter") }}</h1>
           <button id="dateCloseButton" type="button" class="focus:outline-none text-grayClose" @click="toggleVisible">X</button>
         </div>
         <Datepicker v-model="date" @update:modelValue="handleDate" inline autoApply/>

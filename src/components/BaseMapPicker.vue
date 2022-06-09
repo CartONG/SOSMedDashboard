@@ -1,0 +1,95 @@
+<template>
+  <div class="BaseMapPicker" @click="triggerShowBasemap()">
+  <div class="mapboxgl-ctrl-group mapboxgl-ctrl BaseMapPicker__btnGrp">
+    <button class="mapboxgl-ctrl-icon mapbox-gl-change_layer icon icon-layers BaseMapPicker__btn">
+    </button>
+  </div>
+  <div id="BaseMapPicker__dropdownItem" class="BaseMapPicker__dropdownContent">
+    <div class="mapboxgl-ctrl-group mapboxgl-ctrl BaseMapPicker__itemBtnGrp" v-for="(basemap, key) in basemaps" :key="key">
+      <button class="mapboxgl-ctrl-icon BaseMapPicker__btn"  :style="setBasemapSelectorStyle(basemap)" @click="setBasemap(basemap.id)">
+      </button>
+    </div>
+  </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { store } from "@/Store"
+import { BASEMAPS, SingleBasemap } from "@/classes/BaseMap"
+import { defineComponent } from "vue"
+
+export default defineComponent({
+  components: {},
+  name: "BaseMap-Picker",
+
+  data: () => ({
+    showBasemaps: false,
+    basemaps: BASEMAPS
+  }),
+
+  mounted () {
+    // Close the dropdown menu if the user clicks outside of it
+    window.onclick = function (event) {
+      const target = event.target as HTMLTextAreaElement
+      if (!target.matches(".BaseMapPicker__btn")) {
+        const dropdowns = document.getElementsByClassName("BaseMapPicker__dropdownContent")
+        for (let i = 0; i < dropdowns.length; i++) {
+          const openDropdown = dropdowns[i]
+          if (openDropdown.classList.contains("BaseMapPicker__show")) {
+            openDropdown.classList.remove("BaseMapPicker__show")
+          }
+        }
+      }
+    }
+  },
+
+  methods: {
+    triggerShowBasemap () {
+      document.getElementById("BaseMapPicker__dropdownItem")?.classList.toggle("BaseMapPicker__show")
+    },
+    setBasemapSelectorStyle (basemap: SingleBasemap) {
+      return {
+        backgroundImage: `url(${process.env.BASE_URL}${basemap.img})`
+      }
+    },
+    setBasemap (id: number) {
+      store.updateBasemap(id)
+    }
+  }
+})
+</script>
+<style scoped>
+.BaseMapPicker {
+  display: flex;
+  flex-flow: column nowrap;
+  width: 29px;
+  height: 29px;
+  margin-top: 8px;
+  margin-right: 8px;
+  position: relative;
+  display: inline-block;
+}
+
+.BaseMapPicker__btnGrp {
+  overflow: hidden;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.BaseMapPicker__dropdownContent {
+  display: none;
+  position: absolute;
+  background-color: none;
+  min-width: 160px;
+  z-index: 1;
+}
+.BaseMapPicker__show {
+  display: block;
+}
+
+.BaseMapPicker__itemBtnGrp{
+  width: 29px;
+  height: 29px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+</style>

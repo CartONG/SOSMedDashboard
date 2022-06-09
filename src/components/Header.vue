@@ -5,9 +5,9 @@
         <img alt="logo SOS Méditerranée" class="cursor-pointer w-28" src="../assets/logo.png"
              onclick="location.href='https://www.sosmediterranee.fr/';"/>
         <div class="ml-2">
-          <p class="text-xl align-middle leading-5 text-main font-black">Carte Interactive</p>
+          <p class="text-xl align-middle leading-5 text-main font-black">{{ $t("header.mediterranee") }}</p>
           <p class="text-base align-middle leading-3 text-secondary">
-            Historique des opérations de secours en Méditerranée
+            {{ $t("header.subtitle") }}
           </p>
         </div>
         <div class="flex-shrink-0 flex-grow w-2"></div>
@@ -19,13 +19,13 @@
            class="right-0 bg-white w-full">
         <nav class="text-lg text-main flex flex-col font-black">
           <ul class="list-disc pl-12 pt-6 pb-6 space-y-3">
-            <li><a href="#">Glossary</a></li>
-            <li><a href="https://onboard.sosmediterranee.org/">Log Book</a></li>
+            <li><a href="#">{{ $t("header.glossary") }}</a></li>
+            <li><a href="https://onboard.sosmediterranee.org/">{{ $t("header.logBook") }}</a></li>
             <li><HeaderContributorsMobile/></li>
           </ul>
           <a class="bg-secondary text-donationText uppercase hover:bg-donationHoverBackground text-center rounded-b-lg"
              href="https://don.sosmediterranee.org/?utm_source=sitesosmediterranee&utm_medium=site&utm_campaign=don_site_faireundon"
-             target="_blank">Faire un don</a>
+             target="_blank">{{ $t("header.donate.button2") }}</a>
         </nav>
       </div>
     </div>
@@ -33,9 +33,9 @@
       <div class="flex ml-8">
         <div class="flex-none flex items-center my-4">
           <div>
-            <p class="text-xl leading-6 text-main font-black">Carte Interactive</p>
+            <p class="text-xl leading-6 text-main font-black">{{ $t("header.title") }}</p>
             <p class="text-base leading-4 text-secondary">
-              Historique des opérations de secours en Méditerranée
+              {{ $t("header.subtitle") }}
             </p>
           </div>
           <i class="ml-14 text-8xl leading-6 icon icon-sosmed-ship"></i>
@@ -43,11 +43,11 @@
         <div class="flex-grow"></div>
         <div @click="showForm = !showForm" class="bg-secondary text-donationText cursor-pointer w-52">
           <div class="p-2">
-            <p class="text-center text-2xl">Sauver des vies</p>
+            <p class="text-center text-2xl">{{ $t("header.donate.title") }}</p>
             <div class="flex justify-center items-center">
               <span class="icon icon-down text-xs"
                     :class="{'up-arrow': showForm, 'pl-1': showForm, 'pr-1': !showForm}"></span>
-              <span class="text-lg">Maintenant</span>
+              <span class="text-lg">{{ $t("header.donate.subtitle") }}</span>
               <span class="icon icon-down text-xs"
                     :class="{'up-arrow': showForm, 'pr-1': showForm, 'pl-1': !showForm}"></span>
             </div>
@@ -59,7 +59,7 @@
               <input name="utm_source" type="hidden" value="sitesosmediterranee">
               <input name="utm_medium" type="hidden" value="site">
               <input name="utm_campaign" type="hidden" value="don_site_je_donne">
-              <input class="bg-main text-uppercase p-4 font-black cursor-pointer" type="submit" value="Je donne">
+              <input class="bg-main text-uppercase p-4 font-black cursor-pointer" type="submit" :value="$t('header.donate.button')">
             </div>
           </form>
         </div>
@@ -68,11 +68,11 @@
       </div>
       <nav class="bg-main text-white flex h-10 items-center">
         <div class="flex-none flex ml-8">
-          <a href="#" class="px-1 flex-initial inline-block">Glossary</a>
+          <a href="#" class="px-1 flex-initial inline-block">{{ $t("header.glossary") }}</a>
         </div>
         <div class="flex-none flex ml-8">
           <a href="https://onboard.sosmediterranee.org/" class="px-1 flex-initial inline-block">
-            Log Book
+            {{ $t("header.logBook") }}
           </a>
         </div>
         <div class="flex-grow"></div>
