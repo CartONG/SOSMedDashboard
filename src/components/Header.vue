@@ -21,6 +21,7 @@
           <ul class="list-disc pl-12 pt-6 pb-6 space-y-3">
             <li><a href="#">{{ $t("header.glossary") }}</a></li>
             <li><a href="https://onboard.sosmediterranee.org/">{{ $t("header.logBook") }}</a></li>
+            <li><HeaderContributorsMobile/></li>
           </ul>
           <a class="bg-secondary text-donationText uppercase hover:bg-donationHoverBackground text-center rounded-b-lg"
              href="https://don.sosmediterranee.org/?utm_source=sitesosmediterranee&utm_medium=site&utm_campaign=don_site_faireundon"
@@ -75,9 +76,8 @@
           </a>
         </div>
         <div class="flex-grow"></div>
-        <div class="flex-none mr-8">
-          <a href="#" class="text-center inline-block w-6 bg-white text-black">?</a>
-        </div>
+        <HeaderContributors />
+        <a href="#" class=" text-center inline-block h-6 w-6 bg-white ml-4 mr-3 text-black">?</a>
       </nav>
     </div>
   </header>
@@ -85,19 +85,23 @@
 
 <script lang="ts">
 import BurgerMenu from "@/components/Mobile/BurgerMenu.vue"
+import HeaderContributors from "@/components/HeaderContributors.vue"
+import HeaderContributorsMobile from "@/components/Mobile/HeaderContributorsMobile.vue"
 import { defineComponent } from "vue"
 import { reactiveStore } from "@/Store"
 
 export default defineComponent({
   components: {
-    BurgerMenu
+    BurgerMenu,
+    HeaderContributorsMobile,
+    HeaderContributors
   },
   data () {
     return { reactiveStore, showForm: false }
   },
   methods: {
     maxHeightStyle (booleanValue: boolean): { "max-height": string | number } {
-      return { "max-height": (booleanValue ? "300px" : 0) }
+      return { "max-height": (booleanValue ? "1000px" : 0) }
     },
     transitionClasses (): string[] {
       return ["z-100", "absolute", "transition-[max-height]", "ease-in-out", "duration-500", "overflow-hidden"]
@@ -114,4 +118,29 @@ export default defineComponent({
 .up-arrow {
   transform: rotate(180deg);
 }
+
+.Contributors__container {
+  z-index: 9999;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  position: relative;
+}
+
+.Contributors__content {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  padding: 0;
+  background-color: aqua;
+}
+
+.Contributors__container:hover > .Contributors__content,
+.Contributors__container:focus > .Contributors__content,
+.Contributors__container:focus-within > .Contributors__content {
+  display: flex;
+}
+
 </style>

@@ -13,6 +13,12 @@
             "button2": "Faire un don"
         }
     },
+    "contributors": {
+        "contrib": "Contributeurs",
+        "volunteers": "Volontaires & Staff de CartONG", 
+        "dev": "Développeurs",
+        "others": "Autres"
+    },
     "legend": {
         "title": "Vue",
         "rescue": "Sauvetage", 
