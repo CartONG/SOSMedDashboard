@@ -1,7 +1,9 @@
-import { OpsData, TypeOps } from "./OpsData"
+import { OpsData } from "./OpsData"
 import { MapboxGLButtonControl } from "./MapboxGLButtonControl"
-import { LngLatBounds, Map, Marker, NavigationControl } from "mapbox-gl"
+import { LngLatBounds, Map, Marker, NavigationControl, GeoJSONSource, MapMouseEvent } from "mapbox-gl"
 import { showPopUp } from "./PopUpAndStats"
+import { Feature, FeatureCollection, GeoJsonProperties, Geometry } from "geojson"
+import { store } from "@/Store"
 
 export interface SingleBasemap {
   id: number;
@@ -46,8 +48,9 @@ export class BaseMap {
       zoom: 4
     })
     this.defaultExtent = this.map.getBounds()
-
-    this.update(timeFilteredData)
+    this.map.on("load", () => {
+      this.setSource(timeFilteredData)
+    })
 
     // Add zoom and rotation controls to the map.
     const nav = new NavigationControl({
@@ -69,39 +72,100 @@ export class BaseMap {
   setCurrentBasemap (index: number): void {
     this.currentBasemap = index
     this.map.setStyle(BASEMAPS[this.currentBasemap].style)
+    this.map.on("style.load", () => {
+      this.map.off("click", "Ops", this.setMapPopUp)
+      this.map.off("mouseenter", "Ops", this.setMapCursorPointer.bind(this))
+      this.map.off("mouseleave", "Ops", this.removeMapCursorPointer.bind(this))
+      this.setSource(store.state.timeFilteredData)
+    })
+  }
+
+  setSource (timeFilteredData: OpsData[]): void {
+    if (this.map.getLayer("Ops")) this.map.removeLayer("Ops")
+    if (this.map.getSource("OpsData")) this.map.removeSource("OpsData")
+    if (timeFilteredData.length > 0) {
+      this.map.addSource("OpsData", {
+        type: "geojson",
+        data: this.datasetToGeoJSON(timeFilteredData)
+      })
+      this.setData()
+    }
+  }
+
+  setData (): void {
+    if (this.map.getLayer("Ops")) this.map.removeLayer("Ops")
+    this.map.addLayer({
+      id: "Ops",
+      type: "circle",
+      source: "OpsData",
+      paint: {
+        "circle-radius": {
+          base: 1.75,
+          stops: [
+            [8, 3],
+            [12, 20]
+          ]
+        },
+        "circle-color": [
+          "match",
+          ["get", "typeOps"],
+          "Rescue",
+          "#F03E1B",
+          "Transfer",
+          "#9CA3AF",
+          "Medical Evacuation",
+          "#1A2747",
+          "#ccc"
+        ]
+      }
+    })
+    this.map.on("click", "Ops", this.setMapPopUp)
+    this.map.on("mouseenter", "Ops", this.setMapCursorPointer.bind(this))
+    this.map.on("mouseleave", "Ops", this.removeMapCursorPointer.bind(this))
   }
 
   update (timeFilteredData: OpsData[]): void {
-    for (const marker of this.markers) {
-      marker.remove()
-    }
-    const rescue = (document.getElementById("rescue") as HTMLInputElement).checked
-    const transfer = (document.getElementById("transfer") as HTMLInputElement).checked
-    this.markers = []
-    for (const data of timeFilteredData) {
-      if (!isNaN(data.longitude) && !isNaN(data.latitude) &&
-           ((rescue && data.typeOps === TypeOps.Rescue) || (transfer && data.typeOps === TypeOps.Transfer))) {
-        const el = document.createElement("div")
-        el.className = "marker"
-        if (data.typeOps === TypeOps.Rescue) {
-          el.className += " bg-secondary"
-        } else if (data.typeOps === TypeOps.Transfer) {
-          el.className += " bg-gray-400"
-        } else {
-          el.className += " bg-main"
-        }
-        el.addEventListener("click", () => { showPopUp(data) })
-        this.markers.push(
-          new Marker(el)
-            .setLngLat([data.longitude, data.latitude])
-            .addTo(this.map)
-        )
-      }
-    }
+    const source: GeoJSONSource = this.map.getSource("OpsData") as GeoJSONSource
+    source.setData(this.datasetToGeoJSON(timeFilteredData))
   }
 
   resetView (): void {
     this.map.fitBounds(this.defaultExtent)
+  }
+
+  setMapPopUp (e:MapMouseEvent & {
+    features?: Feature<Geometry, GeoJsonProperties>[] | undefined;
+  } & unknown): void {
+    if (e.features && e.features?.length > 0) {
+      showPopUp(store.state.timeFilteredData.filter(x => x.id === e.features![0].properties!.id).pop() as OpsData)
+    }
+  }
+
+  setMapCursorPointer (): void {
+    this.map.getCanvas().style.cursor = "pointer"
+  }
+
+  removeMapCursorPointer (): void {
+    this.map.getCanvas().style.cursor = ""
+  }
+
+  datasetToGeoJSON (timeFilteredData: OpsData[]): FeatureCollection<Geometry, GeoJsonProperties> {
+    const geojson: FeatureCollection<Geometry, GeoJsonProperties> = {
+      type: "FeatureCollection",
+      features: []
+    }
+    // eslint-disable-next-line array-callback-return
+    timeFilteredData.map(x => {
+      geojson.features.push({
+        type: "Feature",
+        geometry: {
+          type: "Point",
+          coordinates: [x.longitude, x.latitude]
+        },
+        properties: { ...x }
+      })
+    })
+    return geojson
   }
 
   destroy (): void {

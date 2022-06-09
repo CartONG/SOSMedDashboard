@@ -78,23 +78,24 @@ export const store = {
   allData: [] as OpsData[],
   state: new State(),
 
-  filterData (minDate: Date, maxDate: Date): void {
+  filterData (minDate: Date, maxDate: Date, initialisation: boolean): void {
     this.state.minDate = new Date(minDate)
     this.state.maxDate = new Date(maxDate)
     this.state.timeFilteredData = []
-    for (const data of this.allData) {
-      if ((this.state.minDate <= data.date) && (data.date <= this.state.maxDate)) {
-        this.state.timeFilteredData.push(data)
+    for (let i = 0; i < this.allData.length; i++) {
+      if ((this.state.minDate <= this.allData[i].date) && (this.allData[i].date <= this.state.maxDate)) {
+        this.allData[i].id = i
+        this.state.timeFilteredData.push(this.allData[i])
       }
     }
-    this.updateMap()
+    initialisation ? this.displayMap() : this.updateMap()
     this.updateStats()
   },
 
   async initStore (): Promise<void> {
     this.allData = await fetchOpsData()
     this.updateHistogramSlider()
-    this.filterData(this.state.minDate, this.state.maxDate)
+    this.filterData(this.state.minDate, this.state.maxDate, true)
   },
 
   displayMap (): void {
