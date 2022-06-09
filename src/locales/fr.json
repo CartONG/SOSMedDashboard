@@ -15,7 +15,9 @@
     },
     "contributors": {
         "contrib": "Contributeurs",
-        "volunteers": ""
+        "volunteers": "Volontaires & Staff de CartONG", 
+        "dev": "Développeurs",
+        "others": "Autres"
     },
     "legend": {
         "title": "Vue",

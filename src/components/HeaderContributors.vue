@@ -4,7 +4,7 @@
     <div class="Contributors__content text-main bg-white p-0 rounded-3xl overflow-hidden ">
       <div class="m-8 flex flex-col">
       <h1 class="font-bold text-xl text-secondary">
-        Contributors
+        {{ $t("contributors.contrib") }}
       </h1>
       <HeaderContributorsContent />
     </div>
