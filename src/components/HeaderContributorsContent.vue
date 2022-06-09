@@ -2,7 +2,7 @@
 <div class="Contributors__contentContent gap-3 text-main">
   <div class="flex flex-col gap-0">
     <h2 class="font-bold text-lg text-main whitespace-nowrap">
-      CartONG volunteers
+      CartONG Volunteers & Staff
     </h2>
   </div>
   <hr class="border-dotted border-main border"/>
