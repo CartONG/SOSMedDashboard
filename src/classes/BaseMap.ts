@@ -2,6 +2,7 @@ import { OpsData, TypeOps } from "./OpsData"
 import { MapboxGLButtonControl } from "./MapboxGLButtonControl"
 import { LngLatBounds, Map, Marker, NavigationControl } from "mapbox-gl"
 import { showPopUp } from "./PopUpAndStats"
+import { FeatureCollection } from "geojson"
 
 export interface SingleBasemap {
   id: number;
@@ -36,7 +37,7 @@ export class BaseMap {
   private markers: Marker[] = [];
   currentBasemap = 0;
 
-  display (timeFilteredData: OpsData[]): void {
+  init (): void {
     // This token was taken from the demo project we need to replace with a real token
     this.map = new Map({
       accessToken: "pk.eyJ1Ijoid2VzbGV5YmFuZmllbGQiLCJhIjoiY2pmMDRwb202MGlzNDJ3bm44cHA3YXZiNCJ9.b2yOf2vbWnWiV7mlsFAywg",
@@ -46,8 +47,6 @@ export class BaseMap {
       zoom: 4
     })
     this.defaultExtent = this.map.getBounds()
-
-    this.update(timeFilteredData)
 
     // Add zoom and rotation controls to the map.
     const nav = new NavigationControl({
@@ -71,32 +70,57 @@ export class BaseMap {
     this.map.setStyle(BASEMAPS[this.currentBasemap].style)
   }
 
-  update (timeFilteredData: OpsData[]): void {
+  removeMarkers (): void {
+    if (this.markers.length === 0) {
+      return
+    }
     for (const marker of this.markers) {
       marker.remove()
     }
+  }
+
+  addMarkers (timeFilteredData: OpsData[]): void {
     const rescue = (document.getElementById("rescue") as HTMLInputElement).checked
     const transfer = (document.getElementById("transfer") as HTMLInputElement).checked
-    this.markers = []
     for (const data of timeFilteredData) {
       if (!isNaN(data.longitude) && !isNaN(data.latitude) &&
            ((rescue && data.typeOps === TypeOps.Rescue) || (transfer && data.typeOps === TypeOps.Transfer))) {
-        const el = document.createElement("div")
-        el.className = "marker"
-        if (data.typeOps === TypeOps.Rescue) {
-          el.className += " bg-secondary"
-        } else if (data.typeOps === TypeOps.Transfer) {
-          el.className += " bg-gray-400"
-        } else {
-          el.className += " bg-main"
-        }
-        el.addEventListener("click", () => { showPopUp(data) })
-        this.markers.push(
-          new Marker(el)
-            .setLngLat([data.longitude, data.latitude])
-            .addTo(this.map)
-        )
+        this.createMarker(BaseMap.getClassFromOperationType(data.typeOps), data.longitude, data.latitude, () => showPopUp(data))
       }
+    }
+  }
+
+  addHarbors (harbors: FeatureCollection):void {
+    if (!(document.getElementById("harbor") as HTMLInputElement).checked) {
+      return
+    }
+    harbors.features.forEach(feature => {
+      this.createMarker("icon icon-anchor-o", feature.properties?.longitude, feature.properties?.latitude)
+    })
+  }
+
+  private createMarker (className: string, longitude: number, latitude: number, showPopUp?: () => void) {
+    const el = document.createElement("div")
+    el.className = `marker ${className}`
+    if (showPopUp) {
+      el.addEventListener("click", () => {
+        showPopUp()
+      })
+    }
+    this.markers.push(
+      new Marker(el)
+        .setLngLat([longitude, latitude])
+        .addTo(this.map)
+    )
+  }
+
+  private static getClassFromOperationType (typeOps: TypeOps) {
+    if (typeOps === TypeOps.Rescue) {
+      return " bg-secondary"
+    } else if (typeOps === TypeOps.Transfer) {
+      return " bg-gray-400"
+    } else {
+      return " bg-main"
     }
   }
 

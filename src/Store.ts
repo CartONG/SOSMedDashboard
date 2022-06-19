@@ -2,6 +2,7 @@ import { OpsData, fetchOpsData } from "./classes/OpsData"
 import { updateStats } from "./classes/PopUpAndStats"
 import { State } from "./classes/State"
 import { reactive } from "vue"
+import { FeatureCollection } from "geojson"
 
 export interface ReactiveStore {
   updateMenuVisibility: () => void;
@@ -76,6 +77,7 @@ export const reactiveStore : ReactiveStore = reactive({
 // It could be seen as a static class
 export const store = {
   allData: [] as OpsData[],
+  harbors: {} as FeatureCollection,
   state: new State(),
 
   filterData (minDate: Date, maxDate: Date): void {
@@ -92,13 +94,14 @@ export const store = {
   },
 
   async initStore (): Promise<void> {
+    this.harbors = require("./assets/resources/ports.json")
     this.allData = await fetchOpsData()
     this.updateHistogramSlider()
     this.filterData(this.state.minDate, this.state.maxDate)
   },
 
   displayMap (): void {
-    this.state.baseMap.display(this.state.timeFilteredData)
+    this.state.baseMap.init()
   },
 
   updateBasemap (index: number): void {
@@ -106,7 +109,9 @@ export const store = {
   },
 
   updateMap (): void {
-    this.state.baseMap.update(this.state.timeFilteredData)
+    this.state.baseMap.removeMarkers()
+    this.state.baseMap.addHarbors(this.harbors)
+    this.state.baseMap.addMarkers(this.state.timeFilteredData)
   },
 
   destroyMap (): void {
