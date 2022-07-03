@@ -83,12 +83,7 @@ export const store = {
   filterData (minDate: Date, maxDate: Date): void {
     this.state.minDate = new Date(minDate)
     this.state.maxDate = new Date(maxDate)
-    this.state.timeFilteredData = []
-    for (const data of this.allData) {
-      if ((this.state.minDate <= data.date) && (data.date <= this.state.maxDate)) {
-        this.state.timeFilteredData.push(data)
-      }
-    }
+    this.state.timeFilteredData = this.allData.filter(currentOperation => this.state.minDate <= currentOperation.date && currentOperation.date <= this.state.maxDate)
     this.updateMap()
     this.updateStats()
   },
@@ -97,6 +92,7 @@ export const store = {
     this.harbors = require("./assets/resources/ports.json")
     this.allData = await fetchOpsData()
     this.updateHistogramSlider()
+    this.state.baseMap.createMarkers(this.harbors, this.allData)
     this.filterData(this.state.minDate, this.state.maxDate)
   },
 
@@ -109,9 +105,7 @@ export const store = {
   },
 
   updateMap (): void {
-    this.state.baseMap.removeMarkers()
-    this.state.baseMap.addHarbors(this.harbors)
-    this.state.baseMap.addMarkers(this.state.timeFilteredData)
+    this.state.baseMap.displayMarkers(this.state.timeFilteredData)
   },
 
   destroyMap (): void {
