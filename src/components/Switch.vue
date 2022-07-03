@@ -55,7 +55,7 @@ export default defineComponent({
   },
   methods: {
     toggle () {
-      store.updateMap()
+      if (this.id === "harbor") store.updateMap(true)
     }
   },
   name: "Legend-Switch"

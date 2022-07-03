@@ -128,8 +128,8 @@ export class BaseMap {
   }
 
   // displayMarkers (timeFilteredData: OpsData[]): void {
-  displayMarkers (minDate: Date, maxDate: Date): void {
-    this.displayHarbors()
+  displayMarkers (minDate: Date, maxDate: Date, updateHabors: boolean): void {
+    if (updateHabors) this.displayHarbors()
     this.displayOperations(minDate, maxDate)
   }
 

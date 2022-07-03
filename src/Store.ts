@@ -80,10 +80,10 @@ export const store = {
   harbors: {} as FeatureCollection,
   state: new State(),
 
-  filterData (minDate: Date, maxDate: Date): void {
+  filterData (minDate: Date, maxDate: Date, updateHarbors: boolean): void {
     this.state.minDate = new Date(minDate)
     this.state.maxDate = new Date(maxDate)
-    this.updateMap()
+    this.updateMap(updateHarbors)
     this.updateStats()
   },
 
@@ -92,7 +92,7 @@ export const store = {
     this.allData = await fetchOpsData()
     this.updateHistogramSlider()
     this.state.baseMap.createMarkers(this.harbors, this.allData)
-    this.filterData(this.state.minDate, this.state.maxDate)
+    this.filterData(this.state.minDate, this.state.maxDate, true)
   },
 
   displayMap (): void {
@@ -103,8 +103,8 @@ export const store = {
     this.state.baseMap.setCurrentBasemap(index)
   },
 
-  updateMap (): void {
-    this.state.baseMap.displayMarkers(this.state.minDate, this.state.maxDate)
+  updateMap (updateHarbors: boolean): void {
+    this.state.baseMap.displayMarkers(this.state.minDate, this.state.maxDate, updateHarbors)
   },
 
   destroyMap (): void {
