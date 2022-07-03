@@ -1,5 +1,4 @@
 import { OpsData } from "./OpsData"
-import { State } from "./State"
 import { reactiveStore } from "@/Store"
 
 const numberToString = function (n: number) {
@@ -44,9 +43,9 @@ export const showPopUp = function (data: OpsData): void {
   reactiveStore.setPopUpImageUrls(data.imageSrc)
 }
 
-export const updateStats = function (state: State): void {
-  setInnerText("statsMinDate", state.minDate.toDateString())
-  setInnerText("statsMaxDate", state.maxDate.toDateString())
+export const updateStats = function (minDate: Date, maxDate: Date, timeFilteredData: OpsData[]): void {
+  setInnerText("statsMinDate", minDate.toDateString())
+  setInnerText("statsMaxDate", maxDate.toDateString())
   let nbSurvivor = 0
   let female = 0
   let male = 0
@@ -56,7 +55,7 @@ export const updateStats = function (state: State): void {
   let under5 = 0
   let nbNationalities = 0
   const days = new Set()
-  for (const data of state.timeFilteredData) {
+  for (const data of timeFilteredData) {
     nbSurvivor = data.nbSurvivor ? nbSurvivor + data.nbSurvivor : nbSurvivor
     female = data.female ? female + data.female : female
     male = data.male ? male + data.male : male
@@ -77,8 +76,8 @@ export const updateStats = function (state: State): void {
   setInnerText("statsNationalities", numberToString(nbNationalities))
   setInnerText("statsNbDays", numberToString(days.size))
   // Mobile view
-  setInnerText("statsMinDate2", state.minDate.toDateString())
-  setInnerText("statsMaxDate2", state.maxDate.toDateString())
+  setInnerText("statsMinDate2", minDate.toDateString())
+  setInnerText("statsMaxDate2", maxDate.toDateString())
   setInnerText("statsNbSurvivor2", numberToString(nbSurvivor))
   setInnerText("statsNbDays2", numberToString(days.size))
 }

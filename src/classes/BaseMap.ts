@@ -127,10 +127,10 @@ export class BaseMap {
     this.map.remove()
   }
 
-  displayMarkers (timeFilteredData: OpsData[]): void {
+  // displayMarkers (timeFilteredData: OpsData[]): void {
+  displayMarkers (minDate: Date, maxDate: Date): void {
     this.displayHarbors()
-
-    this.displayOperations(timeFilteredData)
+    this.displayOperations(minDate, maxDate)
   }
 
   displayHarbors (): void {
@@ -141,28 +141,23 @@ export class BaseMap {
     }
   }
 
-  private displayOperations (timeFilteredData: OpsData[]) {
-    const dateOperationsToKeep = timeFilteredData.map(op => op.date)
-    this.updateMarkersVisibilityAccordingToCheckboxValue("rescue", dateOperationsToKeep, TypeOps.rescue)
-    this.updateMarkersVisibilityAccordingToCheckboxValue("transfer", dateOperationsToKeep, TypeOps.transfer)
+  // private displayOperations (timeFilteredData: OpsData[]) {
+  private displayOperations (minDate: Date, maxDate: Date) {
+    // const dateOperationsToKeep = timeFilteredData.map(op => op.date)
+    this.updateMarkersVisibilityAccordingToCheckboxValue("rescue", minDate, maxDate, TypeOps.rescue)
+    this.updateMarkersVisibilityAccordingToCheckboxValue("transfer", minDate, maxDate, TypeOps.transfer)
   }
 
-  private updateMarkersVisibilityAccordingToCheckboxValue (htmlElementId: string, dateOperationsToKeep: Date[], markersType: TypeOps) {
+  private updateMarkersVisibilityAccordingToCheckboxValue (htmlElementId: string, minDate: Date, maxDate: Date, markersType: TypeOps) {
     const isChecked = (document.getElementById(htmlElementId) as HTMLInputElement).checked
     if (isChecked) {
-      this.updateMarkerVisibility(dateOperationsToKeep, this.markers[markersType])
+      this.updateMarkerVisibility(minDate, maxDate, this.markers[markersType])
     } else {
       this.markers[markersType].forEach(op => op.remove())
     }
   }
 
-  private updateMarkerVisibility (dateOperationsToKeep: Date[], markers: Map<Date, Marker>) {
-    for (const [date, op] of markers) {
-      if (dateOperationsToKeep.findIndex(dateOp => date === dateOp) === -1) {
-        op.remove()
-      } else {
-        op.addTo(this.map)
-      }
-    }
+  private updateMarkerVisibility (minDate: Date, maxDate: Date, markers: Map<Date, Marker>) {
+    markers.forEach((marker, date) => date >= minDate && date <= maxDate ? marker.addTo(this.map) : marker.remove())
   }
 }

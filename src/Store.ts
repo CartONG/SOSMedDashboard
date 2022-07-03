@@ -83,7 +83,6 @@ export const store = {
   filterData (minDate: Date, maxDate: Date): void {
     this.state.minDate = new Date(minDate)
     this.state.maxDate = new Date(maxDate)
-    this.state.timeFilteredData = this.allData.filter(currentOperation => this.state.minDate <= currentOperation.date && currentOperation.date <= this.state.maxDate)
     this.updateMap()
     this.updateStats()
   },
@@ -105,7 +104,7 @@ export const store = {
   },
 
   updateMap (): void {
-    this.state.baseMap.displayMarkers(this.state.timeFilteredData)
+    this.state.baseMap.displayMarkers(this.state.minDate, this.state.maxDate)
   },
 
   destroyMap (): void {
@@ -130,6 +129,8 @@ export const store = {
   },
 
   updateStats (): void {
-    updateStats(this.state)
+    const timeFilteredData = this.allData.filter(currentOperation => this.state.minDate <= currentOperation.date && currentOperation.date <= this.state.maxDate)
+
+    updateStats(this.state.minDate, this.state.maxDate, timeFilteredData)
   }
 }
