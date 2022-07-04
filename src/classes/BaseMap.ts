@@ -3,6 +3,7 @@ import { MapboxGLButtonControl } from "./MapboxGLButtonControl"
 import { LngLatBounds, Map as Mapbox, Marker, NavigationControl } from "mapbox-gl"
 import { showPopUp } from "./PopUpAndStats"
 import { FeatureCollection } from "geojson"
+import { SwitchType } from "@/classes/State"
 
 export interface SingleBasemap {
   id: number;
@@ -34,10 +35,9 @@ export const BASEMAPS: Array<SingleBasemap> = [{
 export class BaseMap {
   private map!: Mapbox;
   private defaultExtent!: LngLatBounds
-  // private markers: Marker[] = [];
   private harborMarkers: Marker[] = []
-  private markers: {[key in TypeOps]: Map<Date, Marker>} = { Rescue: new Map<Date, Marker>(), Transfer: new Map<Date, Marker>() };
-  // private markers: {Harbor: Marker[], rescue: Marker[], transfer: Marker[]} = { Harbor: [], rescue: [], transfer: [] };
+  private markers: {[key in TypeOps]: Map<Date, Marker>} = { Medical: new Map<Date, Marker>(), Rescue: new Map<Date, Marker>(), Transfer: new Map<Date, Marker>() };
+
   currentBasemap = 0;
 
   init (): void {
@@ -79,10 +79,7 @@ export class BaseMap {
   }
 
   createOperationMarkers (timeFilteredData: OpsData[]): void {
-    const rescue = (document.getElementById("rescue") as HTMLInputElement).checked
-    const transfer = (document.getElementById("transfer") as HTMLInputElement).checked
-    timeFilteredData.filter(operation => !isNaN(operation.longitude) && !isNaN(operation.latitude) &&
-      ((rescue && operation.typeOps === TypeOps.rescue) || (transfer && operation.typeOps === TypeOps.transfer)))
+    timeFilteredData.filter(operation => !isNaN(operation.longitude) && !isNaN(operation.latitude))
       .forEach(operation =>
         this.markers[operation.typeOps].set(operation.date,
           this.createMarker(BaseMap.getClassFromOperationType(operation.typeOps), operation.longitude, operation.latitude, () => showPopUp(operation))
@@ -127,37 +124,57 @@ export class BaseMap {
     this.map.remove()
   }
 
-  // displayMarkers (timeFilteredData: OpsData[]): void {
-  displayMarkers (minDate: Date, maxDate: Date, updateHabors: boolean): void {
-    if (updateHabors) this.displayHarbors()
-    this.displayOperations(minDate, maxDate)
+  displayMarkers (id: keyof typeof SwitchType, minDate: Date, maxDate: Date): void {
+    switch (id) {
+      case "harbor":
+        this.displayHarbors()
+        break
+      case "medical":
+        this.displayOperations(TypeOps.medical, minDate, maxDate)
+        break
+      case "rescue":
+        this.displayOperations(TypeOps.rescue, minDate, maxDate)
+        break
+      case "transfer":
+        this.displayOperations(TypeOps.transfer, minDate, maxDate)
+        break
+    }
   }
 
   displayHarbors (): void {
-    if ((document.getElementById("harbor") as HTMLInputElement).checked) {
-      this.harborMarkers.forEach(marker => marker.addTo(this.map))
-    } else {
-      this.harborMarkers.forEach(marker => marker.remove())
+    this.harborMarkers.forEach(marker => marker.addTo(this.map))
+  }
+
+  private displayOperations (type: TypeOps, minDate: Date, maxDate: Date) {
+    this.markers[type].forEach((marker, date) => date >= minDate && date <= maxDate ? marker.addTo(this.map) : marker.remove())
+  }
+
+  hideMarkers (id: keyof typeof SwitchType): void {
+    switch (id) {
+      case "harbor":
+        this.hideHarbors()
+        break
+      case "medical":
+        this.hideOperations(TypeOps.medical)
+        break
+      case "rescue":
+        this.hideOperations(TypeOps.rescue)
+        break
+      case "transfer":
+        this.hideOperations(TypeOps.transfer)
+        break
     }
   }
 
-  // private displayOperations (timeFilteredData: OpsData[]) {
-  private displayOperations (minDate: Date, maxDate: Date) {
-    // const dateOperationsToKeep = timeFilteredData.map(op => op.date)
-    this.updateMarkersVisibilityAccordingToCheckboxValue("rescue", minDate, maxDate, TypeOps.rescue)
-    this.updateMarkersVisibilityAccordingToCheckboxValue("transfer", minDate, maxDate, TypeOps.transfer)
+  private hideHarbors (): void {
+    this.harborMarkers.forEach(BaseMap.remove)
   }
 
-  private updateMarkersVisibilityAccordingToCheckboxValue (htmlElementId: string, minDate: Date, maxDate: Date, markersType: TypeOps) {
-    const isChecked = (document.getElementById(htmlElementId) as HTMLInputElement).checked
-    if (isChecked) {
-      this.updateMarkerVisibility(minDate, maxDate, this.markers[markersType])
-    } else {
-      this.markers[markersType].forEach(op => op.remove())
-    }
+  private hideOperations (type: TypeOps) {
+    this.markers[type].forEach(BaseMap.remove)
   }
 
-  private updateMarkerVisibility (minDate: Date, maxDate: Date, markers: Map<Date, Marker>) {
-    markers.forEach((marker, date) => date >= minDate && date <= maxDate ? marker.addTo(this.map) : marker.remove())
+  private static remove (marker: Marker) {
+    marker.remove()
   }
 }

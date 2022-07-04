@@ -3,6 +3,7 @@ import convert from "geo-coordinates-parser"
 const dataRequestUrl = `https://sheets.googleapis.com/v4/spreadsheets/1mK5tq3gfnc0OckQnArz1TXhh4YINAWfF7ilYa5PhOw8/values/data_sos?key=${process.env.VUE_APP_GOOGLE_API_KEY}`
 
 export enum TypeOps {
+  medical = "Medical",
   rescue = "Rescue",
   transfer = "Transfer"
 }

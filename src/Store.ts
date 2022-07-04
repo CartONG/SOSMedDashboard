@@ -1,8 +1,19 @@
 import { OpsData, fetchOpsData } from "./classes/OpsData"
 import { updateStats } from "./classes/PopUpAndStats"
-import { State } from "./classes/State"
+import { State, SwitchType } from "./classes/State"
 import { reactive } from "vue"
 import { FeatureCollection } from "geojson"
+import { BaseMap } from "@/classes/BaseMap"
+import { HistogramSlider } from "@/classes/HistogramSlider"
+
+const CssClass: {
+  [key in SwitchType]: { [key: string]: boolean }
+} = {
+  rescue: { "bg-secondary": true },
+  transfer: { "bg-gray-400": true },
+  medical: { "bg-main": true },
+  harbor: { icon: true, "icon-anchor-o": true, "text-black": true }
+}
 
 export interface ReactiveStore {
   updateMenuVisibility: () => void;
@@ -79,11 +90,15 @@ export const store = {
   allData: [] as OpsData[],
   harbors: {} as FeatureCollection,
   state: new State(),
+  baseMap: new BaseMap(),
+  histogramSlider: new HistogramSlider(),
 
-  filterData (minDate: Date, maxDate: Date, updateHarbors: boolean): void {
+  filterData (minDate: Date, maxDate: Date): void {
     this.state.minDate = new Date(minDate)
     this.state.maxDate = new Date(maxDate)
-    this.updateMap(updateHarbors)
+    for (const switchTypeKey in SwitchType) {
+      this.updateMap(switchTypeKey as SwitchType, this.state.switch[switchTypeKey as SwitchType])
+    }
     this.updateStats()
   },
 
@@ -91,40 +106,42 @@ export const store = {
     this.harbors = require("./assets/resources/ports.json")
     this.allData = await fetchOpsData()
     this.updateHistogramSlider()
-    this.state.baseMap.createMarkers(this.harbors, this.allData)
-    this.filterData(this.state.minDate, this.state.maxDate, true)
+    this.baseMap.createMarkers(this.harbors, this.allData)
+    this.filterData(this.state.minDate, this.state.maxDate)
   },
 
   displayMap (): void {
-    this.state.baseMap.init()
+    this.baseMap.init()
   },
 
   updateBasemap (index: number): void {
-    this.state.baseMap.setCurrentBasemap(index)
+    this.baseMap.setCurrentBasemap(index)
   },
 
-  updateMap (updateHarbors: boolean): void {
-    this.state.baseMap.displayMarkers(this.state.minDate, this.state.maxDate, updateHarbors)
+  updateMap (id: keyof typeof SwitchType, isChecked: boolean): void {
+    isChecked
+      ? this.baseMap.displayMarkers(id, this.state.minDate, this.state.maxDate)
+      : this.baseMap.hideMarkers(id)
   },
 
   destroyMap (): void {
-    this.state.baseMap.destroy()
+    this.baseMap.destroy()
   },
 
   displayHistogramSlider (askedMin: number, askedMax: number, data: number[]): void {
-    this.state.histogramSlider.display(askedMin, askedMax, data)
+    this.histogramSlider.display(askedMin, askedMax, data)
   },
 
   setWidthHistogramSlider (width: number): void {
-    this.state.histogramSlider.setWidth(width)
+    this.histogramSlider.setWidth(width)
   },
 
   updateHistogramSlider (): void {
-    this.state.histogramSlider.updateHistogram(this.allData.map(d => d.date.getTime()), this)
+    this.histogramSlider.updateHistogram(this.allData.map(d => d.date.getTime()), this)
   },
 
   updateHistogramSliderFromTo (): void {
-    this.state.histogramSlider.updateSlider(this.state.minDate.valueOf(), this.state.maxDate.valueOf())
+    this.histogramSlider.updateSlider(this.state.minDate.valueOf(), this.state.maxDate.valueOf())
     this.updateHistogramSlider()
   },
 
@@ -132,5 +149,14 @@ export const store = {
     const timeFilteredData = this.allData.filter(currentOperation => this.state.minDate <= currentOperation.date && currentOperation.date <= this.state.maxDate)
 
     updateStats(this.state.minDate, this.state.maxDate, timeFilteredData)
+  },
+
+  toggleSwitch (switchId: keyof typeof SwitchType): void {
+    this.state.switch[switchId] = !this.state.switch[switchId]
+    this.updateMap(switchId, this.state.switch[switchId])
+  },
+
+  getCssClass (id: keyof typeof SwitchType): {[key: string]: boolean} {
+    return CssClass[id]
   }
 }

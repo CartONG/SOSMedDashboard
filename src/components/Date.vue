@@ -45,7 +45,7 @@ export default defineComponent({
       } else {
         store.state.maxDate = modelData
       }
-      store.filterData(store.state.minDate, store.state.maxDate, false)
+      store.filterData(store.state.minDate, store.state.maxDate)
       store.updateHistogramSliderFromTo()
     }
   }

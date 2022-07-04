@@ -1,10 +1,18 @@
-import { BaseMap } from "./BaseMap"
-import { HistogramSlider } from "@/classes/HistogramSlider"
+export enum SwitchType {
+  harbor = "harbor",
+  medical = "medical",
+  rescue = "rescue",
+  transfer = "transfer"
+}
 
 // State class which keeps the current state of the application
 export class State {
   minDate = new Date(2016, 0, 1);
   maxDate = new Date();
-  baseMap = new BaseMap();
-  histogramSlider = new HistogramSlider();
+  switch: { [key in SwitchType]: boolean } = {
+    rescue: true,
+    transfer: true,
+    medical: true,
+    harbor: true
+  };
 }
