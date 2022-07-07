@@ -103,7 +103,7 @@ export const store = {
   },
 
   async initStore (): Promise<void> {
-    this.harbors = require("./assets/resources/ports.json")
+    this.harbors = require("./assets/resources/harbors_mediterranee.json")
     this.allData = await fetchOpsData()
     this.updateHistogramSlider()
     this.baseMap.createMarkers(this.harbors, this.allData)
