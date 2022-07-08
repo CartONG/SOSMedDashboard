@@ -1,7 +1,9 @@
 import { OpsData, TypeOps } from "./OpsData"
 import { MapboxGLButtonControl } from "./MapboxGLButtonControl"
-import { LngLatBounds, Map, Marker, NavigationControl } from "mapbox-gl"
+import { LngLatBounds, Map as Mapbox, Marker, NavigationControl } from "mapbox-gl"
 import { showPopUp } from "./PopUpAndStats"
+import { FeatureCollection } from "geojson"
+import { SwitchType } from "@/classes/State"
 
 export interface SingleBasemap {
   id: number;
@@ -31,14 +33,16 @@ export const BASEMAPS: Array<SingleBasemap> = [{
 ]
 
 export class BaseMap {
-  private map!: Map;
+  private map!: Mapbox;
   private defaultExtent!: LngLatBounds
-  private markers: Marker[] = [];
+  private harborMarkers: Marker[] = []
+  private markers: {[key in TypeOps]: Map<Date, Marker>} = { Medical: new Map<Date, Marker>(), Rescue: new Map<Date, Marker>(), Transfer: new Map<Date, Marker>() };
+
   currentBasemap = 0;
 
-  display (timeFilteredData: OpsData[]): void {
+  init (): void {
     // This token was taken from the demo project we need to replace with a real token
-    this.map = new Map({
+    this.map = new Mapbox({
       accessToken: "pk.eyJ1Ijoid2VzbGV5YmFuZmllbGQiLCJhIjoiY2pmMDRwb202MGlzNDJ3bm44cHA3YXZiNCJ9.b2yOf2vbWnWiV7mlsFAywg",
       container: "mapContainer",
       style: BASEMAPS[this.currentBasemap].style,
@@ -46,8 +50,6 @@ export class BaseMap {
       zoom: 4
     })
     this.defaultExtent = this.map.getBounds()
-
-    this.update(timeFilteredData)
 
     // Add zoom and rotation controls to the map.
     const nav = new NavigationControl({
@@ -71,32 +73,46 @@ export class BaseMap {
     this.map.setStyle(BASEMAPS[this.currentBasemap].style)
   }
 
-  update (timeFilteredData: OpsData[]): void {
-    for (const marker of this.markers) {
-      marker.remove()
-    }
-    const rescue = (document.getElementById("rescue") as HTMLInputElement).checked
-    const transfer = (document.getElementById("transfer") as HTMLInputElement).checked
-    this.markers = []
-    for (const data of timeFilteredData) {
-      if (!isNaN(data.longitude) && !isNaN(data.latitude) &&
-           ((rescue && data.typeOps === TypeOps.Rescue) || (transfer && data.typeOps === TypeOps.Transfer))) {
-        const el = document.createElement("div")
-        el.className = "marker"
-        if (data.typeOps === TypeOps.Rescue) {
-          el.className += " bg-secondary"
-        } else if (data.typeOps === TypeOps.Transfer) {
-          el.className += " bg-gray-400"
-        } else {
-          el.className += " bg-main"
-        }
-        el.addEventListener("click", () => { showPopUp(data) })
-        this.markers.push(
-          new Marker(el)
-            .setLngLat([data.longitude, data.latitude])
-            .addTo(this.map)
+  createMarkers (harbors: FeatureCollection, ops: OpsData[]): void {
+    this.createHarborsMarkers(harbors)
+    this.createOperationMarkers(ops)
+  }
+
+  createOperationMarkers (timeFilteredData: OpsData[]): void {
+    timeFilteredData.filter(operation => !isNaN(operation.longitude) && !isNaN(operation.latitude))
+      .forEach(operation =>
+        this.markers[operation.typeOps].set(operation.date,
+          this.createMarker(BaseMap.getClassFromOperationType(operation.typeOps), operation.longitude, operation.latitude, () => showPopUp(operation))
         )
-      }
+      )
+  }
+
+  createHarborsMarkers (harbors: FeatureCollection): void {
+    harbors.features.forEach(feature => {
+      this.harborMarkers.push(this.createMarker("icon icon-anchor-o", feature.properties?.longitude, feature.properties?.latitude))
+    })
+  }
+
+  private createMarker (className: string, longitude: number, latitude: number, showPopUp?: () => void): Marker {
+    const el = document.createElement("div")
+    el.className = `marker ${className}`
+    if (showPopUp) {
+      el.addEventListener("click", () => {
+        showPopUp()
+      })
+    }
+    return new Marker(el)
+      .setLngLat([longitude, latitude])
+  }
+
+  private static getClassFromOperationType (typeOps: TypeOps) {
+    switch (typeOps) {
+      case TypeOps.rescue:
+        return "bg-secondary"
+      case TypeOps.transfer:
+        return "bg-gray-400"
+      default:
+        return "bg-main"
     }
   }
 
@@ -106,5 +122,59 @@ export class BaseMap {
 
   destroy (): void {
     this.map.remove()
+  }
+
+  displayMarkers (id: keyof typeof SwitchType, minDate: Date, maxDate: Date): void {
+    switch (id) {
+      case "harbor":
+        this.displayHarbors()
+        break
+      case "medical":
+        this.displayOperations(TypeOps.medical, minDate, maxDate)
+        break
+      case "rescue":
+        this.displayOperations(TypeOps.rescue, minDate, maxDate)
+        break
+      case "transfer":
+        this.displayOperations(TypeOps.transfer, minDate, maxDate)
+        break
+    }
+  }
+
+  displayHarbors (): void {
+    this.harborMarkers.forEach(marker => marker.addTo(this.map))
+  }
+
+  private displayOperations (type: TypeOps, minDate: Date, maxDate: Date) {
+    this.markers[type].forEach((marker, date) => date >= minDate && date <= maxDate ? marker.addTo(this.map) : marker.remove())
+  }
+
+  hideMarkers (id: keyof typeof SwitchType): void {
+    switch (id) {
+      case "harbor":
+        this.hideHarbors()
+        break
+      case "medical":
+        this.hideOperations(TypeOps.medical)
+        break
+      case "rescue":
+        this.hideOperations(TypeOps.rescue)
+        break
+      case "transfer":
+        this.hideOperations(TypeOps.transfer)
+        break
+    }
+  }
+
+  private hideHarbors (): void {
+    this.harborMarkers.forEach(BaseMap.remove)
+  }
+
+  private hideOperations (type: TypeOps) {
+    this.markers[type].forEach(BaseMap.remove)
+  }
+
+  private static remove (marker: Marker) {
+    marker.remove()
   }
 }

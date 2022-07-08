@@ -23,8 +23,8 @@
         "title": "Vue",
         "rescue": "Sauvetage", 
         "transfer": "Transfert", 
-        "med": "Evaluation Médicale",
-        "harbors": "Ports"
+        "medical": "Evaluation Médicale",
+        "harbor": "Ports"
     },
     "stats": {
         "females": "Femmes",

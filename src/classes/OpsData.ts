@@ -3,13 +3,14 @@ import convert from "geo-coordinates-parser"
 const dataRequestUrl = `https://sheets.googleapis.com/v4/spreadsheets/1mK5tq3gfnc0OckQnArz1TXhh4YINAWfF7ilYa5PhOw8/values/data_sos?key=${process.env.VUE_APP_GOOGLE_API_KEY}`
 
 export enum TypeOps {
-  Rescue = "Rescue",
-  Transfer = "Transfer"
+  medical = "Medical",
+  rescue = "Rescue",
+  transfer = "Transfer"
 }
 
 export class OpsData {
   date = new Date()
-  typeOps = TypeOps.Rescue
+  typeOps = TypeOps.rescue
   nbOps = NaN
   nbSurvivor = NaN
   male = NaN
@@ -71,7 +72,7 @@ export const fetchOpsData = async function (): Promise<OpsData[]> {
 
   const model = sheet.values.splice(0, 1)[0].map(value => {
     let valueFound
-    while ((valueFound = /_([a-zA-Z0-9])/g.exec(value)) !== null) {
+    while ((valueFound = /_([a-zA-Z\d])/g.exec(value)) !== null) {
       value = value.replace(valueFound[0], valueFound[1].toLocaleUpperCase())
     }
     return value

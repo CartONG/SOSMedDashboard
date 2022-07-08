@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-row justify-between">
     <div class="flex flex-row items-baseline">
-      <div class="legend-marker mr-2" :class="markerStyle"></div>
+      <div class="legend-marker mr-2" :class="cssClass"></div>
       <label :for="id" class="text-xs label-color">{{title}}</label>
     </div>
     <div class="relative inline-block w-8 mr-2 align-middle select-none transition duration-200 ease-in">
@@ -10,8 +10,8 @@
             :name="id"
             :id="id"
             class="toggle-checkbox absolute block w-3 h-3 rounded-full bg-white border-2 appearance-none cursor-pointer"
-            @change="toggle"
-            checked
+            @change="toggle()"
+            :checked="checked"
         />
         <label
             :for="id"
@@ -24,38 +24,31 @@
 <script lang='ts'>
 import { store } from "@/Store"
 import { defineComponent } from "vue"
+import { SwitchType } from "@/classes/State"
 
 export default defineComponent({
   props: {
-    switchId: {
-      type: String,
+    checked: {
+      type: Boolean,
       required: true
     },
-    switchTitle: {
+    id: {
+      type: String as () => SwitchType,
+      required: true
+    },
+    title: {
       type: String,
       required: true
     }
   },
   data () {
-    return { id: this.switchId, title: this.switchTitle }
-  },
-  computed: {
-    markerStyle () {
-      switch (this.id) {
-        case "harbor":
-          return { icon: true, "icon-anchor-o": true, "text-black": true }
-        case "rescue":
-          return { "bg-secondary": true }
-        case "transfer":
-          return { "bg-gray-400": true }
-        default:
-          return { "bg-main": true }
-      }
+    return {
+      cssClass: store.getCssClass(this.id)
     }
   },
   methods: {
     toggle () {
-      store.updateMap()
+      store.toggleSwitch(this.id)
     }
   },
   name: "Legend-Switch"

@@ -33,10 +33,6 @@ export class HistogramSlider {
   private hist: any
   private width = 300
 
-  constructor() {
-    console.log("constructor")
-  }
-
   setWidth(width: number) {
     this.width = width - 20
     this.x.range([0, this.width])
