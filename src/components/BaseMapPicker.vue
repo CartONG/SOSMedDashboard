@@ -60,7 +60,6 @@ export default defineComponent({
 </script>
 <style scoped>
 .BaseMapPicker {
-  display: flex;
   flex-flow: column nowrap;
   width: 29px;
   height: 29px;
@@ -78,7 +77,6 @@ export default defineComponent({
 .BaseMapPicker__dropdownContent {
   display: none;
   position: absolute;
-  background-color: none;
   min-width: 160px;
   z-index: 1;
 }

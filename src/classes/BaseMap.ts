@@ -4,6 +4,7 @@ import { LngLatBounds, Map as Mapbox, Marker, NavigationControl } from "mapbox-g
 import { showPopUp } from "./PopUpAndStats"
 import { FeatureCollection } from "geojson"
 import { SwitchType } from "@/classes/State"
+import "mapbox-gl/dist/mapbox-gl.css"
 
 export interface SingleBasemap {
   id: number;

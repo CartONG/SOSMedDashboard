@@ -5511,7 +5511,7 @@
   "resolved" "https://registry.npmjs.org/map-obj/-/map-obj-4.3.0.tgz"
   "version" "4.3.0"
 
-"mapbox-gl@^2.1.1":
+"mapbox-gl@^2.9.1":
   "integrity" "sha512-PWEyI0FUeWaCbDnKmzHBi6CIB264SG6O894PJL1q4Cz/ZiHNyAROonCD48bxVWSQnXXAEDPyhJS5MiJ2K5DTjw=="
   "resolved" "https://registry.npmjs.org/mapbox-gl/-/mapbox-gl-2.9.1.tgz"
   "version" "2.9.1"
