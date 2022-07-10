@@ -3,47 +3,29 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: "Raleway";
-  src: local("Raleway"),
-  url(../fonts/Raleway/Raleway-Regular.ttf) format("truetype");
+    font-family: "Raleway";
+    src: local("Raleway"),
+    url(../fonts/Raleway/Raleway-Regular.ttf) format("truetype");
 }
 
 @layer utilities {
-  @variants responsive {
-    .histogram-slider-position-and-background {
-      position: absolute;
-      bottom: 50px;
-      background-color: rgba(255, 255, 255, 0.7);
-      padding: 20px 30px;
-      margin-left: 5%
+    .legend-background {
+        background-color: rgba(255, 255, 255, 0.7);
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-left: 10px;
     }
-    
-    .legend-position-desktop {
-      position: absolute;
-      top: auto;
-      bottom: 100px;
-      right: 50px;
-      margin-left: auto;
+
+    .marker {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        cursor: pointer;
     }
-  }
 
-  .legend-background {
-    background-color: rgba(255, 255, 255, 0.7);
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-left: 10px;
-  }
-
-  .marker {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    cursor: pointer;
-  }
-
-  .legend-marker {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-  }
+    .legend-marker {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+    }
 }
