@@ -1,0 +1,2 @@
+TODO update vue-histogram-slider with ts-rangeslider
+TODO voir si la font size du SOS méditerranée est okay

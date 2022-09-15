@@ -29,3 +29,16 @@
         border-radius: 50%;
     }
 }
+
+/* Dropdown Content (Hidden by Default) */
+.BaseMapPicker__dropdownContent {
+    display: none;
+}
+
+.BaseMapPicker__show {
+    display: block;
+}
+
+.BaseMapPicker__itemBtnGrp {
+    overflow: hidden;
+}

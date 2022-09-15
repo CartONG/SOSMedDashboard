@@ -5,6 +5,7 @@ import { showPopUp } from "./PopUpAndStats"
 import { FeatureCollection } from "geojson"
 import { SwitchType } from "@/classes/State"
 import "mapbox-gl/dist/mapbox-gl.css"
+import { BaseMapPickerControl } from "./BaseMapPickerControl"
 
 export interface SingleBasemap {
   id: number;
@@ -64,6 +65,11 @@ export class BaseMap {
 
     /* Add Controls to the Map */
     this.map.addControl(viewResetter, "top-right")
+
+    const baseMapPickerControl = new BaseMapPickerControl()
+
+    /* Add Controls to the Map */
+    this.map.addControl(baseMapPickerControl, "top-right")
 
     // Warning: The button for changing the basemap is added elsewhere --> Basemap.vue.
     // This is because the button needed to trigger a popup, with multiple button.
