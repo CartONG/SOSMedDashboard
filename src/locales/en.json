@@ -1,0 +1,49 @@
+{
+    "header": {
+        "sos": "SOS",
+        "mediterranee": "Mediterranee",
+        "title": "Interactive map",
+        "subtitle": "History of rescue operations in the Mediterranean",
+        "glossary": "Glossary",
+        "logBook": "Logbook",
+        "donate": {
+            "title": "Save lives",
+            "subtitle": "Now",
+            "button": "I donnate",
+            "button2": "Make a donation"
+        }
+    },
+    "contributors": {
+        "contrib": "Contributors",
+        "volunteers": "CartONG volunteers and staff", 
+        "dev": "Developers",
+        "others": "Others"
+    },
+    "legend": {
+        "title": "View",
+        "rescue": "Rescue", 
+        "transfer": "Transfer", 
+        "medical": "Medical evacuation",
+        "harbor": "Ports"
+    },
+    "stats": {
+        "females": "Women",
+        "males": "Men", 
+        "minors": "Minor",
+        "pregnants": "Pregnant",
+        "unaccompanied": "Unaccompanied",
+        "children": "Children",
+        "nationalities": "Nationalities",
+        "peoples": "Rescued people",
+        "opDays": "Days of operation"
+    },
+    "popup": {
+        "wind": "Wind",
+        "windUnit": "knots",
+        "waves": "Wave height",
+        "boat": "Boat in distress",
+        "port": "Disembarkation port",
+        "videosAndPictures": "Pictures and videos",
+        "dateFilter": "Date of filtering"
+    }
+}
