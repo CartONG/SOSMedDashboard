@@ -62,7 +62,7 @@ export class BaseMapPickerControl implements IControl {
 
   private static hideOnClickOutside (element:HTMLElement) {
     const outsideClickListener = (event: MouseEvent) => {
-      if (!element.contains(event.target as HTMLElement) && BaseMapPickerControl.isVisible(element)) { // or use: event.target.closest(selector) === null
+      if (!element.contains(event.target as HTMLElement) && BaseMapPickerControl.isVisible(element) && document.getElementById("BaseMapPicker__dropdownItem")!.classList.contains("BaseMapPicker__show")) { // or use: event.target.closest(selector) === null
         BaseMapPickerControl.toggleDropDownButtonVisibility()
       }
     }
