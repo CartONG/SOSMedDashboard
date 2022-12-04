@@ -1,6 +1,7 @@
 <template>
   <div class="flex flex-col h-screen overflow-hidden">
     <Header/>
+    <KeyNumbersMobile/>
     <BaseMap/>
   </div>
   <PopUp/>
@@ -20,6 +21,7 @@ import Legend from "./components/Legend.vue"
 import HistogramSlider from "./components/HistogramSlider.vue"
 import Stats from "./components/Stats.vue"
 import KeyNumbers from "./components/KeyNumbers.vue"
+import KeyNumbersMobile from "./components/KeyNumbersMobile.vue"
 import { store } from "./Store"
 import { defineComponent, onMounted } from "vue"
 
@@ -31,7 +33,8 @@ export default defineComponent({
     Legend,
     PopUp,
     Stats,
-    KeyNumbers
+    KeyNumbers,
+    KeyNumbersMobile
   },
   setup () {
     onMounted(() => {

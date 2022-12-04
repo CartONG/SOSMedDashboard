@@ -79,7 +79,9 @@ export const updateStats = function (minDate: Date, maxDate: Date, timeFilteredD
   setInnerText("statsNationalities", numberToString(nbNationalities))
   setInnerText("statsNbDays", numberToString(days.size))
   setInnerText("statsNbOperations", numberToString(nbRescueOps))
+  setInnerText("statsNbOperationsMobile", numberToString(nbRescueOps))
   setInnerText("statsNbPeopleAssisted", numberToString(nbPeopleAssisted))
+  setInnerText("statsNbPeopleAssistedMobile", numberToString(nbPeopleAssisted))
   // Mobile view
   setInnerText("statsMinDate2", minDate.toDateString())
   setInnerText("statsMaxDate2", maxDate.toDateString())
