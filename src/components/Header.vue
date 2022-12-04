@@ -5,8 +5,8 @@
         <img alt="logo SOS Méditerranée" class="cursor-pointer w-28" src="../assets/logo.png"
              onclick="location.href='https://www.sosmediterranee.fr/';"/>
         <div class="ml-2">
-          <p class="text-xl align-middle leading-5 text-main font-black">{{ $t("header.title") }}</p>
-          <p class="text-base align-middle leading-3 text-secondary">
+          <p class="text-base align-middle leading-5 text-main font-black">{{ $t("header.title") }}</p>
+          <p class="text-xs align-middle leading-3 text-secondary">
             {{ $t("header.subtitle") }}
           </p>
         </div>
