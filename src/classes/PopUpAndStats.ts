@@ -1,5 +1,5 @@
 import { OpsData } from "./OpsData"
-import { reactiveStore } from "@/Store"
+import { reactiveStore, store } from "@/Store"
 
 const numberToString = function (n: number) {
   if (isNaN(n)) {
@@ -55,6 +55,9 @@ export const updateStats = function (minDate: Date, maxDate: Date, timeFilteredD
   let under5 = 0
   let nbNationalities = 0
   const days = new Set()
+  const nbRescueOps = store.allData.filter(el => el.typeOps === "Rescue").length
+  const nbPeopleAssisted = store.allData.filter(el => el.nbSurvivor).map(
+    el => el.nbSurvivor).reduce((partialSum, a) => partialSum + a, 0)
   for (const data of timeFilteredData) {
     nbSurvivor = data.nbSurvivor ? nbSurvivor + data.nbSurvivor : nbSurvivor
     female = data.female ? female + data.female : female
@@ -75,6 +78,10 @@ export const updateStats = function (minDate: Date, maxDate: Date, timeFilteredD
   setInnerText("statsChildren", numberToString(under5))
   setInnerText("statsNationalities", numberToString(nbNationalities))
   setInnerText("statsNbDays", numberToString(days.size))
+  setInnerText("statsNbOperations", numberToString(nbRescueOps))
+  setInnerText("statsNbOperationsMobile", numberToString(nbRescueOps))
+  setInnerText("statsNbPeopleAssisted", numberToString(nbPeopleAssisted))
+  setInnerText("statsNbPeopleAssistedMobile", numberToString(nbPeopleAssisted))
   // Mobile view
   setInnerText("statsMinDate2", minDate.toDateString())
   setInnerText("statsMaxDate2", maxDate.toDateString())

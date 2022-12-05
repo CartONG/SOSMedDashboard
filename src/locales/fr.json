@@ -35,7 +35,9 @@
         "children": "Enfants",
         "nationalities": "Nationalités",
         "peoples": "Personnes secourues",
-        "opDays": "Jours d'opérations"
+        "opDays": "Jours d'opérations",
+        "rescueNb" : "Opérations de sauvetage",
+        "since": "Depuis"
     },
     "popup": {
         "wind": "Vent",
