@@ -15,6 +15,11 @@ onMounted(() => {
       if (reactiveStore.virtualVisitVisibility) reactiveStore.switchVirtualVisitVisibility()
     }
   }
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      if (reactiveStore.virtualVisitVisibility) reactiveStore.switchVirtualVisitVisibility()
+    }
+  })
 })
 </script>
 
