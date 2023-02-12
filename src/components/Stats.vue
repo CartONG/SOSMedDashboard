@@ -78,9 +78,9 @@
         {{ $t("stats.nationalities") }}</p>
       <hr class="border w-1/4 ml-auto mr-auto mt-2 mb-2"/>
       <div class="flex flex-col flex-wrap align-center cursor-pointer virtual-visit-shower" @click.stop="showVirtualVisit()">
+        <span class="icon icon-tour text-8xl leading-6 text-center text-secondary mb-2"/>
         <span class="icon icon-sosmed-ship  text-8xl leading-6 text-center text-secondary mb-2"/>
-        <p class="text-center text-main text-xl font-bold"><span id="statsNbDays" class="text-secondary"/> {{ $t("stats.opDays") }}
-      </p>
+        <p class="text-center text-main text-xl font-bold"><span id="statsNbDays" class="text-secondary"/> {{ $t("stats.opDays") }}</p>
       </div>
     </div>
   </div>
