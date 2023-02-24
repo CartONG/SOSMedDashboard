@@ -1,6 +1,6 @@
 import { OpsData, TypeOps } from "./OpsData"
 import { MapboxGLButtonControl } from "./MapboxGLButtonControl"
-import { LngLatBounds, Map as Mapbox, Marker, NavigationControl } from "mapbox-gl"
+import { GeoJSONSourceRaw, LngLatBounds, Map as Mapbox, Marker, NavigationControl } from "mapbox-gl"
 import { showPopUp } from "./PopUpAndStats"
 import { FeatureCollection } from "geojson"
 import { SwitchType } from "@/classes/State"
@@ -110,6 +110,12 @@ export class BaseMap {
     }
     return new Marker(el)
       .setLngLat([longitude, latitude])
+  }
+
+  createSarRegions (sar: GeoJSONSourceRaw): void {
+    this.map.addSource("sar", sar)
+    this.map.addLayer({ id: "sar", type: "fill", source: "sar", layout: {}, paint: { "fill-color": "#b8b8b8", "fill-opacity": 0.5 } })
+    this.map.addLayer({ id: "sar-outline", type: "line", source: "sar", layout: {}, paint: { "line-color": "#000", "line-width": 1 } })
   }
 
   private static getClassFromOperationType (typeOps: TypeOps) {
