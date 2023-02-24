@@ -117,6 +117,7 @@ export const store = {
   allData: [] as OpsData[],
   harbors: {} as FeatureCollection,
   sar: {} as GeoJSONSourceRaw,
+  sarCenters: {} as GeoJSONSourceRaw,
   state: new State(),
   baseMap: new BaseMap(),
   histogramSlider: new HistogramSlider(),
@@ -133,10 +134,11 @@ export const store = {
   async initStore (): Promise<void> {
     this.harbors = require("./assets/resources/harbors_mediterranee.json")
     this.sar = require("./assets/resources/SAR.json")
+    this.sarCenters = require("./assets/resources/SAR_centers.json")
     this.allData = await fetchOpsData()
     this.updateHistogramSlider()
     this.baseMap.createMarkers(this.harbors, this.allData)
-    this.baseMap.createSarRegions(this.sar)
+    this.baseMap.createSarRegions(this.sar, this.sarCenters)
     this.filterData(this.state.minDate, this.state.maxDate)
   },
 

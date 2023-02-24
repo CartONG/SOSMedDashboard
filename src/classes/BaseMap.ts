@@ -112,10 +112,21 @@ export class BaseMap {
       .setLngLat([longitude, latitude])
   }
 
-  createSarRegions (sar: GeoJSONSourceRaw): void {
+  createSarRegions (sar: GeoJSONSourceRaw, sarCenters: GeoJSONSourceRaw): void {
     this.map.addSource("sar", sar)
-    this.map.addLayer({ id: "sar", type: "fill", source: "sar", layout: {}, paint: { "fill-color": "#b8b8b8", "fill-opacity": 0.5 } })
-    this.map.addLayer({ id: "sar-outline", type: "line", source: "sar", layout: {}, paint: { "line-color": "#000", "line-width": 1 } })
+    this.map.addSource("sarCenters", sarCenters)
+    this.map.addLayer({ id: "sar-outline", type: "line", source: "sar", layout: {}, paint: { "line-color": "#999999", "line-width": 1, "line-dasharray": [1, 2] } })
+    this.map.addLayer({
+      id: "symbols",
+      type: "symbol",
+      source: "sarCenters",
+      layout: {
+        "symbol-placement": "point",
+        "text-font": ["Open Sans Regular"],
+        "text-field": "{Nom}",
+        "text-size": 10
+      }
+    })
   }
 
   private static getClassFromOperationType (typeOps: TypeOps) {
