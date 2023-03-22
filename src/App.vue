@@ -11,9 +11,11 @@
     <HistogramSlider/>
   </div>
   <Legend/>
+  <VirtualVisit v-show="reactiveStore.virtualVisitVisibility"/>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
+// Import are needed otherwise components are buggued
 import BaseMap from "./components/BaseMap.vue"
 import PopUp from "./components/PopUp.vue"
 import Header from "./components/Header.vue"
@@ -22,24 +24,12 @@ import HistogramSlider from "./components/HistogramSlider.vue"
 import Stats from "./components/Stats.vue"
 import KeyNumbers from "./components/KeyNumbers.vue"
 import KeyNumbersMobile from "./components/KeyNumbersMobile.vue"
-import { store } from "./Store"
-import { defineComponent, onMounted } from "vue"
+import VirtualVisit from "./components/VirtualVisit.vue"
+import { store, reactiveStore } from "./Store"
+import { onMounted } from "vue"
 
-export default defineComponent({
-  components: {
-    Header,
-    BaseMap,
-    HistogramSlider,
-    Legend,
-    PopUp,
-    Stats,
-    KeyNumbers,
-    KeyNumbersMobile
-  },
-  setup () {
-    onMounted(() => {
-      store.initStore()
-    })
-  }
+onMounted(() => {
+  store.initStore()
 })
+
 </script>

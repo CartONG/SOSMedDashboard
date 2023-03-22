@@ -20,7 +20,7 @@
         <span class="icon icon-rescue text-4xl leading-6  text-center text-secondary"/>
         <p class="text-sm text-main font-bold"><span id="statsNbSurvivor2" class="text-secondary text-lg"/> {{ $t("stats.peoples") }}</p>
       </div>
-      <div class="flex flex-col">
+      <div class="flex flex-col cursor-pointer virtual-visit-shower" @click.stop="showVirtualVisit()">
         <span class="icon icon-sosmed-ship text-4xl leading-6 text-center text-secondary"/>
         <p class="text-sm text-center text-main font-bold"><span id="statsNbDays2" class="text-secondary text-lg"/>
           {{ $t("stats.opDays") }}</p>
@@ -77,9 +77,11 @@
       <p class="text-sm text-center text-secondary"><span class="icon icon-planet mr-3"/><span id="statsNationalities"/>
         {{ $t("stats.nationalities") }}</p>
       <hr class="border w-1/4 ml-auto mr-auto mt-2 mb-2"/>
-      <span class="icon icon-sosmed-ship  text-8xl leading-6 text-center text-secondary mb-2"/>
-      <p class="text-center text-main text-xl font-bold"><span id="statsNbDays" class="text-secondary"/> {{ $t("stats.opDays") }}
-      </p>
+      <div class="flex flex-col flex-wrap align-center cursor-pointer virtual-visit-shower" @click.stop="showVirtualVisit()">
+        <span class="icon icon-tour text-8xl leading-6 text-center text-secondary mb-2"/>
+        <span class="icon icon-sosmed-ship  text-8xl leading-6 text-center text-secondary mb-2"/>
+        <p class="text-center text-main text-xl font-bold"><span id="statsNbDays" class="text-secondary"/> {{ $t("stats.opDays") }}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -87,12 +89,17 @@
 <script lang="ts">
 
 import { defineComponent } from "vue"
-
+import { reactiveStore } from "@/Store"
 export default defineComponent({
   data () {
     return { displayingStats: true }
   },
-  name: "Base-Map-Stats"
+  name: "Base-Map-Stats",
+  methods: {
+    showVirtualVisit (): void {
+      reactiveStore.switchVirtualVisitVisibility()
+    }
+  }
 })
 </script>
 

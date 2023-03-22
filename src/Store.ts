@@ -30,6 +30,9 @@ export interface ReactiveStore {
 
   setPopUpImageUrls: (popUpImageUrls: string[]) => void;
   popUpImageUrls: string[];
+
+  switchVirtualVisitVisibility: () => void;
+  virtualVisitVisibility: boolean;
 }
 
 export const reactiveStore : ReactiveStore = reactive({
@@ -81,6 +84,16 @@ export const reactiveStore : ReactiveStore = reactive({
 
   get popUpImageUrls (): string[] {
     return this._popUpImageUrls
+  },
+
+  _virtualVisitVisibility: false,
+
+  switchVirtualVisitVisibility (): void {
+    this._virtualVisitVisibility = !this._virtualVisitVisibility
+  },
+
+  get virtualVisitVisibility (): boolean {
+    return this._virtualVisitVisibility
   }
 })
 
