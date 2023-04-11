@@ -11,7 +11,7 @@
     <HistogramSlider/>
   </div>
   <Legend/>
-  <VirtualVisit v-show="reactiveStore.virtualVisitVisibility"/>
+  <VirtualVisit v-if="reactiveStore.virtualVisitAlreadyOpened"/>
 </template>
 
 <script lang="ts" setup>

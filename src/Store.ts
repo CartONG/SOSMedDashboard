@@ -33,6 +33,8 @@ export interface ReactiveStore {
 
   switchVirtualVisitVisibility: () => void;
   virtualVisitVisibility: boolean;
+
+  virtualVisitAlreadyOpened: boolean;
 }
 
 export const reactiveStore : ReactiveStore = reactive({
@@ -90,10 +92,21 @@ export const reactiveStore : ReactiveStore = reactive({
 
   switchVirtualVisitVisibility (): void {
     this._virtualVisitVisibility = !this._virtualVisitVisibility
+    this.updateVirtualVisitAlreadyOpened()
   },
 
   get virtualVisitVisibility (): boolean {
     return this._virtualVisitVisibility
+  },
+
+  _virtualVisitAlreadyOpened: false,
+
+  updateVirtualVisitAlreadyOpened (): void {
+    this._virtualVisitAlreadyOpened = true
+  },
+
+  get virtualVisitAlreadyOpened (): boolean {
+    return this._virtualVisitAlreadyOpened
   }
 })
 
