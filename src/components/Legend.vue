@@ -6,14 +6,13 @@
       <svg v-if="index===3" class="h-7" viewBox="0 0 100 40">
         <line x1="0" y1="20" x2="100" y2="20" stroke="black"/>
       </svg>
-      <Switch :id="SwitchType[key]" :title="$t(`legend.${key}`)" :checked="value"></Switch>
+      <LegendSwitch :id="SwitchType[key]" :title="$t(`legend.${key}`)" :checked="value"></LegendSwitch>
     </template>
   </div>
 </template>
 
 <script lang='ts'>
-import Switch from "./Switch.vue"
-import { defineComponent } from "vue"
+import { defineAsyncComponent, defineComponent } from "vue"
 import { store } from "@/Store"
 import { SwitchType } from "@/classes/State"
 
@@ -24,7 +23,7 @@ export default defineComponent({
     }
   },
   components: {
-    Switch
+    LegendSwitch: defineAsyncComponent(() => import("./Switch.vue"))
   },
   name: "Base-Map-Legend",
   data: function () {

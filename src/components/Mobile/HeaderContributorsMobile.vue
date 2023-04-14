@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from "@vue/reactivity"
+import { reactive } from "vue"
 import HeaderContributorsContent from "../HeaderContributorsContent.vue"
 
 const react = reactive({

@@ -127,6 +127,9 @@ export const store = {
     this.state.minDate = new Date(minDate)
     this.state.maxDate = new Date(maxDate)
     for (const switchTypeKey in SwitchType) {
+      if (switchTypeKey === SwitchType.srr) {
+        continue
+      }
       this.updateMap(switchTypeKey as SwitchType, this.state.switch[switchTypeKey as SwitchType])
     }
     this.updateStats()

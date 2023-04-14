@@ -65,6 +65,9 @@ export class HistogramSlider {
   updateHistogram (data: number[], store: any) {
     const $ = require('jquery')
     const transition = d3Trans.transition().duration(this.transitionDuration)
+    if(this.hist === undefined) {
+      return
+    }
     this.hist.selectAll(`.vue-histogram-slider-bar-${this.id}`).remove()
 
     const histogram = d3Array

@@ -34,15 +34,15 @@ export const BASEMAPS: Array<SingleBasemap> = [{
 }]
 
 export class BaseMap {
-  private static SAR_LAYER_ID = "sar";
-  private static SAR_NAME_LAYER_ID = "sar-name";
+  private static SAR_LAYER_ID = "sar"
+  private static SAR_NAME_LAYER_ID = "sar-name"
 
-  private map!: Mapbox;
+  private map!: Mapbox
   private defaultExtent!: LngLatBounds
   private harborMarkers: Marker[] = []
-  private markers: {[key in TypeOps]: Map<Date, Marker>} = { Medical: new Map<Date, Marker>(), Rescue: new Map<Date, Marker>(), Transfer: new Map<Date, Marker>() };
+  private markers: {[key in TypeOps]: Map<Date, Marker>} = { Medical: new Map<Date, Marker>(), Rescue: new Map<Date, Marker>(), Transfer: new Map<Date, Marker>() }
 
-  currentBasemap = 0;
+  currentBasemap = 0
 
   init (): void {
     // This token was taken from the demo project we need to replace with a real token
@@ -117,6 +117,7 @@ export class BaseMap {
   createSarRegions (sar: GeoJSONSourceRaw, sarCenters: GeoJSONSourceRaw): void {
     this.map.addSource("sar", sar)
     this.map.addSource("sarCenters", sarCenters)
+    this.displaySarRegions()
   }
 
   private static getClassFromOperationType (typeOps: TypeOps) {
