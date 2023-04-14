@@ -10,10 +10,11 @@ import { GeoJSONSourceRaw } from "mapbox-gl"
 const CssClass: {
   [key in SwitchType]: { [key: string]: boolean }
 } = {
-  rescue: { "bg-secondary": true },
-  transfer: { "bg-gray-400": true },
+  harbor: { icon: true, "icon-anchor-o": true, "text-black": true, "text-xs": true },
   medical: { "bg-main": true },
-  harbor: { icon: true, "icon-anchor-o": true, "text-black": true }
+  rescue: { "bg-secondary": true },
+  srr: { "text-grayClose": true, "legend-srr": true },
+  transfer: { "bg-gray-400": true }
 }
 
 export interface ReactiveStore {

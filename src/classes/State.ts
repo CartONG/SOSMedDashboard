@@ -2,6 +2,7 @@ export enum SwitchType {
   harbor = "harbor",
   medical = "medical",
   rescue = "rescue",
+  srr = "srr",
   transfer = "transfer"
 }
 
@@ -13,6 +14,7 @@ export class State {
     rescue: true,
     transfer: true,
     medical: true,
-    harbor: true
+    harbor: true,
+    srr: true
   };
 }
