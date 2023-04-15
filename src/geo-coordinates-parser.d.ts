@@ -1,2 +1,1 @@
-/* eslint-disable */
-declare module 'geo-coordinates-parser'
+declare module "geo-coordinates-parser"

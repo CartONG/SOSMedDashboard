@@ -90,8 +90,8 @@ import { reactiveStore } from "@/Store"
 export default defineComponent({
   components: {
     BurgerMenu: defineAsyncComponent(() => import("./Mobile/BurgerMenu.vue")),
-    HeaderContributorsMobile: defineAsyncComponent(() => import("./HeaderContributors.vue")),
-    HeaderContributors: defineAsyncComponent(() => import("./Mobile/HeaderContributorsMobile.vue"))
+    HeaderContributorsMobile: defineAsyncComponent(() => import("./Mobile/HeaderContributorsMobile.vue")),
+    HeaderContributors: defineAsyncComponent(() => import("./HeaderContributors.vue"))
   },
   data () {
     return { reactiveStore, showForm: false }
