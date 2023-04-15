@@ -84,17 +84,14 @@
 </template>
 
 <script lang="ts">
-import BurgerMenu from "@/components/Mobile/BurgerMenu.vue"
-import HeaderContributors from "@/components/HeaderContributors.vue"
-import HeaderContributorsMobile from "@/components/Mobile/HeaderContributorsMobile.vue"
-import { defineComponent } from "vue"
+import { defineAsyncComponent, defineComponent } from "vue"
 import { reactiveStore } from "@/Store"
 
 export default defineComponent({
   components: {
-    BurgerMenu,
-    HeaderContributorsMobile,
-    HeaderContributors
+    BurgerMenu: defineAsyncComponent(() => import("./Mobile/BurgerMenu.vue")),
+    HeaderContributorsMobile: defineAsyncComponent(() => import("./HeaderContributors.vue")),
+    HeaderContributors: defineAsyncComponent(() => import("./Mobile/HeaderContributorsMobile.vue"))
   },
   data () {
     return { reactiveStore, showForm: false }

@@ -1,6 +1,6 @@
 import { OpsData, TypeOps } from "./OpsData"
 import { MapboxGLButtonControl } from "./MapboxGLButtonControl"
-import { LngLatBounds, Map as Mapbox, Marker, NavigationControl } from "mapbox-gl"
+import { GeoJSONSourceRaw, LngLatBounds, Map as Mapbox, Marker, NavigationControl } from "mapbox-gl"
 import { showPopUp } from "./PopUpAndStats"
 import { FeatureCollection } from "geojson"
 import { SwitchType } from "@/classes/State"
@@ -31,16 +31,18 @@ export const BASEMAPS: Array<SingleBasemap> = [{
   name: "Dark",
   img: "/basemaps-icons/dark.png",
   style: "mapbox://styles/mapbox/dark-v10"
-}
-]
+}]
 
 export class BaseMap {
-  private map!: Mapbox;
+  private static SAR_LAYER_ID = "sar"
+  private static SAR_NAME_LAYER_ID = "sar-name"
+
+  private map!: Mapbox
   private defaultExtent!: LngLatBounds
   private harborMarkers: Marker[] = []
-  private markers: {[key in TypeOps]: Map<Date, Marker>} = { Medical: new Map<Date, Marker>(), Rescue: new Map<Date, Marker>(), Transfer: new Map<Date, Marker>() };
+  private markers: {[key in TypeOps]: Map<Date, Marker>} = { Medical: new Map<Date, Marker>(), Rescue: new Map<Date, Marker>(), Transfer: new Map<Date, Marker>() }
 
-  currentBasemap = 0;
+  currentBasemap = 0
 
   init (): void {
     // This token was taken from the demo project we need to replace with a real token
@@ -112,6 +114,12 @@ export class BaseMap {
       .setLngLat([longitude, latitude])
   }
 
+  createSarRegions (sar: GeoJSONSourceRaw, sarCenters: GeoJSONSourceRaw): void {
+    this.map.addSource("sar", sar)
+    this.map.addSource("sarCenters", sarCenters)
+    this.displaySarRegions()
+  }
+
   private static getClassFromOperationType (typeOps: TypeOps) {
     switch (typeOps) {
       case TypeOps.rescue:
@@ -145,6 +153,9 @@ export class BaseMap {
       case "transfer":
         this.displayOperations(TypeOps.transfer, minDate, maxDate)
         break
+      case "srr":
+        this.displaySarRegions()
+        break
     }
   }
 
@@ -154,6 +165,21 @@ export class BaseMap {
 
   private displayOperations (type: TypeOps, minDate: Date, maxDate: Date) {
     this.markers[type].forEach((marker, date) => date >= minDate && date <= maxDate ? marker.addTo(this.map) : marker.remove())
+  }
+
+  private displaySarRegions () {
+    this.map.addLayer({ id: BaseMap.SAR_LAYER_ID, type: "line", source: "sar", layout: {}, paint: { "line-color": "#999999", "line-width": 1, "line-dasharray": [1, 2] } })
+    this.map.addLayer({
+      id: BaseMap.SAR_NAME_LAYER_ID,
+      type: "symbol",
+      source: "sarCenters",
+      layout: {
+        "symbol-placement": "point",
+        "text-font": ["Open Sans Regular"],
+        "text-field": "{Nom}",
+        "text-size": 10
+      }
+    })
   }
 
   hideMarkers (id: keyof typeof SwitchType): void {
@@ -170,6 +196,9 @@ export class BaseMap {
       case "transfer":
         this.hideOperations(TypeOps.transfer)
         break
+      case "srr":
+        this.hideSarRegions()
+        break
     }
   }
 
@@ -179,6 +208,11 @@ export class BaseMap {
 
   private hideOperations (type: TypeOps) {
     this.markers[type].forEach(BaseMap.remove)
+  }
+
+  private hideSarRegions () {
+    this.map.removeLayer(BaseMap.SAR_LAYER_ID)
+    this.map.removeLayer(BaseMap.SAR_NAME_LAYER_ID)
   }
 
   private static remove (marker: Marker) {

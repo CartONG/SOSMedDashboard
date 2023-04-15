@@ -1,12 +1,12 @@
 import { LocaleMessages, VueMessageType } from "vue-i18n"
 
-export function loadLocaleMessages (): LocaleMessages<VueMessageType> {
+export function loadLocaleMessages (): {[locale: string]:LocaleMessages<VueMessageType>} {
   const locales = require.context(
     "./locales",
     true,
     /[A-Za-z0-9-_,\s]+\.json$/i
   )
-  const messages: LocaleMessages<VueMessageType> = {}
+  const messages: {[locale: string]:LocaleMessages<VueMessageType>} = {}
   locales.keys().forEach(key => {
     const matched = key.match(/([A-Za-z0-9-_]+)\./i)
     if (matched && matched.length > 1) {

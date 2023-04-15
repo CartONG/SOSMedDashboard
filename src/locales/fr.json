@@ -20,11 +20,12 @@
         "others": "Autres"
     },
     "legend": {
-        "title": "Vue",
-        "rescue": "Sauvetage", 
-        "transfer": "Transfert", 
+        "harbor": "Ports",
         "medical": "Evacuation Médicale",
-        "harbor": "Ports"
+        "rescue": "Sauvetage",
+        "srr": "Région de recherche & sauvetage",
+        "title": "Vue",
+        "transfer": "Transfert"
     },
     "stats": {
         "females": "Femmes",

@@ -10,10 +10,10 @@
 
 
 @screen md {
-  .mapboxgl-ctrl-top-right  {
-    top: 22%;
-    right: 1em;
-  }
+    .mapboxgl-ctrl-top-right {
+        top: 22%;
+        right: 1em;
+    }
 }
 
 @layer utilities {
@@ -35,6 +35,14 @@
         width: 10px;
         height: 10px;
         border-radius: 50%;
+    }
+
+    .legend-srr {
+        border: none;
+        border-top: 1px dotted;
+        background-color: #fff;
+        height: 5px;
+        border-radius: unset
     }
 }
 

@@ -5,14 +5,16 @@ import { reactive } from "vue"
 import { FeatureCollection } from "geojson"
 import { BaseMap } from "@/classes/BaseMap"
 import { HistogramSlider } from "@/classes/HistogramSlider"
+import { GeoJSONSourceRaw } from "mapbox-gl"
 
 const CssClass: {
   [key in SwitchType]: { [key: string]: boolean }
 } = {
-  rescue: { "bg-secondary": true },
-  transfer: { "bg-gray-400": true },
+  harbor: { icon: true, "icon-anchor-o": true, "text-black": true, "text-xs": true },
   medical: { "bg-main": true },
-  harbor: { icon: true, "icon-anchor-o": true, "text-black": true }
+  rescue: { "bg-secondary": true },
+  srr: { "text-grayClose": true, "legend-srr": true },
+  transfer: { "bg-gray-400": true }
 }
 
 export interface ReactiveStore {
@@ -115,6 +117,8 @@ export const reactiveStore : ReactiveStore = reactive({
 export const store = {
   allData: [] as OpsData[],
   harbors: {} as FeatureCollection,
+  sar: {} as GeoJSONSourceRaw,
+  sarCenters: {} as GeoJSONSourceRaw,
   state: new State(),
   baseMap: new BaseMap(),
   histogramSlider: new HistogramSlider(),
@@ -123,6 +127,9 @@ export const store = {
     this.state.minDate = new Date(minDate)
     this.state.maxDate = new Date(maxDate)
     for (const switchTypeKey in SwitchType) {
+      if (switchTypeKey === SwitchType.srr) {
+        continue
+      }
       this.updateMap(switchTypeKey as SwitchType, this.state.switch[switchTypeKey as SwitchType])
     }
     this.updateStats()
@@ -130,9 +137,12 @@ export const store = {
 
   async initStore (): Promise<void> {
     this.harbors = require("./assets/resources/harbors_mediterranee.json")
+    this.sar = require("./assets/resources/SAR.json")
+    this.sarCenters = require("./assets/resources/SAR_centers.json")
     this.allData = await fetchOpsData()
     this.updateHistogramSlider()
     this.baseMap.createMarkers(this.harbors, this.allData)
+    this.baseMap.createSarRegions(this.sar, this.sarCenters)
     this.filterData(this.state.minDate, this.state.maxDate)
   },
 

@@ -24,7 +24,7 @@ export default defineComponent({
   components: {
     Datepicker
   },
-  name: "Date",
+  name: "Date-picker",
 
   props: {
     visible: Boolean,

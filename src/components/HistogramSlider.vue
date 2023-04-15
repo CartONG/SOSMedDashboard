@@ -17,15 +17,14 @@
 import "../js/range-slider"
 import { store } from "@/Store"
 import { Colors } from "@/utils/Colors"
-import { computed, defineComponent, onBeforeUnmount, onMounted, ref } from "vue"
+import { computed, defineAsyncComponent, defineComponent, onBeforeUnmount, onMounted, ref } from "vue"
 
 // eslint-disable-next-line
 import $ from "jquery"
-import Date from "./Date.vue"
 
 export default defineComponent({
   components: {
-    Date
+    Date: defineAsyncComponent(() => import("./Date.vue"))
   },
   setup () {
     const getWidth = () => {

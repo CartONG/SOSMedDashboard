@@ -3,8 +3,8 @@ import { BASEMAPS } from "@/classes/BaseMap"
 import { store } from "@/Store"
 
 export class BaseMapPickerControl implements IControl {
-  private map?: Map;
-  private readonly container: HTMLDivElement;
+  private map?: Map
+  private readonly container: HTMLDivElement
 
   constructor () {
     this.container = document.createElement("div")
