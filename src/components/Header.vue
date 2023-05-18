@@ -19,8 +19,8 @@
            class="right-0 bg-white w-full">
         <nav class="text-lg text-main flex flex-col font-black">
           <ul class="list-disc pl-12 pt-6 pb-6 space-y-3">
-            <li><a href="#">{{ $t("header.glossary") }}</a></li>
-            <li><a href="https://onboard.sosmediterranee.org/">{{ $t("header.logBook") }}</a></li>
+            <li><a href="https://onboard.sosmediterranee.org/glossary/" target="_blank">{{ $t("header.glossary") }}</a></li>
+            <li><a href="https://onboard.sosmediterranee.org/" target="_blank">{{ $t("header.logBook") }}</a></li>
             <li><HeaderContributorsMobile/></li>
           </ul>
           <a class="bg-secondary text-donationText uppercase hover:bg-donationHoverBackground text-center rounded-b-lg"
@@ -68,10 +68,10 @@
       </div>
       <nav class="bg-main text-white flex h-10 items-center">
         <div class="flex-none flex ml-8">
-          <a href="#" class="px-1 flex-initial inline-block">{{ $t("header.glossary") }}</a>
+          <a href="https://onboard.sosmediterranee.org/glossary/" target="_blank" class="px-1 flex-initial inline-block">{{ $t("header.glossary") }}</a>
         </div>
         <div class="flex-none flex ml-8">
-          <a href="https://onboard.sosmediterranee.org/" class="px-1 flex-initial inline-block">
+          <a href="https://onboard.sosmediterranee.org/" target="_blank" class="px-1 flex-initial inline-block">
             {{ $t("header.logBook") }}
           </a>
         </div>
