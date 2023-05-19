@@ -40,3 +40,9 @@ export default defineComponent({
 })
 
 </script>
+
+<style>
+.icon-anchor-o{
+  cursor: grabbing;
+}
+</style>
