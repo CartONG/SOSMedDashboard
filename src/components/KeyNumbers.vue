@@ -5,18 +5,18 @@
         {{ $t("stats.since") }} 2016</h1>
         <div class='flex flex-row gap-4'>
           <div class='flex flex-col'>
-            <p class='text-center text-white text-xl font-bold'>
+            <p class='text-center text-white text-2xl font-black'>
               <span id="statsNbOperations">
               </span>
             </p>
-            <p>{{ $t("stats.rescueNb") }}</p>
+            <p class="text-white text-l font-black">{{ $t("stats.rescueNb") }}</p>
           </div>
             <div class='flex flex-col'>
-            <p class='text-center text-white text-xl font-bold'>
+            <p class='text-center text-white text-2xl font-black'>
               <span id="statsNbPeopleAssisted">
               </span>
             </p>
-            <p>{{ $t("stats.peoples") }}</p>
+            <p class="text-white text-l font-black">{{ $t("stats.peoples") }}</p>
           </div>
           <div>
           </div>
