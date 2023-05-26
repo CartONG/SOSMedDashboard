@@ -1,5 +1,5 @@
 <template>
-  <div class="z-100 fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-50" :class="scaleClass"></div>
+  <div class="z-50 fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-50" :class="scaleClass"></div>
   <div id="popUp" :style="style"
        class="z-100 fixed top-0 left-0 w-screen h-screen flex items-center justify-center transform transition-transform duration-300"
        :class="scaleClass">
@@ -72,55 +72,64 @@
           <video v-for="url in videoUrls" :key="url" class="max-w-[50%] p-1" controls>
             <source :src="url" type="video/mp4">
           </video>
-          <img v-for="url in imageUrls" :key="url" class="max-w-[50%] p-1" :src="url">
+          <img v-for="url in imageUrls" :key="url" class="max-w-[50%] p-1 cursor-pointer" :src="url" @click="setCurrentImage(url)">
         </div>
       </div>
     </div>
   </div>
+  <transition name="fade">
+      <div v-if="isModalVisible">
+        <div
+          @click="toggleImageModalVisibility"
+          class="absolute bg-black bg-opacity-50 inset-0 z-100 flex justify-center items-center"
+        >
+          <div
+            class="w-full max-w-7xl p-3 rounded-xl shadow-lg bg-white opacity-100"
+          >
+              <img class="w-full" :src="currentImage">
+          </div>
+        </div>
+      </div>
+    </transition>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { Colors } from "@/utils/Colors"
-import { ReactiveStore, reactiveStore } from "@/Store"
+import { reactiveStore } from "@/Store"
+import { computed, onMounted, ref } from "vue"
 
-export default {
-  name: "PopUp",
-
-  computed: {
-    scaleClass (): string {
-      if (reactiveStore.isPopUpVisible) {
-        return "scale-100"
-      }
-      return "scale-0"
-    },
-    style (): string {
-      return `
-        --text-color: ${Colors.BLUE};
-      `
-    },
-    videoAndPictures (): boolean {
-      return reactiveStore.isVideoAndPicturePopUpVisible
-    },
-    videoUrls (): string[] {
-      return reactiveStore.popUpVideoUrls
-    },
-    imageUrls (): string[] {
-      return reactiveStore.popUpImageUrls
-    }
-  },
-  data (): { reactiveStore: ReactiveStore } {
-    return { reactiveStore }
-  },
-  mounted (): void {
-    const popUpMap = document.getElementById("popUp")
-    const closeButton = document.getElementById("closeButton")
-    if (closeButton && popUpMap) {
-      closeButton.addEventListener("click", () => {
-        reactiveStore.updatePopUpVisibility()
-      })
-    }
+const scaleClass = computed(() => {
+  if (reactiveStore.isPopUpVisible) {
+    return "scale-100"
   }
+  return "scale-0"
+})
+const style = `--text-color: ${Colors.BLUE};`
+const videoAndPictures = computed(() => reactiveStore.isVideoAndPicturePopUpVisible)
+const videoUrls = computed(() => reactiveStore.popUpVideoUrls)
+const imageUrls = computed(() => reactiveStore.popUpImageUrls)
+const isModalVisible = ref(false)
+
+function toggleImageModalVisibility () {
+  isModalVisible.value = !isModalVisible.value
 }
+
+function setCurrentImage (url: string) {
+  currentImage.value = url
+  isModalVisible.value = true
+}
+
+const currentImage = ref("")
+
+onMounted(() => {
+  const popUpMap = document.getElementById("popUp")
+  const closeButton = document.getElementById("closeButton")
+  if (closeButton && popUpMap) {
+    closeButton.addEventListener("click", () => {
+      reactiveStore.updatePopUpVisibility()
+    })
+  }
+})
 
 </script>
 

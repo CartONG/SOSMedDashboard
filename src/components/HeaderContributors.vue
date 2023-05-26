@@ -19,7 +19,7 @@ import HeaderContributorsContent from "./HeaderContributorsContent.vue"
 
 <style scoped>
 .Contributors__container {
-  z-index: 9999;
+  z-index: 50;
   display: flex;
   flex-flow: column nowrap;
   justify-content: flex-start;

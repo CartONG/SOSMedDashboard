@@ -117,7 +117,7 @@ export default defineComponent({
 }
 
 .Contributors__container {
-  z-index: 9999;
+  z-index: 50;
   display: flex;
   flex-flow: column nowrap;
   justify-content: flex-start;
