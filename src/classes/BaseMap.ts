@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 import { OpsData, TypeOps } from "./OpsData"
 import { MapboxGLButtonControl } from "./MapboxGLButtonControl"
 import { GeoJSONSourceRaw, LngLatBounds, Map as Mapbox, Marker, NavigationControl } from "mapbox-gl"
@@ -6,6 +7,7 @@ import { FeatureCollection } from "geojson"
 import { SwitchType } from "@/classes/State"
 import "mapbox-gl/dist/mapbox-gl.css"
 import { BaseMapPickerControl } from "./BaseMapPickerControl"
+import { opsDataToGeoJSON } from "@/utils/arrayToGeojson"
 
 export interface SingleBasemap {
   id: number;
@@ -88,12 +90,35 @@ export class BaseMap {
   }
 
   createOperationMarkers (timeFilteredData: OpsData[]): void {
-    timeFilteredData.filter(operation => !isNaN(operation.longitude) && !isNaN(operation.latitude))
-      .forEach(operation =>
-        this.markers[operation.typeOps].set(operation.date,
-          this.createMarker(BaseMap.getClassFromOperationType(operation.typeOps), operation.longitude, operation.latitude, () => showPopUp(operation))
-        )
-      )
+    console.log(opsDataToGeoJSON(timeFilteredData.filter(operation => !isNaN(operation.longitude) && !isNaN(operation.latitude))))
+    this.map.addSource("operations", {
+      type: "geojson",
+      data: opsDataToGeoJSON(timeFilteredData.filter(operation => !isNaN(operation.longitude) && !isNaN(operation.latitude)))
+    })
+    this.map.addLayer({
+      id: "Operation",
+      type: "circle",
+      source: "operations",
+      paint: {
+        "circle-radius": ["step", ["zoom"], 3, 6, 5, 7.5, 8, 9, 10],
+        "circle-color": [
+          "match",
+          ["get", "typeOps"],
+          "Medical",
+          "#1A2747",
+          "Rescue",
+          "#F03E1B",
+          "Transfer",
+          "#9CA3AF",
+          /* other */ "#000"
+        ]
+      }
+    })
+    this.map.on("mouseenter", "Operation", () => this.map.getCanvas().style.cursor = "pointer")
+    this.map.on("mouseleave", "Operation", () => this.map.getCanvas().style.cursor = "")
+    this.map.on("click", "Operation", (e) => {
+      showPopUp(this.map.queryRenderedFeatures(e.point)[0].properties as OpsData)
+    })
   }
 
   createHarborsMarkers (harbors: FeatureCollection): void {
