@@ -69,7 +69,7 @@
           id="popUpLon"/></p>
         <p v-if="videoAndPictures" class="text-sm"><span class="icon icon-camera text-xl mr-3"/>{{ $t("popup.videosAndPictures") }}</p>
         <div v-if="videoAndPictures" class="flex flex-wrap">
-          <video v-for="url in videoUrls" :key="url" class="max-w-[50%] p-1" controls>
+          <video v-for="url in videoUrls" :key="url" class="max-w-[50%] p-1" controls controlsList="nodownload">
             <source :src="url" type="video/mp4">
           </video>
           <img v-for="url in imageUrls" :key="url" class="max-w-[50%] p-1 cursor-pointer" :src="url" @click="setCurrentImage(url)">
