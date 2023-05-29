@@ -90,7 +90,6 @@ export class BaseMap {
   }
 
   createOperationMarkers (timeFilteredData: OpsData[]): void {
-    console.log(opsDataToGeoJSON(timeFilteredData.filter(operation => !isNaN(operation.longitude) && !isNaN(operation.latitude))))
     this.map.addSource("operations", {
       type: "geojson",
       data: opsDataToGeoJSON(timeFilteredData.filter(operation => !isNaN(operation.longitude) && !isNaN(operation.latitude)))
