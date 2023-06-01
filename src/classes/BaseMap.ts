@@ -1,7 +1,7 @@
 /* eslint-disable no-return-assign */
 import { OpsData, TypeOps } from "./OpsData"
 import { MapboxGLButtonControl } from "./MapboxGLButtonControl"
-import { GeoJSONSourceRaw, LngLatBounds, Map as Mapbox, Marker, NavigationControl } from "mapbox-gl"
+import { GeoJSONSource, GeoJSONSourceRaw, LngLatBounds, Map as Mapbox, Marker, NavigationControl } from "mapbox-gl"
 import { showPopUp } from "./PopUpAndStats"
 import { FeatureCollection } from "geojson"
 import { SwitchType } from "@/classes/State"
@@ -86,10 +86,10 @@ export class BaseMap {
 
   createMarkers (harbors: FeatureCollection, ops: OpsData[]): void {
     this.createHarborsMarkers(harbors)
-    this.createOperationMarkers(ops)
+    this.createOperationLayer(ops)
   }
 
-  createOperationMarkers (timeFilteredData: OpsData[]): void {
+  createOperationLayer (timeFilteredData: OpsData[]): void {
     this.map.addSource("operations", {
       type: "geojson",
       data: opsDataToGeoJSON(timeFilteredData.filter(operation => !isNaN(operation.longitude) && !isNaN(operation.latitude)))
@@ -118,6 +118,10 @@ export class BaseMap {
     this.map.on("click", "Operation", (e) => {
       showPopUp(this.map.queryRenderedFeatures(e.point)[0].properties as OpsData)
     })
+  }
+
+  updateOperationsLayer (timeFilteredData: OpsData[]): void {
+    (this.map.getSource("operations") as GeoJSONSource).setData(opsDataToGeoJSON(timeFilteredData))
   }
 
   createHarborsMarkers (harbors: FeatureCollection): void {

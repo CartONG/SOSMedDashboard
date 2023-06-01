@@ -132,7 +132,9 @@ export const store = {
       }
       this.updateMap(switchTypeKey as SwitchType, this.state.switch[switchTypeKey as SwitchType])
     }
-    this.updateStats()
+    const timeFilteredData = this.allData.filter(currentOperation => this.state.minDate <= currentOperation.date && currentOperation.date <= this.state.maxDate)
+    this.baseMap.updateOperationsLayer(timeFilteredData)
+    this.updateStats(timeFilteredData)
   },
 
   async initStore (): Promise<void> {
@@ -181,9 +183,7 @@ export const store = {
     this.updateHistogramSlider()
   },
 
-  updateStats (): void {
-    const timeFilteredData = this.allData.filter(currentOperation => this.state.minDate <= currentOperation.date && currentOperation.date <= this.state.maxDate)
-
+  updateStats (timeFilteredData: OpsData[]): void {
     updateStats(this.state.minDate, this.state.maxDate, timeFilteredData)
   },
 
