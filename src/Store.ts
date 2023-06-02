@@ -11,7 +11,6 @@ const CssClass: {
   [key in SwitchType]: { [key: string]: boolean }
 } = {
   harbor: { icon: true, "icon-anchor-o": true, "text-black": true, "text-xs": true },
-  medical: { "bg-main": true },
   rescue: { "bg-secondary": true },
   srr: { "text-grayClose": true, "legend-srr": true },
   transfer: { "bg-gray-400": true }

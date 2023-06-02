@@ -44,7 +44,6 @@ export class BaseMap {
   private map!: Mapbox
   private defaultExtent!: LngLatBounds
   private harborMarkers: Marker[] = []
-  private markers: {[key in TypeOps]: Map<Date, Marker>} = { Medical: new Map<Date, Marker>(), Rescue: new Map<Date, Marker>(), Transfer: new Map<Date, Marker>() }
 
   currentBasemap = 0
 
@@ -107,8 +106,6 @@ export class BaseMap {
         "circle-color": [
           "match",
           ["get", "typeOps"],
-          "Medical",
-          "#1A2747",
           "Rescue",
           "#F03E1B",
           "Transfer",
@@ -125,14 +122,10 @@ export class BaseMap {
   }
 
   updateOperationsLayer (switchs: State["switch"], timeFilteredData?: OpsData[]): void {
-    console.log(switchs)
     if (timeFilteredData) {
       this.operationsData = timeFilteredData
     }
     this.filteredOperationsData = [...this.operationsData]
-    if (!switchs.medical) {
-      this.filteredOperationsData = this.filteredOperationsData.filter(x => x.typeOps !== "Medical")
-    }
     if (!switchs.rescue) {
       this.filteredOperationsData = this.filteredOperationsData.filter(x => x.typeOps !== "Rescue")
     }

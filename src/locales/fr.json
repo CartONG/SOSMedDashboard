@@ -21,7 +21,6 @@
     },
     "legend": {
         "harbor": "Ports",
-        "medical": "Evacuation Médicale",
         "rescue": "Sauvetage",
         "srr": "Région de recherche & sauvetage",
         "title": "Vue",

@@ -1,6 +1,5 @@
 export enum SwitchType {
   harbor = "harbor",
-  medical = "medical",
   rescue = "rescue",
   srr = "srr",
   transfer = "transfer"
@@ -13,7 +12,6 @@ export class State {
   switch: { [key in SwitchType]: boolean } = {
     rescue: true,
     transfer: true,
-    medical: true,
     harbor: true,
     srr: true
   }
