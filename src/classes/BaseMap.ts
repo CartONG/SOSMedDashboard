@@ -1,9 +1,9 @@
 /* eslint-disable no-return-assign */
-import { OpsData, TypeOps } from "./OpsData"
+import { OpsData } from "./OpsData"
 import { MapboxGLButtonControl } from "./MapboxGLButtonControl"
 import { GeoJSONSource, GeoJSONSourceRaw, LngLatBounds, Map, MapMouseEvent, Map as Mapbox, Marker, NavigationControl } from "mapbox-gl"
 import { showPopUp } from "./PopUpAndStats"
-import { Feature, FeatureCollection, GeoJsonProperties, Geometry } from "geojson"
+import { FeatureCollection } from "geojson"
 import { State, SwitchType } from "@/classes/State"
 import "mapbox-gl/dist/mapbox-gl.css"
 import { BaseMapPickerControl } from "./BaseMapPickerControl"
@@ -35,6 +35,8 @@ export const BASEMAPS: Array<SingleBasemap> = [{
   style: "mapbox://styles/mapbox/dark-v10"
 }]
 
+// Global variable used for setting on/off map event like click on operations layer
+// Explanation here: https://stackoverflow.com/questions/63036623/how-to-disable-an-event-listener-in-mapbox
 let map: Map
 
 export class BaseMap {
@@ -46,6 +48,8 @@ export class BaseMap {
   private map!: Mapbox
   private defaultExtent!: LngLatBounds
   private harborMarkers: Marker[] = []
+  private sar!: GeoJSONSourceRaw
+  private sarCenters!: GeoJSONSourceRaw
 
   currentBasemap = 0
 
@@ -88,6 +92,7 @@ export class BaseMap {
     this.map.setStyle(BASEMAPS[this.currentBasemap].style)
     this.map.once("render", () => {
       this.createOperationLayer(this.filteredOperationsData)
+      this.createSarRegions(this.sar, this.sarCenters)
     })
   }
 
@@ -181,6 +186,8 @@ export class BaseMap {
   }
 
   createSarRegions (sar: GeoJSONSourceRaw, sarCenters: GeoJSONSourceRaw): void {
+    this.sar = sar
+    this.sarCenters = sarCenters
     this.map.addSource("sar", sar)
     this.map.addSource("sarCenters", sarCenters)
     this.displaySarRegions()
