@@ -133,7 +133,7 @@ export const store = {
       this.updateMap(switchTypeKey as SwitchType, this.state.switch[switchTypeKey as SwitchType])
     }
     const timeFilteredData = this.allData.filter(currentOperation => this.state.minDate <= currentOperation.date && currentOperation.date <= this.state.maxDate)
-    this.baseMap.updateOperationsLayer(timeFilteredData)
+    this.baseMap.updateOperationsLayer(this.state.switch, timeFilteredData)
     this.updateStats(timeFilteredData)
   },
 
@@ -157,6 +157,7 @@ export const store = {
   },
 
   updateMap (id: keyof typeof SwitchType, isChecked: boolean): void {
+    this.baseMap.updateOperationsLayer(this.state.switch)
     isChecked
       ? this.baseMap.displayMarkers(id, this.state.minDate, this.state.maxDate)
       : this.baseMap.hideMarkers(id)

@@ -4,7 +4,7 @@ import { MapboxGLButtonControl } from "./MapboxGLButtonControl"
 import { GeoJSONSource, GeoJSONSourceRaw, LngLatBounds, Map as Mapbox, Marker, NavigationControl } from "mapbox-gl"
 import { showPopUp } from "./PopUpAndStats"
 import { FeatureCollection } from "geojson"
-import { SwitchType } from "@/classes/State"
+import { State, SwitchType } from "@/classes/State"
 import "mapbox-gl/dist/mapbox-gl.css"
 import { BaseMapPickerControl } from "./BaseMapPickerControl"
 import { opsDataToGeoJSON } from "@/utils/arrayToGeojson"
@@ -38,6 +38,8 @@ export const BASEMAPS: Array<SingleBasemap> = [{
 export class BaseMap {
   private static SAR_LAYER_ID = "sar"
   private static SAR_NAME_LAYER_ID = "sar-name"
+  private operationsData!: OpsData[]
+  private filteredOperationsData!: OpsData[]
 
   private map!: Mapbox
   private defaultExtent!: LngLatBounds
@@ -90,6 +92,8 @@ export class BaseMap {
   }
 
   createOperationLayer (timeFilteredData: OpsData[]): void {
+    this.operationsData = timeFilteredData
+    this.filteredOperationsData = [...timeFilteredData]
     this.map.addSource("operations", {
       type: "geojson",
       data: opsDataToGeoJSON(timeFilteredData.filter(operation => !isNaN(operation.longitude) && !isNaN(operation.latitude)))
@@ -120,8 +124,23 @@ export class BaseMap {
     })
   }
 
-  updateOperationsLayer (timeFilteredData: OpsData[]): void {
-    (this.map.getSource("operations") as GeoJSONSource).setData(opsDataToGeoJSON(timeFilteredData))
+  updateOperationsLayer (switchs: State["switch"], timeFilteredData?: OpsData[]): void {
+    console.log(switchs)
+    if (timeFilteredData) {
+      this.operationsData = timeFilteredData
+    }
+    this.filteredOperationsData = [...this.operationsData]
+    if (!switchs.medical) {
+      this.filteredOperationsData = this.filteredOperationsData.filter(x => x.typeOps !== "Medical")
+    }
+    if (!switchs.rescue) {
+      this.filteredOperationsData = this.filteredOperationsData.filter(x => x.typeOps !== "Rescue")
+    }
+    if (!switchs.transfer) {
+      this.filteredOperationsData = this.filteredOperationsData.filter(x => x.typeOps !== "Transfer")
+    }
+
+    (this.map.getSource("operations") as GeoJSONSource).setData(opsDataToGeoJSON(this.filteredOperationsData))
   }
 
   createHarborsMarkers (harbors: FeatureCollection): void {
@@ -148,17 +167,6 @@ export class BaseMap {
     this.displaySarRegions()
   }
 
-  private static getClassFromOperationType (typeOps: TypeOps) {
-    switch (typeOps) {
-      case TypeOps.rescue:
-        return "bg-secondary"
-      case TypeOps.transfer:
-        return "bg-gray-400"
-      default:
-        return "bg-main"
-    }
-  }
-
   resetView (): void {
     this.map.fitBounds(this.defaultExtent)
   }
@@ -172,15 +180,6 @@ export class BaseMap {
       case "harbor":
         this.displayHarbors()
         break
-      case "medical":
-        this.displayOperations(TypeOps.medical, minDate, maxDate)
-        break
-      case "rescue":
-        this.displayOperations(TypeOps.rescue, minDate, maxDate)
-        break
-      case "transfer":
-        this.displayOperations(TypeOps.transfer, minDate, maxDate)
-        break
       case "srr":
         this.displaySarRegions()
         break
@@ -189,10 +188,6 @@ export class BaseMap {
 
   displayHarbors (): void {
     this.harborMarkers.forEach(marker => marker.addTo(this.map))
-  }
-
-  private displayOperations (type: TypeOps, minDate: Date, maxDate: Date) {
-    this.markers[type].forEach((marker, date) => date >= minDate && date <= maxDate ? marker.addTo(this.map) : marker.remove())
   }
 
   private displaySarRegions () {
@@ -215,15 +210,6 @@ export class BaseMap {
       case "harbor":
         this.hideHarbors()
         break
-      case "medical":
-        this.hideOperations(TypeOps.medical)
-        break
-      case "rescue":
-        this.hideOperations(TypeOps.rescue)
-        break
-      case "transfer":
-        this.hideOperations(TypeOps.transfer)
-        break
       case "srr":
         this.hideSarRegions()
         break
@@ -232,10 +218,6 @@ export class BaseMap {
 
   private hideHarbors (): void {
     this.harborMarkers.forEach(BaseMap.remove)
-  }
-
-  private hideOperations (type: TypeOps) {
-    this.markers[type].forEach(BaseMap.remove)
   }
 
   private hideSarRegions () {
