@@ -1,18 +1,18 @@
 <template>
   <div class="bg-main text-white rounded-xl flex-col justify-between position-desktop absolute hidden md:flex">
     <div class="flex flex-col pt-2 pb-6 pl-6 pr-6 gap-2">
-      <h1 class='text-secondary text-center'>
+      <h1 class='text-secondary text-center text-xl'>
         {{ $t("stats.since") }} 2016</h1>
         <div class='flex flex-row gap-4'>
           <div class='flex flex-col'>
-            <p class='text-center text-white text-2xl font-black'>
+            <p class='text-center text-white text-5xl font-black'>
               <span id="statsNbOperations">
               </span>
             </p>
             <p class="text-white text-l font-black">{{ $t("stats.rescueNb") }}</p>
           </div>
             <div class='flex flex-col'>
-            <p class='text-center text-white text-2xl font-black'>
+            <p class='text-center text-white text-5xl font-black'>
               <span id="statsNbPeopleAssisted">
               </span>
             </p>
