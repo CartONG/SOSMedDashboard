@@ -61,7 +61,7 @@ export default defineComponent({
         --font-family: Arial, sans-serif;
         --font-size: 8px;
         --hist-slider-gap: -20px;
-        --handle-size: 26px;
+        --handle-size: 18px;
       `
     })
 
