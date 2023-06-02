@@ -1,9 +1,9 @@
 /* eslint-disable no-return-assign */
 import { OpsData, TypeOps } from "./OpsData"
 import { MapboxGLButtonControl } from "./MapboxGLButtonControl"
-import { GeoJSONSource, GeoJSONSourceRaw, LngLatBounds, Map as Mapbox, Marker, NavigationControl } from "mapbox-gl"
+import { GeoJSONSource, GeoJSONSourceRaw, LngLatBounds, Map, MapMouseEvent, Map as Mapbox, Marker, NavigationControl } from "mapbox-gl"
 import { showPopUp } from "./PopUpAndStats"
-import { FeatureCollection } from "geojson"
+import { Feature, FeatureCollection, GeoJsonProperties, Geometry } from "geojson"
 import { State, SwitchType } from "@/classes/State"
 import "mapbox-gl/dist/mapbox-gl.css"
 import { BaseMapPickerControl } from "./BaseMapPickerControl"
@@ -35,6 +35,8 @@ export const BASEMAPS: Array<SingleBasemap> = [{
   style: "mapbox://styles/mapbox/dark-v10"
 }]
 
+let map: Map
+
 export class BaseMap {
   private static SAR_LAYER_ID = "sar"
   private static SAR_NAME_LAYER_ID = "sar-name"
@@ -56,6 +58,7 @@ export class BaseMap {
       center: [9, 35],
       zoom: 4
     })
+    map = this.map
     this.defaultExtent = this.map.getBounds()
 
     // Add zoom and rotation controls to the map.
@@ -83,6 +86,9 @@ export class BaseMap {
   setCurrentBasemap (index: number): void {
     this.currentBasemap = index
     this.map.setStyle(BASEMAPS[this.currentBasemap].style)
+    this.map.once("render", () => {
+      this.createOperationLayer(this.filteredOperationsData)
+    })
   }
 
   createMarkers (harbors: FeatureCollection, ops: OpsData[]): void {
@@ -91,12 +97,23 @@ export class BaseMap {
   }
 
   createOperationLayer (timeFilteredData: OpsData[]): void {
+    if (this.map.getLayer("Operation")) this.map.removeLayer("Operation")
+    if (this.map.getSource("operations")) this.map.removeSource("operations")
     this.operationsData = timeFilteredData
     this.filteredOperationsData = [...timeFilteredData]
     this.map.addSource("operations", {
       type: "geojson",
       data: opsDataToGeoJSON(timeFilteredData.filter(operation => !isNaN(operation.longitude) && !isNaN(operation.latitude)))
     })
+    this.addOperationLayer()
+  }
+
+  addOperationLayer () {
+    if (this.map.getLayer("Operation")) this.map.removeLayer("Operation")
+    this.map.off("mouseenter", "Operation", this.setMapCursorPointer)
+    this.map.off("mouseleave", "Operation", this.removeMapCursorPointer)
+    this.map.off("click", "Operation", this.catchClickOnOperation)
+
     this.map.addLayer({
       id: "Operation",
       type: "circle",
@@ -114,11 +131,9 @@ export class BaseMap {
         ]
       }
     })
-    this.map.on("mouseenter", "Operation", () => this.map.getCanvas().style.cursor = "pointer")
-    this.map.on("mouseleave", "Operation", () => this.map.getCanvas().style.cursor = "")
-    this.map.on("click", "Operation", (e) => {
-      showPopUp(this.map.queryRenderedFeatures(e.point)[0].properties as OpsData)
-    })
+    this.map.on("mouseenter", "Operation", this.setMapCursorPointer)
+    this.map.on("mouseleave", "Operation", this.removeMapCursorPointer)
+    this.map.on("click", "Operation", this.catchClickOnOperation)
   }
 
   updateOperationsLayer (switchs: State["switch"], timeFilteredData?: OpsData[]): void {
@@ -132,8 +147,19 @@ export class BaseMap {
     if (!switchs.transfer) {
       this.filteredOperationsData = this.filteredOperationsData.filter(x => x.typeOps !== "Transfer")
     }
-
     (this.map.getSource("operations") as GeoJSONSource).setData(opsDataToGeoJSON(this.filteredOperationsData))
+  }
+
+  private setMapCursorPointer (): void {
+    map.getCanvas().style.cursor = "pointer"
+  }
+
+  private removeMapCursorPointer (): void {
+    map.getCanvas().style.cursor = ""
+  }
+
+  private catchClickOnOperation (e: MapMouseEvent): void {
+    showPopUp(map.queryRenderedFeatures(e.point)[0].properties as OpsData)
   }
 
   createHarborsMarkers (harbors: FeatureCollection): void {
