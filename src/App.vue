@@ -43,6 +43,6 @@ export default defineComponent({
 
 <style>
 .icon-anchor-o{
-  cursor: grabbing !important;
+  cursor: grab !important;
 }
 </style>
