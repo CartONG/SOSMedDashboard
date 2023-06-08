@@ -223,7 +223,7 @@ export const store = {
           }
         })
       } catch (error) {
-        console.log("Error on ports:" + x)
+        // console.error("Error on ports:" + x)
       }
     })
     return Promise.resolve(harbors)
