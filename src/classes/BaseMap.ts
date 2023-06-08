@@ -1,7 +1,7 @@
 /* eslint-disable no-return-assign */
 import { OpsData } from "./OpsData"
 import { MapboxGLButtonControl } from "./MapboxGLButtonControl"
-import { GeoJSONSource, GeoJSONSourceRaw, LngLatBounds, Map, MapMouseEvent, Map as Mapbox, Marker, NavigationControl } from "mapbox-gl"
+import { GeoJSONSource, GeoJSONSourceRaw, LngLatBounds, Map, MapMouseEvent, Marker, NavigationControl, Popup } from "mapbox-gl"
 import { showPopUp } from "./PopUpAndStats"
 import { FeatureCollection } from "geojson"
 import { State, SwitchType } from "@/classes/State"
@@ -45,7 +45,7 @@ export class BaseMap {
   private operationsData!: OpsData[]
   private filteredOperationsData!: OpsData[]
 
-  private map!: Mapbox
+  private map!: Map
   private defaultExtent!: LngLatBounds
   private harborMarkers: Marker[] = []
   private sar!: GeoJSONSourceRaw
@@ -55,7 +55,7 @@ export class BaseMap {
 
   init (): void {
     // This token was taken from the demo project we need to replace with a real token
-    this.map = new Mapbox({
+    this.map = new Map({
       accessToken: "pk.eyJ1Ijoid2VzbGV5YmFuZmllbGQiLCJhIjoiY2pmMDRwb202MGlzNDJ3bm44cHA3YXZiNCJ9.b2yOf2vbWnWiV7mlsFAywg",
       container: "mapContainer",
       style: BASEMAPS[this.currentBasemap].style,
@@ -169,7 +169,8 @@ export class BaseMap {
 
   createHarborsMarkers (harbors: FeatureCollection): void {
     harbors.features.forEach(feature => {
-      this.harborMarkers.push(this.createMarker("icon icon-anchor-o", feature.properties?.longitude, feature.properties?.latitude))
+      const popup = new Popup({ closeButton: false }).setHTML("<span class='text-lg'>" + feature.properties?.name + "</span>")
+      this.harborMarkers.push(this.createMarker("icon icon-anchor-o", (feature as any).geometry.coordinates[1], (feature as any).geometry.coordinates[0]).setPopup(popup))
     })
   }
 

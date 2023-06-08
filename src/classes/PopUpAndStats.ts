@@ -44,8 +44,8 @@ export const showPopUp = function (data: OpsData): void {
 }
 
 export const updateStats = function (minDate: Date, maxDate: Date, timeFilteredData: OpsData[]): void {
-  setInnerText("statsMinDate", minDate.toDateString())
-  setInnerText("statsMaxDate", maxDate.toDateString())
+  setInnerText("statsMinDate", getFormattedDate(minDate))
+  setInnerText("statsMaxDate", getFormattedDate(maxDate))
   let nbSurvivor = 0
   let female = 0
   let male = 0
@@ -83,8 +83,16 @@ export const updateStats = function (minDate: Date, maxDate: Date, timeFilteredD
   setInnerText("statsNbPeopleAssisted", numberToString(nbPeopleAssisted))
   setInnerText("statsNbPeopleAssistedMobile", numberToString(nbPeopleAssisted))
   // Mobile view
-  setInnerText("statsMinDate2", minDate.toDateString())
-  setInnerText("statsMaxDate2", maxDate.toDateString())
+  setInnerText("statsMinDate2", getFormattedDate(minDate))
+  setInnerText("statsMaxDate2", getFormattedDate(maxDate))
   setInnerText("statsNbSurvivor2", numberToString(nbSurvivor))
   setInnerText("statsNbDays2", numberToString(days.size))
+}
+
+function getFormattedDate (date: Date) {
+  const year = date.getFullYear()
+  const month = (1 + date.getMonth()).toString().padStart(2, "0")
+  const day = date.getDate().toString().padStart(2, "0")
+
+  return month + "/" + day + "/" + year
 }

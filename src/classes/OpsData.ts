@@ -1,6 +1,6 @@
 import convert from "geo-coordinates-parser"
 
-const dataRequestUrl = `https://sheets.googleapis.com/v4/spreadsheets/1mK5tq3gfnc0OckQnArz1TXhh4YINAWfF7ilYa5PhOw8/values/data_sos?key=${process.env.VUE_APP_GOOGLE_API_KEY}`
+const dataRequestUrl = `https://sheets.googleapis.com/v4/spreadsheets/1opF61Qq2DgrJIP-kQD5-KHzC4xZkp2u_zqigTGk3V0I/values/Data_operations?key=${process.env.VUE_APP_GOOGLE_API_KEY}`
 
 export enum TypeOps {
   rescue = "Rescue",
@@ -48,12 +48,13 @@ const convertOpsData = function (rawOpsData: {[key: string]: string}, metadataEr
   res.under5 = parseInt(rawOpsData.under5)
   res.pregnantWomen = parseInt(rawOpsData.pregnantWomen)
   const rawCoordinates = rawOpsData.latitude.concat(" ").concat(rawOpsData.longitude)
+  // console.log(rawCoordinates)
   try {
     const coordinates = convert(rawCoordinates)
     res.latitude = coordinates.decimalLatitude
     res.longitude = coordinates.decimalLongitude
   } catch {
-    console.error(`Invalid coordinates ${rawCoordinates} for ${metadataErrorLog}`)
+    console.error(`Invalid coordinates ${rawCoordinates} for operation ${metadataErrorLog}`)
   }
   res.windForce = parseInt(rawOpsData.windForce)
   res.waveHeight = parseInt(rawOpsData.waveHeight)
@@ -68,7 +69,6 @@ const convertOpsData = function (rawOpsData: {[key: string]: string}, metadataEr
 
 export const fetchOpsData = async function (): Promise<OpsData[]> {
   const sheet: { majorDimension: string; range: string; values: string[][] } = await (await fetch(dataRequestUrl)).json()
-
   const model = sheet.values.splice(0, 1)[0].map(value => {
     let valueFound
     while ((valueFound = /_([a-zA-Z\d])/g.exec(value)) !== null) {

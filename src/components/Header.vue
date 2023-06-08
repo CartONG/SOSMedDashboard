@@ -33,7 +33,7 @@
       <div class="flex ml-8">
         <div class="flex-none flex items-center my-4">
           <div>
-            <p class="text-xl leading-6 text-main font-black">{{ $t("header.title") }}</p>
+            <p class="text-xl leading-6 text-main font-black uppercase">{{ $t("header.title") }}</p>
             <p class="text-base leading-4 text-secondary">
               {{ $t("header.subtitle") }}
             </p>
