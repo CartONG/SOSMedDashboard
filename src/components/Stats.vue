@@ -30,30 +30,30 @@
 
   <!-- sm version -->
   <div class="bg-white rounded-xl flex-col justify-between position-desktop absolute hidden md:flex">
-    <h1 class="bg-secondary text-white text-center rounded-t mb-3"><span id="statsMinDate"/> <span
+    <h1 class="bg-secondary text-white text-center rounded-t mb-1"><span id="statsMinDate"/> <span
       class="icon icon-calendar text-sm"/> - <span id="statsMaxDate"/><span class="icon icon-calendar text-sm ml-1"/>
     </h1>
-    <div class="flex flex-col pb-6 pl-6 pr-6">
-      <span class="icon icon-rescue text-5xl text-center text-secondary"/>
-      <p class="text-main text-xl font-bold mb-5"><span id="statsNbSurvivor" class="text-secondary"/> {{ $t("stats.peoples") }}</p>
-      <div class="flex flex-row justify-around mb-5 text-main">
+    <div class="flex flex-col pb-3 pl-6 pr-6">
+      <span class="icon icon-rescue text-3xl text-center text-secondary"/>
+      <p class="text-main text-xl font-bold mb-2"><span id="statsNbSurvivor" class="text-secondary"/> {{ $t("stats.peoples") }}</p>
+      <div class="flex flex-row justify-around mb-2 text-main">
         <div class="flex flex-col">
-          <span class="icon icon-female text-5xl text-center"/>
+          <span class="icon icon-female text-3xl text-center"/>
           <span id="statsFemale" class="font-bold text-center"/>
           <p class="text-xs uppercase text-center">{{ $t("stats.females") }}</p>
         </div>
         <div class="flex flex-col">
-          <span class="icon icon-male text-5xl text-center"/>
+          <span class="icon icon-male text-3xl text-center"/>
           <span id="statsMale" class="font-bold text-center"/>
           <p class="text-xs uppercase text-center">{{ $t("stats.males") }}</p>
         </div>
         <div class="flex flex-col">
-          <span class="icon icon-kid text-5xl text-center"/>
+          <span class="icon icon-kid text-3xl text-center"/>
           <span id="statsMinor" class="font-bold text-center"/>
           <p class="text-xs uppercase text-center">{{ $t("stats.minors") }}</p>
         </div>
       </div>
-      <div class="flex flex-row justify-around border-dotted border-secondary border-2 rounded-xl p-4 mb-5">
+      <div class="flex flex-row justify-around border-dotted border-secondary border-2 rounded-xl p-4 mb-1">
         <div class="flex flex-row">
           <div class="flex flex-col">
             <span id="statsPregnant" class="font-bold text-right text-secondary"/>

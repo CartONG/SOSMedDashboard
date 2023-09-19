@@ -19,7 +19,7 @@
     "geo-coordinates-parser": "^1.5.8",
     "jquery": "^3.6.4",
     "mapbox-gl": "^2.14.1",
-    "vue": "^3.0.0",
+    "vue": "^3.3.4",
     "vue-i18n": "^9.1.10"
   },
   "devDependencies": {
