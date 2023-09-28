@@ -7,7 +7,7 @@
   </div>
   <hr class="border-dotted border-main border"/>
   <div>
-  <div v-for="people, key in volunteers" :key="key" class="flex flex-col">
+  <div v-for="people in volunteers" :key="people.type" class="flex flex-col">
     <p class="text-sm align-middle whitespace-nowrap">
       <span class="icon icon-rescue text-2xl mr-3 align-middle"/>
       <span class="font-bold align-middle text-lg">
@@ -17,8 +17,11 @@
     <div class="flex flex-row gap-4 ml-3">
       <div class="border border-main"> </div>
       <div class="flex flex-col align-middle whitespace-nowrap ml-2">
-        <span class="text-sm" v-for="dev, key in people.people" :key="key">
-          {{ dev.name }}
+        <span class="text-sm" v-for="dev in people.people" :key="dev.lastName">
+          {{ dev.firstName }} {{ dev.lastName }}
+          <span v-if="people.type == 'contributors.others'">
+            ({{ dev.contribution }})
+          </span>
         </span>
       </div>
     </div>
@@ -40,12 +43,12 @@ const compare = (a: Contributor, b: Contributor) => {
   } else if (!a.isCartONGStaff && b.isCartONGStaff) {
     return -1
   } else {
-    return a.name.localeCompare(b.name)
+    return a.firstName.localeCompare(b.firstName)
   }
 }
 const volunteers = [{
   type: "contributors.dev",
-  people: CONTRIBUTORS.developpers.sort(compare)
+  people: CONTRIBUTORS.developers.sort(compare)
 }, {
   type: "contributors.others",
   people: CONTRIBUTORS.others.sort(compare)
@@ -63,8 +66,6 @@ const cartongWebsite = "https://www.cartong.org/"
 .Contributors__contentContent {
   display: flex;
   flex-flow: column nowrap;
-  justify-content: top;
-  align-items: left;
   z-index: 9999999;
 }
 </style>

@@ -1,51 +1,66 @@
 export interface Contributor {
-  name: string
+  contribution?: string
+  firstName: string
   isCartONGStaff: boolean
+  lastName: string
 }
 
 export const CONTRIBUTORS: {
-  developpers: Array<Contributor>,
+  developers: Array<Contributor>,
   others: Array<Contributor>
 } = {
-  developpers: [
+  developers: [
     {
-      name: "Wesley Banfield",
-      isCartONGStaff: false
+      firstName: "Wesley",
+      isCartONGStaff: false,
+      lastName: "Banfield"
     },
     {
-      name: "Nicolas Grosjean",
-      isCartONGStaff: false
+      firstName: "Nicolas",
+      isCartONGStaff: false,
+      lastName: "Grosjean"
     },
     {
-      name: "Jean-Baptiste Regazzoni",
-      isCartONGStaff: false
+      firstName: "Jean-Baptiste",
+      isCartONGStaff: false,
+      lastName: "Regazzoni"
     },
     {
-      name: "Olivier Ribiere",
-      isCartONGStaff: true
+      firstName: "Olivier",
+      isCartONGStaff: true,
+      lastName: "Ribiere"
     },
     {
-      name: "Etienne Delclaux",
-      isCartONGStaff: true
+      firstName: "Etienne",
+      isCartONGStaff: true,
+      lastName: "Delclaux"
     }
 
   ],
   others: [
     {
-      name: "Damien de Vienne (Webdesigner)",
-      isCartONGStaff: false
+      contribution: "Webdesigner",
+      firstName: "Damien",
+      isCartONGStaff: false,
+      lastName: " De Vienne"
     },
     {
-      name: "Maelle Aubert (Product Owner)",
-      isCartONGStaff: true
+      contribution: "Product Owner",
+      firstName: "Maelle",
+      isCartONGStaff: true,
+      lastName: "Aubert"
     },
     {
-      name: "Clémence Beugnot (Coordinator)",
-      isCartONGStaff: true
+      contribution: "Coordinator",
+      firstName: "Clémence",
+      isCartONGStaff: true,
+      lastName: "Beugnot"
     },
     {
-      name: "Sylvie Chollet (Project Manager)",
-      isCartONGStaff: true
+      contribution: "Project Manager",
+      firstName: "Sylvie",
+      isCartONGStaff: true,
+      lastName: "Chollet"
     }
   ]
 }
