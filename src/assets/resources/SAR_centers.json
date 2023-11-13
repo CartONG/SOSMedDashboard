@@ -4,9 +4,9 @@
         "type": "FeatureCollection",
         "name": "Search_and_Rescue_Regions_Centers",
         "features": [
-            { "type": "Feature", "properties": { "FID": 3, "Nom": "RCC Malta" }, "geometry": { "type": "Point", "coordinates": [ 16.9, 35.6 ] } },
-            { "type": "Feature", "properties": { "FID": 1, "Nom": "RCC Italy" }, "geometry": { "type": "Point", "coordinates": [ 12.2, 40.2 ] } },
-            { "type": "Feature", "properties": { "FID": 2, "Nom": "RCC Libya" }, "geometry": { "type": "Point", "coordinates": [ 17.8, 33.8 ] } }
+            { "type": "Feature", "properties": { "FID": 3, "Nom": "SRR Malta" }, "geometry": { "type": "Point", "coordinates": [ 16.9, 35.6 ] } },
+            { "type": "Feature", "properties": { "FID": 1, "Nom": "SRR Italy" }, "geometry": { "type": "Point", "coordinates": [ 12.2, 40.2 ] } },
+            { "type": "Feature", "properties": { "FID": 2, "Nom": "SRR Libya" }, "geometry": { "type": "Point", "coordinates": [ 17.8, 33.8 ] } }
         ]
     }
 }
