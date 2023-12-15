@@ -6,7 +6,7 @@ import { FeatureCollection } from "geojson"
 import { BaseMap } from "@/classes/BaseMap"
 import { HistogramSlider } from "@/classes/HistogramSlider"
 import { GeoJSONSourceRaw } from "mapbox-gl"
-import convert from "geo-coordinates-parser"
+import { convert } from "geo-coordinates-parser"
 
 const CssClass: {
   [key in SwitchType]: { [key: string]: boolean }
@@ -208,7 +208,6 @@ export const store = {
     // eslint-disable-next-line array-callback-return
     sheet.values.map(x => {
       const rawCoordinates = x[1] + " " + x[2]
-      // console.log(rawCoordinates)
       try {
         const coordinates = convert(rawCoordinates)
         harbors.features.push({
