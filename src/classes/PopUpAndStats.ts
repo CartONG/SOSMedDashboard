@@ -55,7 +55,7 @@ export const updateStats = function (minDate: Date, maxDate: Date, timeFilteredD
   let under5 = 0
   let nbNationalities = 0
   const days = new Set()
-  const nbRescueOps = store.allData.filter(el => el.typeOps === "Rescue").length
+  const nbRescueOps = store.allData.map(x => x.nbOps).reduce((acc, currentVal) => acc + currentVal, 0)
   const nbPeopleAssisted = store.allData.filter(el => el.nbSurvivor).map(
     el => el.nbSurvivor).reduce((partialSum, a) => partialSum + a, 0)
   const nationalitiesList = []
@@ -68,7 +68,6 @@ export const updateStats = function (minDate: Date, maxDate: Date, timeFilteredD
     under18unacc = data.under18unacc ? under18unacc + data.under18unacc : under18unacc
     under5 = data.under5 ? under5 + data.under5 : under5
     if (data.nbNationalities) nationalitiesList.push(data.nbNationalities.split(";"))
-    // nbNationalities = data.nbNationalities ? Math.max(nbNationalities, data.nbNationalities) : nbNationalities
     days.add(data.date)
   }
   nbNationalities = [...new Set(nationalitiesList.flat())].length
