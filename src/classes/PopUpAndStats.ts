@@ -28,7 +28,7 @@ const fillPopUp = function (data: OpsData) {
   setInnerText("popUpPregnant", numberToString(data.pregnantWomen))
   setInnerText("popUpUnaccompagnied", numberToString(data.under18unacc))
   setInnerText("popUpChildren", numberToString(data.under5))
-  setInnerText("popUpNationalities", numberToString(data.nbNationalities))
+  setInnerText("popUpNationalities", numberToString(data.nbNationalities ? data.nbNationalities.split(";").length : 0))
   setInnerText("popUpWind", numberToString(data.windForce))
   setInnerText("popUpWave", numberToString(data.waveHeight))
   setInnerText("popUpLat", numberToString(data.latitude))
@@ -58,6 +58,7 @@ export const updateStats = function (minDate: Date, maxDate: Date, timeFilteredD
   const nbRescueOps = store.allData.filter(el => el.typeOps === "Rescue").length
   const nbPeopleAssisted = store.allData.filter(el => el.nbSurvivor).map(
     el => el.nbSurvivor).reduce((partialSum, a) => partialSum + a, 0)
+  const nationalitiesList = []
   for (const data of timeFilteredData) {
     nbSurvivor = data.nbSurvivor ? nbSurvivor + data.nbSurvivor : nbSurvivor
     female = data.female ? female + data.female : female
@@ -66,9 +67,11 @@ export const updateStats = function (minDate: Date, maxDate: Date, timeFilteredD
     pregnantwomen = data.pregnantWomen ? pregnantwomen + data.pregnantWomen : pregnantwomen
     under18unacc = data.under18unacc ? under18unacc + data.under18unacc : under18unacc
     under5 = data.under5 ? under5 + data.under5 : under5
-    nbNationalities = data.nbNationalities ? Math.max(nbNationalities, data.nbNationalities) : nbNationalities
+    if (data.nbNationalities) nationalitiesList.push(data.nbNationalities.split(";"))
+    // nbNationalities = data.nbNationalities ? Math.max(nbNationalities, data.nbNationalities) : nbNationalities
     days.add(data.date)
   }
+  nbNationalities = [...new Set(nationalitiesList.flat())].length
   setInnerText("statsNbSurvivor", numberToString(nbSurvivor))
   setInnerText("statsFemale", numberToString(female))
   setInnerText("statsMale", numberToString(male))

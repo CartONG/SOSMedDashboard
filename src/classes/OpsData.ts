@@ -23,7 +23,7 @@ export class OpsData {
   windForce = NaN
   waveHeight = NaN
   boatType = ""
-  nbNationalities = NaN
+  nbNationalities = ""
   transfertType = ""
   imageSrc: string[] = []
   videoSrc: string[] = []
@@ -77,7 +77,7 @@ const convertOpsData = function (rawOpsData: {[key: string]: string}, metadataEr
   res.windForce = parseInt(rawOpsData.windForce)
   res.waveHeight = parseInt(rawOpsData.waveHeight)
   res.boatType = rawOpsData.boatType
-  res.nbNationalities = parseInt(rawOpsData.nbNationalities)
+  res.nbNationalities = rawOpsData.typeNationalities
   res.transfertType = rawOpsData.transfertType
   res.imageSrc = rawOpsData.imageSrc ? rawOpsData.imageSrc.split(";") : []
   res.videoSrc = rawOpsData.videoSrv ? rawOpsData.videoSrv.split(";") : []
