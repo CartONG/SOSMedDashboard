@@ -21,17 +21,19 @@ export function opsDataToGeoJSON (rawData: OpsData[]): FeatureCollection {
     if (x.videoSrc.length > 0 && typeof (x.videoSrc) !== "string") {
       (x as any).videoSrc = x.videoSrc.join()
     }
-    featuresCollection.features.push({
-      type: "Feature",
-      properties: { ...x },
-      geometry: {
-        coordinates: [
-          x.longitude,
-          x.latitude
-        ],
-        type: "Point"
-      }
-    })
+    if (!isNaN(x.latitude) || !isNaN(x.longitude)) {
+      featuresCollection.features.push({
+        type: "Feature",
+        properties: { ...x },
+        geometry: {
+          coordinates: [
+            x.longitude,
+            x.latitude
+          ],
+          type: "Point"
+        }
+      })
+    }
   })
 
   return featuresCollection
