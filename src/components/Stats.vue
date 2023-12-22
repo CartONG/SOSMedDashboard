@@ -107,6 +107,6 @@ export default defineComponent({
 <style scoped>
 .position-desktop {
   top: 20%;
-  margin-left: 5%;
+  margin-left: 3%;
 }
 </style>
