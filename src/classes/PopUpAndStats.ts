@@ -54,8 +54,8 @@ export const updateStats = function (minDate: Date, maxDate: Date, timeFilteredD
   let under18unacc = 0
   let under5 = 0
   let nbNationalities = 0
-  const days = new Set()
   const nbRescueOps = store.allData.map(x => x.nbOps).reduce((acc, currentVal) => acc + currentVal, 0)
+  let filteredNbRescueOps = 0
   const nbPeopleAssisted = store.allData.filter(el => el.nbSurvivor).map(
     el => el.nbSurvivor).reduce((partialSum, a) => partialSum + a, 0)
   const nationalitiesList = []
@@ -68,7 +68,7 @@ export const updateStats = function (minDate: Date, maxDate: Date, timeFilteredD
     under18unacc = data.under18unacc ? under18unacc + data.under18unacc : under18unacc
     under5 = data.under5 ? under5 + data.under5 : under5
     if (data.nbNationalities) nationalitiesList.push(data.nbNationalities.split(";"))
-    days.add(data.date)
+    filteredNbRescueOps += data.nbOps
   }
   nbNationalities = [...new Set(nationalitiesList.flat())].length
   setInnerText("statsNbSurvivor", numberToString(nbSurvivor))
@@ -79,7 +79,7 @@ export const updateStats = function (minDate: Date, maxDate: Date, timeFilteredD
   setInnerText("statsUnaccompagnied", numberToString(under18unacc))
   setInnerText("statsChildren", numberToString(under5))
   setInnerText("statsNationalities", numberToString(nbNationalities))
-  setInnerText("statsNbDays", numberToString(days.size))
+  setInnerText("statsOps3", numberToString(filteredNbRescueOps))
   setInnerText("statsNbOperations", numberToString(nbRescueOps))
   setInnerText("statsNbOperationsMobile", numberToString(nbRescueOps))
   setInnerText("statsNbPeopleAssisted", numberToString(nbPeopleAssisted))
@@ -88,7 +88,7 @@ export const updateStats = function (minDate: Date, maxDate: Date, timeFilteredD
   setInnerText("statsMinDate2", getFormattedDate(minDate))
   setInnerText("statsMaxDate2", getFormattedDate(maxDate))
   setInnerText("statsNbSurvivor2", numberToString(nbSurvivor))
-  setInnerText("statsNbDays2", numberToString(days.size))
+  setInnerText("statsOps2", numberToString(filteredNbRescueOps))
 }
 
 function getFormattedDate (date: Date) {
