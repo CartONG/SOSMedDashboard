@@ -66,7 +66,7 @@ const convertOpsData = function (rawOpsData: {[key: string]: string}, metadataEr
   res.under18unacc = parseInt(rawOpsData.under18Unacc)
   res.under5 = parseInt(rawOpsData.under5)
   res.pregnantWomen = parseInt(rawOpsData.pregnantWomen)
-  const rawCoordinates = rawOpsData.latitude.concat(" ").concat(rawOpsData.longitude)
+  const rawCoordinates = rawOpsData.latitude.concat(", ").concat(rawOpsData.longitude)
   try {
     const coordinates = convert(rawCoordinates)
     res.latitude = coordinates.decimalLatitude

@@ -1,5 +1,5 @@
 <template>
-  <div :style="style" class="h-16 mx-auto flex md:h-32 md:absolute md:bottom-5 md:bg-white md:opacity-80 md:p-6 md:rounded-2xl">
+  <div :style="style" class="histo h-16 mx-auto flex md:h-32 md:absolute md:bottom-5 md:bg-white md:opacity-80 md:p-6 md:rounded-2xl">
     <span class="hidden md:block icon icon-calendar text-4xl text-right color-secondary cursor-pointer" @click="toggleMinDateVisibility"/>
     <div class="w-full">
       <svg :id="'vue-histogram'" class="hidden md:block md:w-full"/>
@@ -83,6 +83,10 @@ export default defineComponent({
 </script>
 
 <style>
+  .histo{
+    margin-left: 3%;
+  }
+
 .vue-histogram-view {
   z-index: 15;
 }

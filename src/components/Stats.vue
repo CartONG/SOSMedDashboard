@@ -22,8 +22,8 @@
       </div>
       <div class="flex flex-col cursor-pointer virtual-visit-shower" @click.stop="showVirtualVisit()">
         <span class="icon icon-sosmed-ship text-4xl leading-6 text-center text-secondary"/>
-        <p class="text-sm text-center text-main font-bold"><span id="statsNbDays2" class="text-secondary text-lg"/>
-          {{ $t("stats.opDays") }}</p>
+        <p class="text-sm text-center text-main font-bold"><span id="statsOps2" class="text-secondary text-lg"/>
+          {{ $t("stats.rescueNb") }}</p>
       </div>
     </div>
   </div>
@@ -80,7 +80,7 @@
       <div class="flex flex-col flex-wrap align-center cursor-pointer virtual-visit-shower" @click.stop="showVirtualVisit()">
         <span class="icon icon-tour text-8xl leading-6 text-center text-secondary mb-2"/>
         <span class="icon icon-sosmed-ship  text-8xl leading-6 text-center text-secondary mb-2"/>
-        <p class="text-center text-main text-xl font-bold"><span id="statsNbDays" class="text-secondary"/> {{ $t("stats.opDays") }}</p>
+        <p class="text-center text-main text-xl font-bold"><span id="statsOps3" class="text-secondary"/> {{ $t("stats.rescueNb") }}</p>
       </div>
     </div>
   </div>
@@ -107,6 +107,6 @@ export default defineComponent({
 <style scoped>
 .position-desktop {
   top: 20%;
-  margin-left: 5%;
+  margin-left: 3%;
 }
 </style>
