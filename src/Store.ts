@@ -207,7 +207,7 @@ export const store = {
     }
     // eslint-disable-next-line array-callback-return
     sheet.values.map(x => {
-      const rawCoordinates = x[1] + " " + x[2]
+      const rawCoordinates = x[1] + ", " + x[2]
       try {
         const coordinates = convert(rawCoordinates)
         harbors.features.push({
@@ -222,7 +222,7 @@ export const store = {
           }
         })
       } catch (error) {
-        // console.error("Error on ports:" + x)
+        console.error("Error on ports:" + x)
       }
     })
     return Promise.resolve(harbors)
