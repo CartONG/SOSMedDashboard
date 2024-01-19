@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col h-screen overflow-hidden">
-    <AppHeader/>
+    <!-- <AppHeader/> -->
     <KeyNumbersMobile/>
     <BaseMap/>
   </div>
@@ -20,7 +20,7 @@ import { defineAsyncComponent, defineComponent, onMounted } from "vue"
 
 export default defineComponent({
   components: {
-    AppHeader: defineAsyncComponent(() => import("./components/Header.vue")),
+    // AppHeader: defineAsyncComponent(() => import("./components/Header.vue")),
     AppLegend: defineAsyncComponent(() => import("./components/Legend.vue")),
     BaseMap: defineAsyncComponent(() => import("./components/BaseMap.vue")),
     HistogramSlider: defineAsyncComponent(() => import("./components/HistogramSlider.vue")),
