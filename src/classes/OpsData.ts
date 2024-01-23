@@ -44,6 +44,8 @@ export const fetchOpsData = async function (): Promise<OpsData[]> {
     }
     return value
   })
+  // Remove artefacts like empty lines or empty cells
+  sheet.values = sheet.values.filter(x => x.length > 0).filter(x => x[0] !== "")
 
   return sheet.values.map((value, valueIndex) => {
     const newValue: { [key: string]: string } = {}
