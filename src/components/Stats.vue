@@ -106,7 +106,7 @@ export default defineComponent({
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .position-desktop {
-  top: 20%;
+  top: 2%;
   margin-left: 3%;
 }
 </style>
