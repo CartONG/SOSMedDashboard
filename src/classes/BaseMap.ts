@@ -90,7 +90,7 @@ export class BaseMap {
   setCurrentBasemap (index: number): void {
     this.currentBasemap = index
     this.map.setStyle(BASEMAPS[this.currentBasemap].style)
-    this.map.once("render", () => {
+    this.map.once("load", () => {
       this.createOperationLayer(this.filteredOperationsData)
       this.createSarRegions(this.sar, this.sarCenters)
     })
