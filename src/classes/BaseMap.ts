@@ -1,13 +1,14 @@
 /* eslint-disable no-return-assign */
 import { OpsData } from "./OpsData"
 import { MapboxGLButtonControl } from "./MapboxGLButtonControl"
-import { GeoJSONSource, GeoJSONSourceRaw, LngLatBounds, Map, MapMouseEvent, Marker, NavigationControl, Popup } from "mapbox-gl"
+import { GeoJSONSource, GeoJSONSourceRaw, LngLatBounds, LngLatLike, Map, MapMouseEvent, Marker, NavigationControl, Popup } from "mapbox-gl"
 import { showPopUp } from "./PopUpAndStats"
-import { FeatureCollection } from "geojson"
+import { FeatureCollection, Point } from "geojson"
 import { State, SwitchType } from "@/classes/State"
 import "mapbox-gl/dist/mapbox-gl.css"
 import { BaseMapPickerControl } from "./BaseMapPickerControl"
 import { opsDataToGeoJSON } from "@/utils/arrayToGeojson"
+import { ref } from "vue"
 
 export interface SingleBasemap {
   id: number;
@@ -38,6 +39,7 @@ export const BASEMAPS: Array<SingleBasemap> = [{
 // Global variable used for setting on/off map event like click on operations layer
 // Explanation here: https://stackoverflow.com/questions/63036623/how-to-disable-an-event-listener-in-mapbox
 let map: Map
+const popup = new Popup({ closeOnClick: false, closeButton: false })
 
 export class BaseMap {
   private static SAR_LAYER_ID = "sar"
@@ -47,11 +49,20 @@ export class BaseMap {
 
   private map!: Map
   private defaultExtent!: LngLatBounds
-  private harborMarkers: Marker[] = []
+  private harbors!: FeatureCollection
   private sar!: GeoJSONSourceRaw
   private sarCenters!: GeoJSONSourceRaw
+  private iconsLoaded = ref(false)
 
   currentBasemap = 0
+
+  setData (harbors: FeatureCollection, ops: OpsData[], sar: GeoJSONSourceRaw, sarCenters: GeoJSONSourceRaw) {
+    this.harbors = harbors
+    this.operationsData = ops
+    this.filteredOperationsData = ops
+    this.sar = sar
+    this.sarCenters = sarCenters
+  }
 
   init (): void {
     // This token was taken from the demo project we need to replace with a real token
@@ -83,6 +94,10 @@ export class BaseMap {
     /* Add Controls to the Map */
     this.map.addControl(baseMapPickerControl, "top-right")
 
+    this.map.once("load", () => {
+      this.addIcons()
+    })
+
     // Warning: The button for changing the basemap is added elsewhere --> Basemap.vue.
     // This is because the button needed to trigger a popup, with multiple button.
   }
@@ -91,26 +106,49 @@ export class BaseMap {
     this.currentBasemap = index
     this.map.setStyle(BASEMAPS[this.currentBasemap].style)
     this.map.once("load", () => {
-      this.createOperationLayer(this.filteredOperationsData)
-      this.createSarRegions(this.sar, this.sarCenters)
+      this.setSources()
     })
   }
 
-  createMarkers (harbors: FeatureCollection, ops: OpsData[]): void {
-    this.createHarborsMarkers(harbors)
-    this.createOperationLayer(ops)
+  addIcons () {
+    if (!this.map.hasImage("harbor")) {
+      this.map.loadImage(`${process.env.BASE_URL}/basemaps-icons/harbor.png`, (error, image) => {
+        if (error) console.log(error)
+        console.log(image)
+        this.map.addImage("harbor", image as ImageBitmap)
+        this.setSources()
+      })
+    } else {
+      this.setSources()
+    }
   }
 
-  createOperationLayer (timeFilteredData: OpsData[]): void {
+  setSources () {
+    // Add Operations source
     if (this.map.getLayer("Operation")) this.map.removeLayer("Operation")
     if (this.map.getSource("operations")) this.map.removeSource("operations")
-    this.operationsData = timeFilteredData
-    this.filteredOperationsData = [...timeFilteredData]
     this.map.addSource("operations", {
       type: "geojson",
-      data: opsDataToGeoJSON(timeFilteredData.filter(operation => !isNaN(operation.longitude) && !isNaN(operation.latitude)))
+      data: opsDataToGeoJSON(this.filteredOperationsData.filter(operation => !isNaN(operation.longitude) && !isNaN(operation.latitude)))
     })
+    // Add Sar sources
+    if (this.map.getLayer("sar")) this.map.removeLayer("sar")
+    if (this.map.getSource("sar")) this.map.removeSource("sar")
+    if (this.map.getLayer("sarCenters")) this.map.removeLayer("sarCenters")
+    if (this.map.getSource("sarCenters")) this.map.removeSource("sarCenters")
+    this.map.addSource("sar", this.sar)
+    this.map.addSource("sarCenters", this.sarCenters)
+    // Add Harbors sources
+    this.map.addSource("harbors", {
+      type: "geojson",
+      data: this.harbors
+    })
+    this.addLayers()
+  }
+
+  addLayers () {
     this.addOperationLayer()
+    this.addHarborsLayer()
   }
 
   addOperationLayer () {
@@ -141,6 +179,36 @@ export class BaseMap {
     this.map.on("click", "Operation", this.catchClickOnOperation)
   }
 
+  addHarborsLayer () {
+    if (this.map.getLayer("harbors")) this.map.removeLayer("harbors")
+    this.map.off("mouseenter", "harbors", this.setHarborsPopUp)
+    this.map.off("mouseleave", "harbors", this.removeHarborsPopUp)
+    console.log(this.map.hasImage("harbor"))
+    this.map.addLayer({
+      id: "harbors",
+      type: "symbol",
+      source: "harbors",
+      layout: {
+        "icon-image": "harbor",
+        "icon-size": 0.35,
+        "icon-allow-overlap": true
+      }
+    })
+    this.map.on("mouseenter", "harbors", this.setHarborsPopUp)
+    this.map.on("mouseleave", "harbors", this.removeHarborsPopUp)
+  }
+
+  setHarborsPopUp (e: MapMouseEvent) {
+    const features = map.queryRenderedFeatures(e.point, { layers: ["harbors"] })
+    popup
+      .setLngLat((features[0].geometry as Point).coordinates as LngLatLike)
+      .setHTML(`<h1>${features[0].properties?.name}</h1>`).addTo(map)
+  }
+
+  removeHarborsPopUp () {
+    popup.remove()
+  }
+
   updateOperationsLayer (switchs: State["switch"], timeFilteredData?: OpsData[]): void {
     if (timeFilteredData) {
       this.operationsData = timeFilteredData
@@ -166,33 +234,13 @@ export class BaseMap {
   private catchClickOnOperation (e: MapMouseEvent): void {
     showPopUp(map.queryRenderedFeatures(e.point)[0].properties as OpsData)
   }
-
-  createHarborsMarkers (harbors: FeatureCollection): void {
-    harbors.features.forEach(feature => {
-      const popup = new Popup({ closeButton: false }).setHTML("<span class='text-lg'>" + feature.properties?.name + "</span>")
-      this.harborMarkers.push(this.createMarker("icon icon-anchor-o", (feature as any).geometry.coordinates[1], (feature as any).geometry.coordinates[0]).setPopup(popup))
-    })
-  }
-
-  private createMarker (className: string, longitude: number, latitude: number, showPopUp?: () => void): Marker {
-    const el = document.createElement("div")
-    el.className = `marker ${className}`
-    if (showPopUp) {
-      el.addEventListener("click", () => {
-        showPopUp()
-      })
-    }
-    return new Marker(el)
-      .setLngLat([longitude, latitude])
-  }
-
-  createSarRegions (sar: GeoJSONSourceRaw, sarCenters: GeoJSONSourceRaw): void {
-    this.sar = sar
-    this.sarCenters = sarCenters
-    this.map.addSource("sar", sar)
-    this.map.addSource("sarCenters", sarCenters)
-    this.displaySarRegions()
-  }
+  // createSarRegions (sar: GeoJSONSourceRaw, sarCenters: GeoJSONSourceRaw): void {
+  //   this.sar = sar
+  //   this.sarCenters = sarCenters
+  //   this.map.addSource("sar", sar)
+  //   this.map.addSource("sarCenters", sarCenters)
+  //   this.displaySarRegions()
+  // }
 
   resetView (): void {
     this.map.fitBounds(this.defaultExtent)
@@ -205,16 +253,12 @@ export class BaseMap {
   displayMarkers (id: keyof typeof SwitchType, minDate: Date, maxDate: Date): void {
     switch (id) {
       case "harbor":
-        this.displayHarbors()
+        // this.displayHarbors()
         break
       case "srr":
         this.displaySarRegions()
         break
     }
-  }
-
-  displayHarbors (): void {
-    this.harborMarkers.forEach(marker => marker.addTo(this.map))
   }
 
   private displaySarRegions () {
@@ -235,7 +279,7 @@ export class BaseMap {
   hideMarkers (id: keyof typeof SwitchType): void {
     switch (id) {
       case "harbor":
-        this.hideHarbors()
+        // this.hideHarbors()
         break
       case "srr":
         this.hideSarRegions()
@@ -243,9 +287,9 @@ export class BaseMap {
     }
   }
 
-  private hideHarbors (): void {
-    this.harborMarkers.forEach(BaseMap.remove)
-  }
+  // private hideHarbors (): void {
+  //   this.harborMarkers.forEach(BaseMap.remove)
+  // }
 
   private hideSarRegions () {
     this.map.removeLayer(BaseMap.SAR_LAYER_ID)

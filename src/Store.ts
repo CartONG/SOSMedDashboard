@@ -1,7 +1,7 @@
 import { OpsData, fetchOpsData } from "./classes/OpsData"
 import { updateStats } from "./classes/PopUpAndStats"
 import { State, SwitchType } from "./classes/State"
-import { reactive } from "vue"
+import { reactive, ref } from "vue"
 import { FeatureCollection } from "geojson"
 import { BaseMap } from "@/classes/BaseMap"
 import { HistogramSlider } from "@/classes/HistogramSlider"
@@ -122,6 +122,7 @@ export const store = {
   state: new State(),
   baseMap: new BaseMap(),
   histogramSlider: new HistogramSlider(),
+  dataLoaded: ref(false),
 
   filterData (minDate: Date, maxDate: Date): void {
     this.state.minDate = new Date(minDate)
@@ -142,14 +143,16 @@ export const store = {
     this.sar = require("./assets/resources/SAR.json")
     this.sarCenters = require("./assets/resources/SAR_centers.json")
     this.allData = await fetchOpsData()
+    this.dataLoaded.value = true
     this.updateHistogramSlider()
-    this.baseMap.createMarkers(this.harbors, this.allData)
-    this.baseMap.createSarRegions(this.sar, this.sarCenters)
-    this.filterData(this.state.minDate, this.state.maxDate)
+    // this.baseMap.createMarkers(this.harbors, this.allData)
+    // this.baseMap.createSarRegions(this.sar, this.sarCenters)
   },
 
   displayMap (): void {
+    this.baseMap.setData(this.harbors, this.allData, this.sar, this.sarCenters)
     this.baseMap.init()
+    // this.filterData(this.state.minDate, this.state.maxDate)
   },
 
   updateBasemap (index: number): void {
@@ -215,8 +218,8 @@ export const store = {
           properties: { name: x[0] },
           geometry: {
             coordinates: [
-              coordinates.decimalLatitude,
-              coordinates.decimalLongitude
+              coordinates.decimalLongitude,
+              coordinates.decimalLatitude
             ],
             type: "Point"
           }
