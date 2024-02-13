@@ -1,7 +1,7 @@
 import { OpsData, fetchOpsData } from "./classes/OpsData"
 import { updateStats } from "./classes/PopUpAndStats"
 import { State, SwitchType } from "./classes/State"
-import { reactive } from "vue"
+import { reactive, ref } from "vue"
 import { FeatureCollection } from "geojson"
 import { BaseMap } from "@/classes/BaseMap"
 import { HistogramSlider } from "@/classes/HistogramSlider"
@@ -122,18 +122,13 @@ export const store = {
   state: new State(),
   baseMap: new BaseMap(),
   histogramSlider: new HistogramSlider(),
+  dataLoaded: ref(false),
 
   filterData (minDate: Date, maxDate: Date): void {
     this.state.minDate = new Date(minDate)
     this.state.maxDate = new Date(maxDate)
-    for (const switchTypeKey in SwitchType) {
-      if (switchTypeKey === SwitchType.srr) {
-        continue
-      }
-      this.updateMap(switchTypeKey as SwitchType, this.state.switch[switchTypeKey as SwitchType])
-    }
     const timeFilteredData = this.allData.filter(currentOperation => this.state.minDate <= currentOperation.date && currentOperation.date <= this.state.maxDate)
-    this.baseMap.updateOperationsLayer(this.state.switch, timeFilteredData)
+    this.baseMap.updateOperationsData(timeFilteredData)
     this.updateStats(timeFilteredData)
   },
 
@@ -142,25 +137,19 @@ export const store = {
     this.sar = require("./assets/resources/SAR.json")
     this.sarCenters = require("./assets/resources/SAR_centers.json")
     this.allData = await fetchOpsData()
+    this.dataLoaded.value = true
     this.updateHistogramSlider()
-    this.baseMap.createMarkers(this.harbors, this.allData)
-    this.baseMap.createSarRegions(this.sar, this.sarCenters)
-    this.filterData(this.state.minDate, this.state.maxDate)
+    this.updateStats(this.allData)
   },
 
   displayMap (): void {
-    this.baseMap.init()
+    this.baseMap.setData(this.harbors, this.allData, this.sar, this.sarCenters)
+    this.baseMap.updateFiltersState(this.state.switch)
+    this.baseMap.initMap()
   },
 
   updateBasemap (index: number): void {
     this.baseMap.setCurrentBasemap(index)
-  },
-
-  updateMap (id: keyof typeof SwitchType, isChecked: boolean): void {
-    this.baseMap.updateOperationsLayer(this.state.switch)
-    isChecked
-      ? this.baseMap.displayMarkers(id, this.state.minDate, this.state.maxDate)
-      : this.baseMap.hideMarkers(id)
   },
 
   destroyMap (): void {
@@ -190,7 +179,7 @@ export const store = {
 
   toggleSwitch (switchId: keyof typeof SwitchType): void {
     this.state.switch[switchId] = !this.state.switch[switchId]
-    this.updateMap(switchId, this.state.switch[switchId])
+    this.baseMap.updateFiltersState(this.state.switch)
   },
 
   getCssClass (id: keyof typeof SwitchType): {[key: string]: boolean} {
@@ -215,8 +204,8 @@ export const store = {
           properties: { name: x[0] },
           geometry: {
             coordinates: [
-              coordinates.decimalLatitude,
-              coordinates.decimalLongitude
+              coordinates.decimalLongitude,
+              coordinates.decimalLatitude
             ],
             type: "Point"
           }
