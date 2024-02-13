@@ -139,6 +139,7 @@ export const store = {
     this.allData = await fetchOpsData()
     this.dataLoaded.value = true
     this.updateHistogramSlider()
+    this.updateStats(this.allData)
   },
 
   displayMap (): void {
