@@ -128,7 +128,7 @@ export const store = {
     this.state.minDate = new Date(minDate)
     this.state.maxDate = new Date(maxDate)
     const timeFilteredData = this.allData.filter(currentOperation => this.state.minDate <= currentOperation.date && currentOperation.date <= this.state.maxDate)
-    this.baseMap.filterOperationsData(timeFilteredData)
+    this.baseMap.updateOperationsData(timeFilteredData)
     this.updateStats(timeFilteredData)
   },
 

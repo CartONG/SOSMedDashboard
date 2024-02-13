@@ -56,6 +56,7 @@ export class BaseMap {
 
   currentBasemap = 0
 
+  /// /////// PUBLIC METHODS TO SET/UPDATE DATA AND MOUNT MAP \\\\\\\
   public setData (harbors: FeatureCollection, ops: OpsData[], sar: GeoJSONSourceRaw, sarCenters: GeoJSONSourceRaw) {
     this.harbors = harbors
     this.operationsData = ops
@@ -93,16 +94,9 @@ export class BaseMap {
     if (this.sourcesLoaded) this.updateLayers()
   }
 
-  public filterOperationsData (opsData?: OpsData[]) {
-    if (opsData) this.operationsData = opsData
-    this.filteredOperationsData = [...this.operationsData]
-    if (!this.filtersState.rescue) {
-      this.filteredOperationsData = this.operationsData.filter(x => x.typeOps !== "Rescue")
-    }
-    if (!this.filtersState.transfer) {
-      this.filteredOperationsData = this.operationsData.filter(x => x.typeOps !== "Transfer")
-    }
-    (this.map.getSource("operations") as GeoJSONSource).setData(opsDataToGeoJSON(this.filteredOperationsData))
+  public updateOperationsData (opsData: OpsData[]) {
+    this.operationsData = opsData
+    this.filterOperationsData()
   }
 
   public setCurrentBasemap (index: number): void {
@@ -113,6 +107,7 @@ export class BaseMap {
     })
   }
 
+  /// /////// PRIVATE METHODS TO SET IMAGES AND SOURCES BEFORE ADDING LAYERS \\\\\\\
   private addIcons () {
     if (!this.map.hasImage("harbor")) {
       this.map.loadImage(`${process.env.BASE_URL}/basemaps-icons/harbor.png`, (error, image) => {
@@ -149,33 +144,7 @@ export class BaseMap {
     this.updateLayers()
   }
 
-  private updateLayers () {
-    if (this.filtersState.harbor) {
-      if (!this.map.getLayer("harbors")) this.addHarborsLayer()
-    } else {
-      if (this.map.getLayer("harbors")) this.map.removeLayer("harbors")
-      this.map.off("mouseenter", "harbors", this.setHarborsPopUp)
-      this.map.off("mouseleave", "harbors", this.removeHarborsPopUp)
-    }
-    if (this.filtersState.rescue || this.filtersState.transfer) {
-      if (!this.map.getLayer("Operation")) this.addOperationLayer()
-      this.filterOperationsData()
-    } else {
-      if (this.map.getLayer("Operation")) this.map.removeLayer("Operation")
-      this.map.off("mouseenter", "Operation", this.setMapCursorPointer)
-      this.map.off("mouseleave", "Operation", this.removeMapCursorPointer)
-      this.map.off("click", "Operation", this.catchClickOnOperation)
-    }
-    if (this.filtersState.srr) {
-      if (this.map.getLayer("sar")) this.map.removeLayer("sar")
-      if (this.map.getLayer("sar-name")) this.map.removeLayer("sar-name")
-      this.addSarLayers()
-    } else {
-      if (this.map.getLayer("sar")) this.map.removeLayer("sar")
-      if (this.map.getLayer("sar-name")) this.map.removeLayer("sar-name")
-    }
-  }
-
+  /// /////// PRIVATE METHODS TO ADD EACH TYPE OF LAYER AND THEIR FUNCTIONNALITIES \\\\\\\
   private addOperationLayer () {
     this.map.addLayer({
       id: "Operation",
@@ -197,6 +166,18 @@ export class BaseMap {
     this.map.on("mouseenter", "Operation", this.setMapCursorPointer)
     this.map.on("mouseleave", "Operation", this.removeMapCursorPointer)
     this.map.on("click", "Operation", this.catchClickOnOperation)
+  }
+
+  private setMapCursorPointer (): void {
+    map.getCanvas().style.cursor = "pointer"
+  }
+
+  private removeMapCursorPointer (): void {
+    map.getCanvas().style.cursor = ""
+  }
+
+  private catchClickOnOperation (e: MapMouseEvent): void {
+    showPopUp(map.queryRenderedFeatures(e.point)[0].properties as OpsData)
   }
 
   private addHarborsLayer () {
@@ -225,26 +206,6 @@ export class BaseMap {
     popup.remove()
   }
 
-  private setMapCursorPointer (): void {
-    map.getCanvas().style.cursor = "pointer"
-  }
-
-  private removeMapCursorPointer (): void {
-    map.getCanvas().style.cursor = ""
-  }
-
-  private catchClickOnOperation (e: MapMouseEvent): void {
-    showPopUp(map.queryRenderedFeatures(e.point)[0].properties as OpsData)
-  }
-
-  resetView (): void {
-    this.map.fitBounds(this.defaultExtent)
-  }
-
-  destroy (): void {
-    this.map.remove()
-  }
-
   private addSarLayers () {
     this.map.addLayer({ id: "sar", type: "line", source: "sar", layout: {}, paint: { "line-color": "#999999", "line-width": 1, "line-dasharray": [1, 2] } })
     this.map.addLayer({
@@ -258,5 +219,52 @@ export class BaseMap {
         "text-size": 10
       }
     })
+  }
+
+  /// /////// PRIVATE METHODS TO UPDATE LAYERS VISIBILITY AND SOURCES CONTENT \\\\\\\
+  private updateLayers () {
+    if (this.filtersState.harbor) {
+      if (!this.map.getLayer("harbors")) this.addHarborsLayer()
+    } else {
+      if (this.map.getLayer("harbors")) this.map.removeLayer("harbors")
+      this.map.off("mouseenter", "harbors", this.setHarborsPopUp)
+      this.map.off("mouseleave", "harbors", this.removeHarborsPopUp)
+    }
+    if (this.filtersState.rescue || this.filtersState.transfer) {
+      if (!this.map.getLayer("Operation")) this.addOperationLayer()
+      this.filterOperationsData()
+    } else {
+      if (this.map.getLayer("Operation")) this.map.removeLayer("Operation")
+      this.map.off("mouseenter", "Operation", this.setMapCursorPointer)
+      this.map.off("mouseleave", "Operation", this.removeMapCursorPointer)
+      this.map.off("click", "Operation", this.catchClickOnOperation)
+    }
+    if (this.filtersState.srr) {
+      if (this.map.getLayer("sar")) this.map.removeLayer("sar")
+      if (this.map.getLayer("sar-name")) this.map.removeLayer("sar-name")
+      this.addSarLayers()
+    } else {
+      if (this.map.getLayer("sar")) this.map.removeLayer("sar")
+      if (this.map.getLayer("sar-name")) this.map.removeLayer("sar-name")
+    }
+  }
+
+  private filterOperationsData () {
+    this.filteredOperationsData = [...this.operationsData]
+    if (!this.filtersState.rescue) {
+      this.filteredOperationsData = this.operationsData.filter(x => x.typeOps !== "Rescue")
+    }
+    if (!this.filtersState.transfer) {
+      this.filteredOperationsData = this.operationsData.filter(x => x.typeOps !== "Transfer")
+    }
+    (this.map.getSource("operations") as GeoJSONSource).setData(opsDataToGeoJSON(this.filteredOperationsData))
+  }
+
+  resetView (): void {
+    this.map.fitBounds(this.defaultExtent)
+  }
+
+  destroy (): void {
+    this.map.remove()
   }
 }
