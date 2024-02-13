@@ -127,14 +127,8 @@ export const store = {
   filterData (minDate: Date, maxDate: Date): void {
     this.state.minDate = new Date(minDate)
     this.state.maxDate = new Date(maxDate)
-    for (const switchTypeKey in SwitchType) {
-      if (switchTypeKey === SwitchType.srr) {
-        continue
-      }
-      this.updateMap(switchTypeKey as SwitchType, this.state.switch[switchTypeKey as SwitchType])
-    }
     const timeFilteredData = this.allData.filter(currentOperation => this.state.minDate <= currentOperation.date && currentOperation.date <= this.state.maxDate)
-    this.baseMap.updateOperationsLayer(this.state.switch, timeFilteredData)
+    this.baseMap.filterOperationsData(timeFilteredData)
     this.updateStats(timeFilteredData)
   },
 
@@ -145,25 +139,16 @@ export const store = {
     this.allData = await fetchOpsData()
     this.dataLoaded.value = true
     this.updateHistogramSlider()
-    // this.baseMap.createMarkers(this.harbors, this.allData)
-    // this.baseMap.createSarRegions(this.sar, this.sarCenters)
   },
 
   displayMap (): void {
     this.baseMap.setData(this.harbors, this.allData, this.sar, this.sarCenters)
-    this.baseMap.init()
-    // this.filterData(this.state.minDate, this.state.maxDate)
+    this.baseMap.updateFiltersState(this.state.switch)
+    this.baseMap.initMap()
   },
 
   updateBasemap (index: number): void {
     this.baseMap.setCurrentBasemap(index)
-  },
-
-  updateMap (id: keyof typeof SwitchType, isChecked: boolean): void {
-    this.baseMap.updateOperationsLayer(this.state.switch)
-    isChecked
-      ? this.baseMap.displayMarkers(id, this.state.minDate, this.state.maxDate)
-      : this.baseMap.hideMarkers(id)
   },
 
   destroyMap (): void {
@@ -193,7 +178,7 @@ export const store = {
 
   toggleSwitch (switchId: keyof typeof SwitchType): void {
     this.state.switch[switchId] = !this.state.switch[switchId]
-    this.updateMap(switchId, this.state.switch[switchId])
+    this.baseMap.updateFiltersState(this.state.switch)
   },
 
   getCssClass (id: keyof typeof SwitchType): {[key: string]: boolean} {

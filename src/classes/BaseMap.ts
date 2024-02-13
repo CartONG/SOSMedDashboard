@@ -4,7 +4,7 @@ import { MapboxGLButtonControl } from "./MapboxGLButtonControl"
 import { GeoJSONSource, GeoJSONSourceRaw, LngLatBounds, LngLatLike, Map, MapMouseEvent, Marker, NavigationControl, Popup } from "mapbox-gl"
 import { showPopUp } from "./PopUpAndStats"
 import { FeatureCollection, Point } from "geojson"
-import { State, SwitchType } from "@/classes/State"
+import { State } from "@/classes/State"
 import "mapbox-gl/dist/mapbox-gl.css"
 import { BaseMapPickerControl } from "./BaseMapPickerControl"
 import { opsDataToGeoJSON } from "@/utils/arrayToGeojson"
@@ -42,8 +42,6 @@ let map: Map
 const popup = new Popup({ closeOnClick: false, closeButton: false })
 
 export class BaseMap {
-  private static SAR_LAYER_ID = "sar"
-  private static SAR_NAME_LAYER_ID = "sar-name"
   private operationsData!: OpsData[]
   private filteredOperationsData!: OpsData[]
 
@@ -53,10 +51,12 @@ export class BaseMap {
   private sar!: GeoJSONSourceRaw
   private sarCenters!: GeoJSONSourceRaw
   private iconsLoaded = ref(false)
+  private filtersState!: State["switch"]
+  private sourcesLoaded = false
 
   currentBasemap = 0
 
-  setData (harbors: FeatureCollection, ops: OpsData[], sar: GeoJSONSourceRaw, sarCenters: GeoJSONSourceRaw) {
+  public setData (harbors: FeatureCollection, ops: OpsData[], sar: GeoJSONSourceRaw, sarCenters: GeoJSONSourceRaw) {
     this.harbors = harbors
     this.operationsData = ops
     this.filteredOperationsData = ops
@@ -64,8 +64,7 @@ export class BaseMap {
     this.sarCenters = sarCenters
   }
 
-  init (): void {
-    // This token was taken from the demo project we need to replace with a real token
+  public initMap (): void {
     this.map = new Map({
       accessToken: "pk.eyJ1Ijoid2VzbGV5YmFuZmllbGQiLCJhIjoiY2pmMDRwb202MGlzNDJ3bm44cHA3YXZiNCJ9.b2yOf2vbWnWiV7mlsFAywg",
       container: "mapContainer",
@@ -75,34 +74,38 @@ export class BaseMap {
     })
     map = this.map
     this.defaultExtent = this.map.getBounds()
-
-    // Add zoom and rotation controls to the map.
     const nav = new NavigationControl({
       showCompass: false,
       showZoom: true
     })
     this.map.addControl(nav)
-
-    /* Instantiate new controls with custom event handlers */
     const viewResetter = new MapboxGLButtonControl("mapbox-gl-change_layer icon icon-view", "Reset view", this.resetView.bind(this), "")
-
-    /* Add Controls to the Map */
     this.map.addControl(viewResetter, "top-right")
-
     const baseMapPickerControl = new BaseMapPickerControl()
-
-    /* Add Controls to the Map */
     this.map.addControl(baseMapPickerControl, "top-right")
-
     this.map.once("load", () => {
       this.addIcons()
     })
-
-    // Warning: The button for changing the basemap is added elsewhere --> Basemap.vue.
-    // This is because the button needed to trigger a popup, with multiple button.
   }
 
-  setCurrentBasemap (index: number): void {
+  public updateFiltersState (state: State["switch"]) {
+    this.filtersState = state
+    if (this.sourcesLoaded) this.updateLayers()
+  }
+
+  public filterOperationsData (opsData?: OpsData[]) {
+    if (opsData) this.operationsData = opsData
+    this.filteredOperationsData = [...this.operationsData]
+    if (!this.filtersState.rescue) {
+      this.filteredOperationsData = this.operationsData.filter(x => x.typeOps !== "Rescue")
+    }
+    if (!this.filtersState.transfer) {
+      this.filteredOperationsData = this.operationsData.filter(x => x.typeOps !== "Transfer")
+    }
+    (this.map.getSource("operations") as GeoJSONSource).setData(opsDataToGeoJSON(this.filteredOperationsData))
+  }
+
+  public setCurrentBasemap (index: number): void {
     this.currentBasemap = index
     this.map.setStyle(BASEMAPS[this.currentBasemap].style)
     this.map.once("load", () => {
@@ -110,11 +113,10 @@ export class BaseMap {
     })
   }
 
-  addIcons () {
+  private addIcons () {
     if (!this.map.hasImage("harbor")) {
       this.map.loadImage(`${process.env.BASE_URL}/basemaps-icons/harbor.png`, (error, image) => {
         if (error) console.log(error)
-        console.log(image)
         this.map.addImage("harbor", image as ImageBitmap)
         this.setSources()
       })
@@ -123,7 +125,7 @@ export class BaseMap {
     }
   }
 
-  setSources () {
+  private setSources () {
     // Add Operations source
     if (this.map.getLayer("Operation")) this.map.removeLayer("Operation")
     if (this.map.getSource("operations")) this.map.removeSource("operations")
@@ -143,20 +145,38 @@ export class BaseMap {
       type: "geojson",
       data: this.harbors
     })
-    this.addLayers()
+    this.sourcesLoaded = true
+    this.updateLayers()
   }
 
-  addLayers () {
-    this.addOperationLayer()
-    this.addHarborsLayer()
+  private updateLayers () {
+    if (this.filtersState.harbor) {
+      if (!this.map.getLayer("harbors")) this.addHarborsLayer()
+    } else {
+      if (this.map.getLayer("harbors")) this.map.removeLayer("harbors")
+      this.map.off("mouseenter", "harbors", this.setHarborsPopUp)
+      this.map.off("mouseleave", "harbors", this.removeHarborsPopUp)
+    }
+    if (this.filtersState.rescue || this.filtersState.transfer) {
+      if (!this.map.getLayer("Operation")) this.addOperationLayer()
+      this.filterOperationsData()
+    } else {
+      if (this.map.getLayer("Operation")) this.map.removeLayer("Operation")
+      this.map.off("mouseenter", "Operation", this.setMapCursorPointer)
+      this.map.off("mouseleave", "Operation", this.removeMapCursorPointer)
+      this.map.off("click", "Operation", this.catchClickOnOperation)
+    }
+    if (this.filtersState.srr) {
+      if (this.map.getLayer("sar")) this.map.removeLayer("sar")
+      if (this.map.getLayer("sar-name")) this.map.removeLayer("sar-name")
+      this.addSarLayers()
+    } else {
+      if (this.map.getLayer("sar")) this.map.removeLayer("sar")
+      if (this.map.getLayer("sar-name")) this.map.removeLayer("sar-name")
+    }
   }
 
-  addOperationLayer () {
-    if (this.map.getLayer("Operation")) this.map.removeLayer("Operation")
-    this.map.off("mouseenter", "Operation", this.setMapCursorPointer)
-    this.map.off("mouseleave", "Operation", this.removeMapCursorPointer)
-    this.map.off("click", "Operation", this.catchClickOnOperation)
-
+  private addOperationLayer () {
     this.map.addLayer({
       id: "Operation",
       type: "circle",
@@ -179,11 +199,7 @@ export class BaseMap {
     this.map.on("click", "Operation", this.catchClickOnOperation)
   }
 
-  addHarborsLayer () {
-    if (this.map.getLayer("harbors")) this.map.removeLayer("harbors")
-    this.map.off("mouseenter", "harbors", this.setHarborsPopUp)
-    this.map.off("mouseleave", "harbors", this.removeHarborsPopUp)
-    console.log(this.map.hasImage("harbor"))
+  private addHarborsLayer () {
     this.map.addLayer({
       id: "harbors",
       type: "symbol",
@@ -198,29 +214,15 @@ export class BaseMap {
     this.map.on("mouseleave", "harbors", this.removeHarborsPopUp)
   }
 
-  setHarborsPopUp (e: MapMouseEvent) {
+  private setHarborsPopUp (e: MapMouseEvent) {
     const features = map.queryRenderedFeatures(e.point, { layers: ["harbors"] })
     popup
       .setLngLat((features[0].geometry as Point).coordinates as LngLatLike)
       .setHTML(`<h1>${features[0].properties?.name}</h1>`).addTo(map)
   }
 
-  removeHarborsPopUp () {
+  private removeHarborsPopUp () {
     popup.remove()
-  }
-
-  updateOperationsLayer (switchs: State["switch"], timeFilteredData?: OpsData[]): void {
-    if (timeFilteredData) {
-      this.operationsData = timeFilteredData
-    }
-    this.filteredOperationsData = [...this.operationsData]
-    if (!switchs.rescue) {
-      this.filteredOperationsData = this.filteredOperationsData.filter(x => x.typeOps !== "Rescue")
-    }
-    if (!switchs.transfer) {
-      this.filteredOperationsData = this.filteredOperationsData.filter(x => x.typeOps !== "Transfer")
-    }
-    (this.map.getSource("operations") as GeoJSONSource).setData(opsDataToGeoJSON(this.filteredOperationsData))
   }
 
   private setMapCursorPointer (): void {
@@ -234,13 +236,6 @@ export class BaseMap {
   private catchClickOnOperation (e: MapMouseEvent): void {
     showPopUp(map.queryRenderedFeatures(e.point)[0].properties as OpsData)
   }
-  // createSarRegions (sar: GeoJSONSourceRaw, sarCenters: GeoJSONSourceRaw): void {
-  //   this.sar = sar
-  //   this.sarCenters = sarCenters
-  //   this.map.addSource("sar", sar)
-  //   this.map.addSource("sarCenters", sarCenters)
-  //   this.displaySarRegions()
-  // }
 
   resetView (): void {
     this.map.fitBounds(this.defaultExtent)
@@ -250,21 +245,10 @@ export class BaseMap {
     this.map.remove()
   }
 
-  displayMarkers (id: keyof typeof SwitchType, minDate: Date, maxDate: Date): void {
-    switch (id) {
-      case "harbor":
-        // this.displayHarbors()
-        break
-      case "srr":
-        this.displaySarRegions()
-        break
-    }
-  }
-
-  private displaySarRegions () {
-    this.map.addLayer({ id: BaseMap.SAR_LAYER_ID, type: "line", source: "sar", layout: {}, paint: { "line-color": "#999999", "line-width": 1, "line-dasharray": [1, 2] } })
+  private addSarLayers () {
+    this.map.addLayer({ id: "sar", type: "line", source: "sar", layout: {}, paint: { "line-color": "#999999", "line-width": 1, "line-dasharray": [1, 2] } })
     this.map.addLayer({
-      id: BaseMap.SAR_NAME_LAYER_ID,
+      id: "sar-name",
       type: "symbol",
       source: "sarCenters",
       layout: {
@@ -274,29 +258,5 @@ export class BaseMap {
         "text-size": 10
       }
     })
-  }
-
-  hideMarkers (id: keyof typeof SwitchType): void {
-    switch (id) {
-      case "harbor":
-        // this.hideHarbors()
-        break
-      case "srr":
-        this.hideSarRegions()
-        break
-    }
-  }
-
-  // private hideHarbors (): void {
-  //   this.harborMarkers.forEach(BaseMap.remove)
-  // }
-
-  private hideSarRegions () {
-    this.map.removeLayer(BaseMap.SAR_LAYER_ID)
-    this.map.removeLayer(BaseMap.SAR_NAME_LAYER_ID)
-  }
-
-  private static remove (marker: Marker) {
-    marker.remove()
   }
 }
