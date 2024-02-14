@@ -30,48 +30,12 @@
       </div>
     </div>
     <div class="hidden lg:block">
-      <div class="flex ml-8">
-        <div class="flex-none flex items-center my-4">
-          <div>
-            <p class="text-xl leading-6 text-main font-black uppercase">{{ $t("header.title") }}</p>
-            <p class="text-base leading-4 text-secondary">
-              {{ $t("header.subtitle") }}
-            </p>
-          </div>
-          <i class="ml-14 text-8xl leading-6 icon icon-sosmed-ship"></i>
-        </div>
-        <div class="flex-grow"></div>
-        <div @click="showForm = !showForm" class="bg-secondary text-donationText cursor-pointer w-52">
-          <div class="p-2">
-            <p class="text-center text-2xl">{{ $t("header.donate.title") }}</p>
-            <div class="flex justify-center items-center">
-              <span class="icon icon-down text-xs"
-                    :class="{'up-arrow': showForm, 'pl-1': showForm, 'pr-1': !showForm}"></span>
-              <span class="text-lg">{{ $t("header.donate.subtitle") }}</span>
-              <span class="icon icon-down text-xs"
-                    :class="{'up-arrow': showForm, 'pr-1': showForm, 'pl-1': !showForm}"></span>
-            </div>
-          </div>
-          <form action="https://don.sosmediterranee.org"
-                :class="transitionClasses()"
-                :style="maxHeightStyle(showForm)">
-            <div class="px-5 py-6 bg-secondary w-52 text-xl font-blac flex flex-col">
-              <input name="utm_source" type="hidden" value="sitesosmediterranee">
-              <input name="utm_medium" type="hidden" value="site">
-              <input name="utm_campaign" type="hidden" value="don_site_je_donne">
-              <input class="bg-main text-uppercase p-4 font-black cursor-pointer" type="submit" :value="$t('header.donate.button')">
-            </div>
-          </form>
-        </div>
-        <img alt="logo SOS Méditerranée" class="cursor-pointer w-44" src="../assets/logo.png"
-             onclick="location.href='https://www.sosmediterranee.fr/';"/>
-      </div>
       <nav class="bg-main text-white flex h-10 items-center">
         <div class="flex-none flex ml-8">
-          <a href="https://onboard.sosmediterranee.org/glossary/" target="_blank" class="px-1 flex-initial inline-block">{{ $t("header.glossary") }}</a>
+          <a href="https://www.sosmediterranee.org/glossary/" target="_blank" class="px-1 flex-initial inline-block">{{ $t("header.glossary") }}</a>
         </div>
         <div class="flex-none flex ml-8">
-          <a href="https://onboard.sosmediterranee.org/" target="_blank" class="px-1 flex-initial inline-block">
+          <a href="https://www.sosmediterranee.org/operations/" target="_blank" class="px-1 flex-initial inline-block">
             {{ $t("header.logBook") }}
           </a>
         </div>
