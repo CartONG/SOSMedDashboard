@@ -151,7 +151,7 @@ export class BaseMap {
       type: "circle",
       source: "operations",
       paint: {
-        "circle-radius": ["step", ["zoom"], 3, 6, 5, 7.5, 8, 9, 10],
+        "circle-radius": ["step", ["zoom"], 4, 6, 6, 7.5, 8, 9, 10],
         "circle-color": [
           "match",
           ["get", "typeOps"],
