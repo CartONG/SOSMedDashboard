@@ -67,13 +67,13 @@
           <p class="text-sm"><span class="icon icon-weather text-xl mr-3"/>{{ $t("popup.wind") }}: <span id="popUpWind"/> {{ $t("popup.windUnit") }} - {{ $t("popup.waves") }}: <span id="popUpWave"/> m</p>
           <p class="text-sm"><span class="icon icon-marker text-xl mr-3"/>Lat: <span id="popUpLat"/> - Lon: <span
             id="popUpLon"/></p>
-          <p v-if="videoAndPictures" class="text-sm"><span class="icon icon-camera text-xl mr-3"/>{{ $t("popup.videosAndPictures") }}</p>
+          <!-- <p v-if="videoAndPictures" class="text-sm"><span class="icon icon-camera text-xl mr-3"/>{{ $t("popup.videosAndPictures") }}</p>
           <div v-if="videoAndPictures" class="flex flex-wrap">
             <video v-for="url in videoUrls" :key="url" class="max-w-[50%] p-1" controls controlsList="nodownload">
               <source :src="url" type="video/mp4">
             </video>
             <img v-for="url in imageUrls" :key="url" class="max-w-[50%] p-1 cursor-pointer" :src="url" @click="setCurrentImage(url)">
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -92,68 +92,67 @@
         </div>
       </transition>
   </template>
-  
-  <script lang="ts" setup>
-  import { Colors } from "@/utils/Colors"
-  import { reactiveStore } from "@/Store"
-  import { computed, onMounted, ref } from "vue"
-  
-  const scaleClass = computed(() => {
-    if (reactiveStore.isPopUpVisible) {
-      return "scale-100"
-    }
-    return "scale-0"
-  })
-  const style = `--text-color: ${Colors.BLUE};`
-  const videoAndPictures = computed(() => reactiveStore.isVideoAndPicturePopUpVisible)
-  const videoUrls = computed(() => reactiveStore.popUpVideoUrls)
-  const imageUrls = computed(() => reactiveStore.popUpImageUrls)
-  const isModalVisible = ref(false)
-  
-  function toggleImageModalVisibility () {
-    isModalVisible.value = !isModalVisible.value
+
+<script lang="ts" setup>
+import { Colors } from "@/utils/Colors"
+import { store } from "@/main"
+import { computed, onMounted, ref } from "vue"
+
+const scaleClass = computed(() => {
+  if (store.getState().isPopUpVisible) {
+    return "scale-100"
   }
-  
-  function setCurrentImage (url: string) {
-    currentImage.value = url
-    isModalVisible.value = true
+  return "scale-0"
+})
+const style = `--text-color: ${Colors.BLUE};`
+// const videoAndPictures = computed(() => store.isVideoAndPicturePopUpVisible)
+// const videoUrls = computed(() => store.popUpVideoUrls)
+// const imageUrls = computed(() => store.popUpImageUrls)
+const isModalVisible = ref(false)
+
+function toggleImageModalVisibility () {
+  isModalVisible.value = !isModalVisible.value
+}
+
+function setCurrentImage (url: string) {
+  currentImage.value = url
+  isModalVisible.value = true
+}
+
+const currentImage = ref("")
+
+onMounted(() => {
+  const popUpMap = document.getElementById("popUp")
+  const closeButton = document.getElementById("closeButton")
+  if (closeButton && popUpMap) {
+    closeButton.addEventListener("click", () => {
+      store.updatePopUpVisibility()
+    })
   }
-  
-  const currentImage = ref("")
-  
-  onMounted(() => {
-    const popUpMap = document.getElementById("popUp")
-    const closeButton = document.getElementById("closeButton")
-    if (closeButton && popUpMap) {
-      closeButton.addEventListener("click", () => {
-        reactiveStore.updatePopUpVisibility()
-      })
-    }
-  })
-  
-  </script>
-  
+})
+
+</script>
+
   <!-- Add "scoped" attribute to limit CSS to this component only -->
   <style scoped>
   h1 {
     font-size: x-large;
   }
-  
+
   p, span {
     color: var(--text-color);
   }
-  
+
   .text-3xs {
     font-size: 0.5rem;
     line-height: 0.5rem;
   }
-  
+
   .vertical-separator {
     border-right: 1px solid;
   }
-  
+
   button {
     left: 100%;
   }
   </style>
-  

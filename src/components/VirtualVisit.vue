@@ -1,12 +1,12 @@
 <template>
-  <div class="virtual-visit-container rounded-xl" :class="{ invisible: !reactiveStore.virtualVisitVisibility, visible: reactiveStore.virtualVisitVisibility }">
+  <div class="virtual-visit-container rounded-xl" :class="{ invisible: !store.getState().virtualVisitAlreadyOpened, visible: store.getState().virtualVisitAlreadyOpened }">
     <iframe src="https://oceanviking.sosmediterranee.ch/" name="Ocean Viking virtual Tour" scrolling="Yes" height="100%"
             width="100%" style="border: none;"></iframe>
   </div>
 </template>
 
 <script lang="ts">
-import { reactiveStore } from "@/Store"
+import { store } from "@/main"
 import { defineComponent, onMounted } from "vue"
 
 export default defineComponent({
@@ -15,21 +15,21 @@ export default defineComponent({
       window.onclick = function (event) {
         const target = event.target as HTMLTextAreaElement
         if (!target.matches(".virtual-visit-container") && !target.matches(".virtual-visit-shower")) {
-          if (reactiveStore.virtualVisitVisibility) {
-            reactiveStore.switchVirtualVisitVisibility()
+          if (store.getState().virtualVisitAlreadyOpened) {
+            store.switchVirtualVisitVisibility()
           }
         }
       }
       window.addEventListener("keydown", (e) => {
         if (e.key === "Escape") {
-          if (reactiveStore.virtualVisitVisibility) {
-            reactiveStore.switchVirtualVisitVisibility()
+          if (store.getState().virtualVisitAlreadyOpened) {
+            store.switchVirtualVisitVisibility()
           }
         }
       })
     })
 
-    return { reactiveStore }
+    return { store }
   }
 })
 </script>

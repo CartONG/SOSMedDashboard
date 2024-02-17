@@ -15,7 +15,7 @@
 
 <script lang='ts'>
 import "../js/range-slider"
-import { store } from "@/Store"
+import { store } from "@/main"
 import { Colors } from "@/utils/Colors"
 import { computed, defineAsyncComponent, defineComponent, onBeforeUnmount, onMounted, ref } from "vue"
 
@@ -68,7 +68,7 @@ export default defineComponent({
     onMounted(() => {
       window.addEventListener("resize", onResize)
       store.setWidthHistogramSlider(width.value)
-      store.displayHistogramSlider(store.state.minDate.valueOf(), store.state.maxDate.valueOf(), [])
+      store.displayHistogramSlider(store.getState().minDate.valueOf(), store.getState().maxDate.valueOf(), [])
     })
 
     onBeforeUnmount(() => {

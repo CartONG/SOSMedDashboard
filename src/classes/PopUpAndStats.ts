@@ -1,5 +1,5 @@
 import { OpsData } from "./OpsData"
-import { reactiveStore, store } from "@/Store"
+import { store } from "@/main"
 
 const numberToString = function (n: number) {
   if (isNaN(n)) {
@@ -36,11 +36,11 @@ const fillPopUp = function (data: OpsData) {
 }
 
 export const showPopUp = function (data: OpsData): void {
-  reactiveStore.updatePopUpVisibility()
+  store.updatePopUpVisibility()
   fillPopUp(data)
-  reactiveStore.setVideoAndPicturePopUpVisibility(data.imageSrc.length > 0 || data.videoSrc.length > 0)
-  reactiveStore.setPopUpVideoUrls(data.videoSrc as unknown as string)
-  reactiveStore.setPopUpImageUrls(data.imageSrc as unknown as string)
+  // reactiveStore.setVideoAndPicturePopUpVisibility(data.imageSrc.length > 0 || data.videoSrc.length > 0)
+  // reactiveStore.setPopUpVideoUrls(data.videoSrc as unknown as string)
+  // reactiveStore.setPopUpImageUrls(data.imageSrc as unknown as string)
 }
 
 export const updateStats = function (minDate: Date, maxDate: Date, timeFilteredData: OpsData[]): void {
@@ -54,9 +54,9 @@ export const updateStats = function (minDate: Date, maxDate: Date, timeFilteredD
   let under18unacc = 0
   let under5 = 0
   let nbNationalities = 0
-  const nbRescueOps = store.allData.map(x => x.nbOps).reduce((acc, currentVal) => acc + currentVal, 0)
+  const nbRescueOps = store.getData().allData.map(x => x.nbOps).reduce((acc, currentVal) => acc + currentVal, 0)
   let filteredNbRescueOps = 0
-  const nbPeopleAssisted = store.allData.filter(el => el.nbSurvivor).map(
+  const nbPeopleAssisted = store.getData().allData.filter(el => el.nbSurvivor).map(
     el => el.nbSurvivor).reduce((partialSum, a) => partialSum + a, 0)
   const nationalitiesList = []
   for (const data of timeFilteredData) {

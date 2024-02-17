@@ -13,7 +13,7 @@
 
 <script lang='ts'>
 import { defineAsyncComponent, defineComponent } from "vue"
-import { store } from "@/Store"
+import { store } from "@/main"
 import { SwitchType } from "@/classes/State"
 
 export default defineComponent({
@@ -28,7 +28,7 @@ export default defineComponent({
   name: "Base-Map-Legend",
   data: function () {
     return {
-      switchState: store.state.switch
+      switchState: store.getState().switch
     }
   }
 })

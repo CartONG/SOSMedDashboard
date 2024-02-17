@@ -3,10 +3,10 @@
 </template>
 
 <script setup lang="ts">
-import { store } from "@/Store"
+import { store } from "@/main"
 import { watch } from "vue"
 
-watch(store.dataLoaded, () => {
-  if (store.dataLoaded) store.displayMap()
+watch(() => store.getData().dataLoaded, () => {
+  if (store.getData().dataLoaded) store.displayMap()
 })
 </script>

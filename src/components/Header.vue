@@ -11,10 +11,10 @@
           </p>
         </div>
         <div class="flex-shrink-0 flex-grow w-2"></div>
-        <BurgerMenu :is-menu-visible="reactiveStore.isMenuVisible" @click="updateMenuVisibility()"/>
+        <BurgerMenu :is-menu-visible="store.getState().isMenuVisible" @click="updateMenuVisibility()"/>
       </div>
       <div class="bg-main h-1"></div>
-      <div :style="maxHeightStyle(reactiveStore.isMenuVisible)"
+      <div :style="maxHeightStyle(store.getState().isMenuVisible)"
            :class="transitionClasses()"
            class="right-0 bg-white w-full">
         <nav class="text-lg text-main flex flex-col font-black">
@@ -49,7 +49,7 @@
 
 <script lang="ts">
 import { defineAsyncComponent, defineComponent } from "vue"
-import { reactiveStore } from "@/Store"
+import { store } from "@/main"
 
 export default defineComponent({
   components: {
@@ -58,7 +58,7 @@ export default defineComponent({
     HeaderContributors: defineAsyncComponent(() => import("./HeaderContributors.vue"))
   },
   data () {
-    return { reactiveStore, showForm: false }
+    return { store, showForm: false }
   },
   methods: {
     maxHeightStyle (booleanValue: boolean): { "max-height": string | number } {
@@ -68,7 +68,7 @@ export default defineComponent({
       return ["z-100", "absolute", "transition-[max-height]", "ease-in-out", "duration-500", "overflow-hidden"]
     },
     updateMenuVisibility () {
-      reactiveStore.updateMenuVisibility()
+      store.updateMenuVisibility()
     }
   },
   name: "Dashboard-Header"

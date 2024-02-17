@@ -1,6 +1,6 @@
 import { IControl, Map } from "mapbox-gl"
 import { BASEMAPS } from "@/classes/BaseMap"
-import { store } from "@/Store"
+import { store } from "@/main"
 
 export class BaseMapPickerControl implements IControl {
   private map?: Map

@@ -22,7 +22,7 @@
 </template>
 
 <script lang='ts'>
-import { store } from "@/Store"
+import { store } from "@/main"
 import { defineComponent } from "vue"
 import { SwitchType } from "@/classes/State"
 

@@ -12,14 +12,14 @@
 </template>
 
 <script lang="ts" setup>
-import { reactiveStore } from "@/Store"
+import { store } from "@/main"
 import { computed } from "vue"
 
 function toggleVisibility () {
-  reactiveStore.updatePopUpVisibility()
+  store.updatePopUpVisibility()
 }
 
-const isPopUpVisible = computed(() => reactiveStore.isPopUpVisible)
+const isPopUpVisible = computed(() => store.getState().isPopUpVisible)
 </script>
 
 <style scoped>

@@ -1,3 +1,6 @@
+import { OpsData } from "./OpsData"
+import { FeatureCollection } from "geojson"
+
 export enum SwitchType {
   harbor = "harbor",
   rescue = "rescue",
@@ -5,14 +8,36 @@ export enum SwitchType {
   transfer = "transfer"
 }
 
-// State class which keeps the current state of the application
-export class State {
-  minDate = new Date(2016, 0, 1)
-  maxDate = new Date()
-  switch: { [key in SwitchType]: boolean } = {
-    rescue: true,
-    transfer: true,
-    harbor: true,
-    srr: true
-  }
+export enum PopUpType {
+  OPS = "OPS",
+  DEAD = "DEAD",
+  INCIDENT = "INCIDENT",
+  SHIPWRECK = "SHIPWRECK"
+}
+export interface ApplicationState {
+  isMenuVisible: boolean;
+  isPopUpVisible: boolean;
+  popUpType: PopUpType | null;
+  popUpData: OpsData | null;
+  virtualVisitAlreadyOpened: boolean;
+  minDate: Date;
+  maxDate: Date;
+  switch: { [key in SwitchType]: boolean }
+}
+
+export interface DataState {
+  allData: OpsData[]
+  harbors: FeatureCollection
+  sar: FeatureCollection
+  sarCenters: FeatureCollection
+  dataLoaded: boolean
+}
+
+export const CssClass: {
+  [key in SwitchType]: { [key: string]: boolean }
+} = {
+  harbor: { icon: true, "icon-anchor-o": true, "text-black": true, "text-xs": true },
+  rescue: { "bg-secondary": true },
+  srr: { "text-grayClose": true, "legend-srr": true },
+  transfer: { "bg-gray-400": true }
 }

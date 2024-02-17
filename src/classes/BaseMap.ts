@@ -1,14 +1,14 @@
 /* eslint-disable no-return-assign */
 import { OpsData } from "./OpsData"
 import { MapboxGLButtonControl } from "./MapboxGLButtonControl"
-import { GeoJSONSource, GeoJSONSourceRaw, LngLatBounds, LngLatLike, Map, MapMouseEvent, Marker, NavigationControl, Popup } from "mapbox-gl"
+import { GeoJSONSource, LngLatBounds, LngLatLike, Map, MapMouseEvent, NavigationControl, Popup } from "mapbox-gl"
 import { showPopUp } from "./PopUpAndStats"
 import { FeatureCollection, Point } from "geojson"
-import { State } from "@/classes/State"
 import "mapbox-gl/dist/mapbox-gl.css"
 import { BaseMapPickerControl } from "./BaseMapPickerControl"
 import { opsDataToGeoJSON } from "@/utils/arrayToGeojson"
 import { ref } from "vue"
+import { Store } from "@/Store"
 
 export interface SingleBasemap {
   id: number;
@@ -48,16 +48,16 @@ export class BaseMap {
   private map!: Map
   private defaultExtent!: LngLatBounds
   private harbors!: FeatureCollection
-  private sar!: GeoJSONSourceRaw
-  private sarCenters!: GeoJSONSourceRaw
+  private sar!: FeatureCollection
+  private sarCenters!: FeatureCollection
   private iconsLoaded = ref(false)
-  private filtersState!: State["switch"]
+  private filtersState!: Store["appState"]["switch"]
   private sourcesLoaded = false
 
   currentBasemap = 0
 
   /// /////// PUBLIC METHODS TO SET/UPDATE DATA AND MOUNT MAP \\\\\\\
-  public setData (harbors: FeatureCollection, ops: OpsData[], sar: GeoJSONSourceRaw, sarCenters: GeoJSONSourceRaw) {
+  public setData (harbors: FeatureCollection, ops: OpsData[], sar: FeatureCollection, sarCenters: FeatureCollection) {
     this.harbors = harbors
     this.operationsData = ops
     this.filteredOperationsData = ops
@@ -89,7 +89,7 @@ export class BaseMap {
     })
   }
 
-  public updateFiltersState (state: State["switch"]) {
+  public updateFiltersState (state: Store["appState"]["switch"]) {
     this.filtersState = state
     if (this.sourcesLoaded) this.updateLayers()
   }
@@ -133,8 +133,14 @@ export class BaseMap {
     if (this.map.getSource("sar")) this.map.removeSource("sar")
     if (this.map.getLayer("sarCenters")) this.map.removeLayer("sarCenters")
     if (this.map.getSource("sarCenters")) this.map.removeSource("sarCenters")
-    this.map.addSource("sar", this.sar)
-    this.map.addSource("sarCenters", this.sarCenters)
+    this.map.addSource("sar", {
+      type: "geojson",
+      data: this.sar
+    })
+    this.map.addSource("sarCenters", {
+      type: "geojson",
+      data: this.sarCenters
+    })
     // Add Harbors sources
     this.map.addSource("harbors", {
       type: "geojson",
