@@ -2,13 +2,15 @@
 import { OpsData } from "./OpsData"
 import { MapboxGLButtonControl } from "./MapboxGLButtonControl"
 import { GeoJSONSource, LngLatBounds, LngLatLike, Map, MapMouseEvent, NavigationControl, Popup } from "mapbox-gl"
-import { showPopUp } from "./PopUpAndStats"
+// import { showOperationPopUp } from "./PopUpAndStats"
 import { FeatureCollection, Point } from "geojson"
 import "mapbox-gl/dist/mapbox-gl.css"
 import { BaseMapPickerControl } from "./BaseMapPickerControl"
 import { opsDataToGeoJSON } from "@/utils/arrayToGeojson"
 import { ref } from "vue"
 import { Store } from "@/Store"
+import { store } from "@/main"
+import { PopUpType } from "./State"
 
 export interface SingleBasemap {
   id: number;
@@ -183,7 +185,10 @@ export class BaseMap {
   }
 
   private catchClickOnOperation (e: MapMouseEvent): void {
-    showPopUp(map.queryRenderedFeatures(e.point)[0].properties as OpsData)
+    const data = map.queryRenderedFeatures(e.point)[0].properties
+    data!.imageSrc = data!.imageSrc.split(",").filter((x: any) => x !== "")
+    data!.videoSrc = data!.videoSrc.split(",").filter((x: any) => x !== "")
+    store.setPopUpData(data as OpsData, PopUpType.OPS)
   }
 
   private addHarborsLayer () {

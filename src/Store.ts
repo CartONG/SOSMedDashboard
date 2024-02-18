@@ -40,6 +40,7 @@ export class Store {
   public setPopUpData (data: OpsData, type: PopUpType) {
     this.appState.popUpType = type
     this.appState.popUpData = data
+    this.updatePopUpVisibility()
   }
 
   public switchVirtualVisitVisibility () {
@@ -151,95 +152,4 @@ export class Store {
     })
     return Promise.resolve(harbors)
   }
-
-  // setVideoAndPicturePopUpVisibility: (visible: boolean) => void;
-  // isVideoAndPicturePopUpVisible: boolean;
-
-  // setPopUpVideoUrls: (popUpVideoUrls: string) => void;
-  // popUpVideoUrls: string[];
-
-  // setPopUpImageUrls: (popUpImageUrls: string) => void;
-  // popUpImageUrls: string[];
-
-  // switchVirtualVisitVisibility: () => void;
-  // virtualVisitVisibility: boolean;
-
-  // virtualVisitAlreadyOpened: boolean;
 }
-
-// _isMenuVisible: false,
-
-// updateMenuVisibility () {
-//   this._isMenuVisible = !this._isMenuVisible
-// },
-
-// get isMenuVisible (): boolean {
-//   return this._isMenuVisible
-// },
-
-// _isPopUpVisible: false,
-
-// updatePopUpVisibility () {
-//   this._isPopUpVisible = !this._isPopUpVisible
-// },
-
-// get isPopUpVisible (): boolean {
-//   return this._isPopUpVisible
-// },
-
-// _popUpData: null,
-// setPopUpData (data, type) {
-//   this._popUpData = data
-// },
-
-// _isVideoAndPicturePopUpVisible: false,
-
-// setVideoAndPicturePopUpVisibility (visible: boolean) {
-//   this._isVideoAndPicturePopUpVisible = visible
-// },
-
-// get isVideoAndPicturePopUpVisible (): boolean {
-//   return this._isVideoAndPicturePopUpVisible
-// },
-
-// _popUpVideoUrls: [""],
-
-// setPopUpVideoUrls (popUpVideoUrls: string) {
-//   this._popUpVideoUrls = popUpVideoUrls.split(",")
-// },
-
-// get popUpVideoUrls (): string[] {
-//   return this._popUpVideoUrls
-// },
-
-// _popUpImageUrls: [""],
-
-// setPopUpImageUrls (popUpImageUrls: string) {
-//   this._popUpImageUrls = popUpImageUrls.split(",")
-// },
-
-// get popUpImageUrls (): string[] {
-//   return this._popUpImageUrls
-// },
-
-// _virtualVisitVisibility: false,
-
-// switchVirtualVisitVisibility (): void {
-//   this._virtualVisitVisibility = !this._virtualVisitVisibility
-//   this.updateVirtualVisitAlreadyOpened()
-// },
-
-// get virtualVisitVisibility (): boolean {
-//   return this._virtualVisitVisibility
-// },
-
-// _virtualVisitAlreadyOpened: false,
-
-// updateVirtualVisitAlreadyOpened (): void {
-//   this._virtualVisitAlreadyOpened = true
-// },
-
-// get virtualVisitAlreadyOpened (): boolean {
-//   return this._virtualVisitAlreadyOpened
-// }
-// })
