@@ -2,9 +2,7 @@
   <transition name="fade">
     <div v-if="isPopUpVisible">
       <div class="absolute bg-black opacity-60 inset-0 z-50" @click="toggleVisibility"></div>
-      <div
-          class="pop-up"
-        >
+      <div class="pop-up">
         <operation-description v-if="popUpType === PopUpType.OPS" />
       </div>
     </div>
@@ -28,8 +26,8 @@ const popUpType = computed(() => store.getState().popUpType)
 <style scoped>
 .pop-up{
   /* display: flex; */
-  width: 33%;
-  height: 80%;
+  max-width: 33%;
+  max-height: 80%;
   z-index: 99;
   position: fixed;
   top: 50px;
@@ -37,5 +35,20 @@ const popUpType = computed(() => store.getState().popUpType)
   background-color: white;
   border-radius: 5%;
   overflow-y: auto;
+}
+
+@media only screen and (max-width: 500px){
+  .pop-up{
+  /* display: flex; */
+  width: 80%;
+  max-height: 80%;
+  z-index: 99;
+  position: fixed;
+  top: 10%;
+  left: 10%;
+  background-color: white;
+  border-radius: 5%;
+  overflow-y: auto;
+}
 }
 </style>
