@@ -1,4 +1,4 @@
-import { OpsData, fetchOpsData } from "./classes/OpsData"
+import { OpsData, fetchOpsData } from "./classes/data/OpsData"
 import { updateStats } from "./classes/PopUpAndStats"
 import { ApplicationState, CssClass, DataState, PopUpType, SwitchType } from "./classes/State"
 import { reactive } from "vue"
@@ -6,6 +6,8 @@ import { FeatureCollection } from "geojson"
 import { BaseMap } from "@/classes/BaseMap"
 import { HistogramSlider } from "@/classes/HistogramSlider"
 import { convert } from "geo-coordinates-parser"
+import { getHarbors } from "./classes/data/Harbors"
+import { getOtherData } from "./classes/data/OtherData"
 
 export class Store {
   // ////////////// ---------APP STATE---------- \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -21,7 +23,10 @@ export class Store {
       rescue: true,
       transfer: true,
       harbor: true,
-      srr: true
+      srr: true,
+      incident: true,
+      deaths: true,
+      shipwrecks: true
     }
   })
 
@@ -50,7 +55,8 @@ export class Store {
   // ////////////// ---------DATA STATE---------- \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
   private dataState: DataState = reactive({
-    allData: [],
+    OpsData: [],
+    otherData: {} as DataState["otherData"],
     harbors: {} as FeatureCollection,
     sar: {} as FeatureCollection,
     sarCenters: {} as FeatureCollection,
@@ -61,13 +67,14 @@ export class Store {
   private histogramSlider = new HistogramSlider()
 
   public async initStore (): Promise<void> {
-    this.dataState.harbors = await this.getHarbors()
+    this.dataState.harbors = await getHarbors()
+    this.dataState.otherData = await getOtherData()
     this.dataState.sar = require("./assets/resources/SAR.json")
     this.dataState.sarCenters = require("./assets/resources/SAR_centers.json")
-    this.dataState.allData = await fetchOpsData()
+    this.dataState.OpsData = await fetchOpsData()
     this.dataState.dataLoaded = true
     this.updateHistogramSlider()
-    this.updateStats(this.dataState.allData)
+    this.updateStats(this.dataState.OpsData)
   }
 
   public getData () {
@@ -77,13 +84,13 @@ export class Store {
   public filterData (minDate: Date, maxDate: Date): void {
     this.appState.minDate = new Date(minDate)
     this.appState.maxDate = new Date(maxDate)
-    const timeFilteredData = this.dataState.allData.filter(currentOperation => this.appState.minDate <= currentOperation.date && currentOperation.date <= this.appState.maxDate)
+    const timeFilteredData = this.dataState.OpsData.filter(currentOperation => this.appState.minDate <= currentOperation.date && currentOperation.date <= this.appState.maxDate)
     this.baseMap.updateOperationsData(timeFilteredData)
     this.updateStats(timeFilteredData)
   }
 
   public displayMap (): void {
-    this.baseMap.setData(this.dataState.harbors, this.dataState.allData, this.dataState.sar, this.dataState.sarCenters)
+    this.baseMap.setData(this.dataState.harbors, this.dataState.OpsData, this.dataState.otherData, this.dataState.sar, this.dataState.sarCenters)
     this.baseMap.updateFiltersState(this.appState.switch)
     this.baseMap.initMap()
   }
@@ -101,7 +108,7 @@ export class Store {
   }
 
   updateHistogramSlider (): void {
-    this.histogramSlider.updateHistogram(this.dataState.allData.map(d => d.date.getTime()), this)
+    this.histogramSlider.updateHistogram(this.dataState.OpsData.map(d => d.date.getTime()), this)
   }
 
   updateHistogramSliderFromTo (): void {
@@ -120,36 +127,5 @@ export class Store {
 
   getCssClass (id: keyof typeof SwitchType): {[key: string]: boolean} {
     return CssClass[id]
-  }
-
-  async getHarbors (): Promise<FeatureCollection> {
-    const harborsUrl = `https://sheets.googleapis.com/v4/spreadsheets/1opF61Qq2DgrJIP-kQD5-KHzC4xZkp2u_zqigTGk3V0I/values/Data_ports?key=${process.env.VUE_APP_GOOGLE_API_KEY}`
-    const sheet: { values: [string, string, string][] } = await (await fetch(harborsUrl)).json()
-    sheet.values.shift()
-    const harbors: FeatureCollection = {
-      type: "FeatureCollection",
-      features: []
-    }
-    // eslint-disable-next-line array-callback-return
-    sheet.values.map(x => {
-      const rawCoordinates = x[1] + ", " + x[2]
-      try {
-        const coordinates = convert(rawCoordinates)
-        harbors.features.push({
-          type: "Feature",
-          properties: { name: x[0] },
-          geometry: {
-            coordinates: [
-              coordinates.decimalLongitude,
-              coordinates.decimalLatitude
-            ],
-            type: "Point"
-          }
-        })
-      } catch (error) {
-        console.error("Error on ports:" + x)
-      }
-    })
-    return Promise.resolve(harbors)
   }
 }

@@ -1,4 +1,4 @@
-import { OpsData } from "./OpsData"
+import { OpsData } from "./data/OpsData"
 import { store } from "@/main"
 
 const numberToString = function (n: number) {
@@ -27,9 +27,9 @@ export const updateStats = function (minDate: Date, maxDate: Date, timeFilteredD
   let under18unacc = 0
   let under5 = 0
   let nbNationalities = 0
-  const nbRescueOps = store.getData().allData.map(x => x.nbOps).reduce((acc, currentVal) => acc + currentVal, 0)
+  const nbRescueOps = store.getData().OpsData.map(x => x.nbOps).reduce((acc, currentVal) => acc + currentVal, 0)
   let filteredNbRescueOps = 0
-  const nbPeopleAssisted = store.getData().allData.filter(el => el.nbSurvivor).map(
+  const nbPeopleAssisted = store.getData().OpsData.filter(el => el.nbSurvivor).map(
     el => el.nbSurvivor).reduce((partialSum, a) => partialSum + a, 0)
   const nationalitiesList = []
   for (const data of timeFilteredData) {

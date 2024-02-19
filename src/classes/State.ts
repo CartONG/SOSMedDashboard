@@ -1,11 +1,14 @@
-import { OpsData } from "./OpsData"
+import { OpsData } from "./data/OpsData"
 import { FeatureCollection } from "geojson"
 
 export enum SwitchType {
   harbor = "harbor",
   rescue = "rescue",
   srr = "srr",
-  transfer = "transfer"
+  transfer = "transfer",
+  incident = "incident",
+  deaths = "deaths",
+  shipwrecks = "shipwrecks"
 }
 
 export enum PopUpType {
@@ -26,7 +29,12 @@ export interface ApplicationState {
 }
 
 export interface DataState {
-  allData: OpsData[]
+  OpsData: OpsData[]
+  otherData: {
+    incidents: FeatureCollection
+    deaths: FeatureCollection
+    shipwrecks: FeatureCollection
+  }
   harbors: FeatureCollection
   sar: FeatureCollection
   sarCenters: FeatureCollection
@@ -39,5 +47,8 @@ export const CssClass: {
   harbor: { icon: true, "icon-anchor-o": true, "text-black": true, "text-xs": true },
   rescue: { "bg-secondary": true },
   srr: { "text-grayClose": true, "legend-srr": true },
-  transfer: { "bg-gray-400": true }
+  transfer: { "bg-gray-400": true },
+  incident: { "bg-gray-400": true },
+  deaths: { "bg-gray-400": true },
+  shipwrecks: { "bg-gray-400": true }
 }
