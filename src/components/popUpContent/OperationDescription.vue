@@ -62,7 +62,7 @@
                 {{ $t("stats.nationalities") }}</p>
             </div>
           </div>
-          <p class="text-sm"><span class="icon icon-weather text-xl mr-3"/>{{ $t("popup.wind") }}: <span>{{ opsData.windForce }}</span> {{ $t("popup.windUnit") }} - {{ $t("popup.waves") }}: <span>{{ opsData.waveHeight }}m</span></p>
+          <p class="text-sm"><span class="icon icon-weather text-xl mr-3"/>{{ $t("popup.wind") }}: <span class="font-bold">{{ opsData.windForce ? opsData.windForce + $t("popup.windUnit") : $t("popup.unknown") }}</span>- {{ $t("popup.waves") }}: <span class="font-bold">{{ opsData.waveHeight ? opsData.waveHeight + "m" : $t("popup.unknown")}}</span></p>
           <p class="text-sm"><span class="icon icon-marker text-xl mr-3"/><span>Lat: {{ opsData.latitude }} - Lon: {{ opsData.longitude }}</span></p>
           <p v-if="opsData.imageSrc.length > 0 || opsData.videoSrc.length > 0" class="text-sm"><span class="icon icon-camera text-xl mr-3"/>{{ $t("popup.videosAndPictures") }}</p>
           <div v-if="opsData.imageSrc.length > 0 || opsData.videoSrc.length > 0" class="flex flex-wrap">

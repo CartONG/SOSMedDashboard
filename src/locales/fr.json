@@ -46,6 +46,7 @@
         "boat": "Bateau en détresse",
         "port": "Port de débarquement",
         "videosAndPictures": "Images et vidéos",
-        "dateFilter": "Date de filtrage"
+        "dateFilter": "Date de filtrage",
+        "unknown": "Non précisé"
     }
 }

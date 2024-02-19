@@ -46,6 +46,7 @@
         "boat": "Boat in distress",
         "port": "Disembarkation port",
         "videosAndPictures": "Pictures and videos",
-        "dateFilter": "Date of filtering"
+        "dateFilter": "Date of filtering",
+        "unknown": "Unknown"
     }
 }
