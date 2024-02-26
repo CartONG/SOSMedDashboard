@@ -12,6 +12,7 @@ import { Store } from "@/Store"
 import { store } from "@/main"
 import { DataState, PopUpType } from "./State"
 import { loadImage } from "@/utils/loadImage"
+import { OtherData, OtherDataTypes } from "./data/OtherData"
 
 export interface SingleBasemap {
   id: number;
@@ -94,6 +95,9 @@ export class BaseMap {
     this.map.addControl(baseMapPickerControl, "top-right")
     this.map.once("load", () => {
       this.addIcons()
+      this.map.on("click", ["Operation", "Incidents", "Deaths", "Shipwrecks"], this.clickOnDataLayer)
+      this.map.on("mouseenter", ["Operation", "Incidents", "Deaths", "Shipwrecks"], this.setMapCursorPointer)
+      this.map.on("mouseleave", ["Operation", "Incidents", "Deaths", "Shipwrecks"], this.removeMapCursorPointer)
     })
   }
 
@@ -192,9 +196,6 @@ export class BaseMap {
         ]
       }
     })
-    this.map.on("mouseenter", "Operation", this.setMapCursorPointer)
-    this.map.on("mouseleave", "Operation", this.removeMapCursorPointer)
-    this.map.on("click", "Operation", this.catchClickOnOperation)
   }
 
   private setMapCursorPointer (): void {
@@ -203,13 +204,6 @@ export class BaseMap {
 
   private removeMapCursorPointer (): void {
     map.getCanvas().style.cursor = ""
-  }
-
-  private catchClickOnOperation (e: MapMouseEvent): void {
-    const data = map.queryRenderedFeatures(e.point)[0].properties
-    data!.imageSrc = data!.imageSrc.split(",").filter((x: any) => x !== "")
-    data!.videoSrc = data!.videoSrc.split(",").filter((x: any) => x !== "")
-    store.setPopUpData(data as OpsData, PopUpType.OPS)
   }
 
   private addIncidentsLayer () {
@@ -247,6 +241,17 @@ export class BaseMap {
         "circle-color": "#000000"
       }
     })
+  }
+
+  private clickOnDataLayer (e: MapMouseEvent) {
+    const data = map.queryRenderedFeatures(e.point)[0].properties
+    data!.imageSrc = data!.imageSrc ? data!.imageSrc.split(";").filter((x: any) => x !== "") : ""
+    data!.videoSrc = data!.videoSrc ? data!.videoSrc.split(";").filter((x: any) => x !== "") : ""
+    let type = PopUpType.OPS
+    if (data?.type && data.type === OtherDataTypes.INCIDENT) type = PopUpType.INCIDENT
+    if (data?.type && data.type === OtherDataTypes.DEATH) type = PopUpType.DEAD
+    if (data?.type && data.type === OtherDataTypes.SHIPWRECK) type = PopUpType.SHIPWRECK
+    store.setPopUpData(data as OtherData, type)
   }
 
   private addHarborsLayer () {
@@ -304,9 +309,6 @@ export class BaseMap {
       this.filterOperationsData()
     } else {
       if (this.map.getLayer("Operation")) this.map.removeLayer("Operation")
-      this.map.off("mouseenter", "Operation", this.setMapCursorPointer)
-      this.map.off("mouseleave", "Operation", this.removeMapCursorPointer)
-      this.map.off("click", "Operation", this.catchClickOnOperation)
     }
     if (this.filtersState.incident) {
       if (!this.map.getLayer("Incidents")) this.addIncidentsLayer()

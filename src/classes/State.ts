@@ -1,5 +1,6 @@
 import { OpsData } from "./data/OpsData"
 import { FeatureCollection } from "geojson"
+import { OtherData } from "./data/OtherData"
 
 export enum SwitchType {
   harbor = "harbor",
@@ -21,7 +22,7 @@ export interface ApplicationState {
   isMenuVisible: boolean;
   isPopUpVisible: boolean;
   popUpType: PopUpType | null;
-  popUpData: OpsData | null;
+  popUpData: OpsData | OtherData | null;
   virtualVisitAlreadyOpened: boolean;
   minDate: Date;
   maxDate: Date;

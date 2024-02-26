@@ -1,10 +1,11 @@
 import { convert } from "geo-coordinates-parser"
-import { Feature, FeatureCollection } from "geojson"
+import { Feature } from "geojson"
 import { DataState } from "../State"
+import { parse } from "@formkit/tempo"
 
 export enum OtherDataTypes {
     SHIPWRECK = "Shipwreck",
-    DEATH = "Missing_death",
+    DEATH = "Dead & Missing",
     INCIDENT = "Incident"
 }
 
@@ -35,21 +36,21 @@ export async function getOtherData (): Promise<DataState["otherData"]> {
         const data: Feature = {
           type: "Feature",
           properties: {
-            date: new Date(x[0]),
+            date: parse(x[0], "DD-MM-YYYY"),
             type: x[1],
             latitude: coordinates.decimalLatitude,
             longitude: coordinates.decimalLongitude,
-            windForce: x[3],
-            waveHeight: x[4],
-            boatType: x[5],
-            deathNumber: x[6],
-            incAction: x[7],
-            shipwreckNumber: x[8],
-            boatInvolved: x[9],
-            testimonyName: x[10],
-            testimonySrc: x[11],
-            imageSrc: x[12],
-            videoSrc: x[13]
+            windForce: x[4],
+            waveHeight: x[5],
+            boatType: x[6],
+            deathNumber: x[7],
+            incAction: x[8],
+            shipwreckNumber: x[9],
+            boatInvolved: x[10],
+            testimonyName: x[11],
+            testimonySrc: x[12],
+            imageSrc: x[13],
+            videoSrc: x[14]
           },
           geometry: {
             coordinates: [
@@ -78,15 +79,15 @@ export interface OtherData {
     type: OtherDataTypes;
     latitude: number;
     longitude: number;
-    windForce: number | null;
-    waveHeight: number | null;
-    boatType: string | null;
-    deathNumber: number | null;
-    incAction: string | null;
-    shipwreckNumber: number | null;
+    windForce: number;
+    waveHeight: number;
+    boatType: string;
+    deathNumber: number;
+    incAction: string;
+    shipwreckNumber: number;
     boatInvolved: string;
-    testimonyName: string | null;
-    testimonySrc: string | null;
-    imageSrc: string | null;
-    videoSrc: string | null;
+    testimonyName: string;
+    testimonySrc: string;
+    imageSrc: string[];
+    videoSrc: string[];
 }

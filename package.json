@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@formkit/tempo": "^0.0.12",
     "@types/geojson": "^7946.0.10",
     "@vuepic/vue-datepicker": "^4.3.0",
     "core-js": "^3.30.1",

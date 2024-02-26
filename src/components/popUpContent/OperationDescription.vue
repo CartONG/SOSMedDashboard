@@ -5,7 +5,7 @@
           <div class="flex justify-between">
             <h1 class="font-bold text-secondary">{{ opsData.typeOps }}</h1>
           </div>
-          <p>{{ new Date(opsData.date).toLocaleDateString() }}</p>
+          <p>{{ format(opsData.date, "full") }}</p>
           <hr class="border-dotted border-main border"/>
           <p class="text-sm"><span class="icon icon-lifebuoy text-xl mr-3"/> {{ $t("popup.boat") }}:
             <span class="font-bold">{{ opsData.boatType }}</span>
@@ -94,7 +94,8 @@
 import { Colors } from "@/utils/Colors"
 import { store } from "@/main"
 import { computed, ref } from "vue"
-import { OpsData } from "@/classes/OpsData"
+import { OpsData } from "@/classes/data/OpsData"
+import { format } from "@formkit/tempo"
 
 const opsData = computed(() => store.getState().popUpData as OpsData)
 const style = `--text-color: ${Colors.BLUE};`

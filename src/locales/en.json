@@ -44,9 +44,14 @@
         "windUnit": "knots",
         "waves": "Wave height",
         "boat": "Boat in distress",
+        "boatInvolved": "Boat involved",
         "port": "Disembarkation port",
         "videosAndPictures": "Pictures and videos",
         "dateFilter": "Date of filtering",
-        "unknown": "Unknown"
+        "unknown": "Unknown",
+        "facts" : "Facts",
+        "testimony" : "Testimony",
+        "peoplesNB" : "Number of people",
+        "shipwreckNB" : "Number of shipwreck"
     }
 }

@@ -5,9 +5,8 @@ import { reactive } from "vue"
 import { FeatureCollection } from "geojson"
 import { BaseMap } from "@/classes/BaseMap"
 import { HistogramSlider } from "@/classes/HistogramSlider"
-import { convert } from "geo-coordinates-parser"
 import { getHarbors } from "./classes/data/Harbors"
-import { getOtherData } from "./classes/data/OtherData"
+import { OtherData, getOtherData } from "./classes/data/OtherData"
 
 export class Store {
   // ////////////// ---------APP STATE---------- \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -42,7 +41,7 @@ export class Store {
     this.appState.isPopUpVisible = !this.appState.isPopUpVisible
   }
 
-  public setPopUpData (data: OpsData, type: PopUpType) {
+  public setPopUpData (data: OpsData | OtherData, type: PopUpType) {
     this.appState.popUpType = type
     this.appState.popUpData = data
     this.updatePopUpVisibility()

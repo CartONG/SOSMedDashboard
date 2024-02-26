@@ -109,3 +109,6 @@
 .icon-female:before {
   content: "\e91c";
 }
+.icon-danger:before {
+  content: "\26A0";
+}

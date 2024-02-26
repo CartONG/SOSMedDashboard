@@ -44,9 +44,14 @@
         "windUnit": "noeuds",
         "waves": "Hauteur des vagues",
         "boat": "Bateau en détresse",
+        "boatInvolved": "Bateau concerné",
         "port": "Port de débarquement",
         "videosAndPictures": "Images et vidéos",
         "dateFilter": "Date de filtrage",
-        "unknown": "Non précisé"
+        "unknown": "Non précisé",
+        "facts" : "Faits",
+        "testimony" : "Témoignage",
+        "peoplesNB" : "Nombre de personnes",
+        "shipwreckNB" : "Nombre d'épaves"
     }
 }
