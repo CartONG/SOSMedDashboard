@@ -228,7 +228,22 @@ export class BaseMap {
       source: "Deaths",
       paint: {
         "circle-radius": ["step", ["zoom"], 4, 6, 6, 7.5, 8, 9, 10],
-        "circle-color": "#00000"
+        "circle-color": "#000000"
+      }
+    })
+    this.map.addLayer({
+      id: "DeathsCount",
+      type: "symbol",
+      source: "Deaths",
+      paint: {
+        "text-color": "white"
+      },
+      layout: {
+        "text-field": ["get", "deathNumber"],
+        // "text-size": ["step", ["zoom"], 0, 13, 15],
+        "text-size": 12,
+        "text-justify": "auto",
+        "text-font": ["Open Sans Semibold"]
       }
     })
   }
