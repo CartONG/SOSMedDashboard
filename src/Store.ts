@@ -1,6 +1,6 @@
 import { OpsData, fetchOpsData } from "./classes/data/OpsData"
 import { updateStats } from "./classes/PopUpAndStats"
-import { ApplicationState, CssClass, DataState, PopUpType, SwitchType } from "./classes/State"
+import { ApplicationState, DataState, PopUpType, SwitchType } from "./classes/State"
 import { reactive } from "vue"
 import { FeatureCollection } from "geojson"
 import { BaseMap } from "@/classes/BaseMap"
@@ -21,11 +21,12 @@ export class Store {
     switch: {
       rescue: true,
       transfer: true,
+      medEvac: false,
       harbor: true,
       srr: true,
-      incident: true,
-      deaths: true,
-      shipwrecks: true
+      incident: false,
+      death: true,
+      shipwreck: true
     }
   })
 
@@ -122,9 +123,5 @@ export class Store {
   toggleSwitch (switchId: keyof typeof SwitchType): void {
     this.appState.switch[switchId] = !this.appState.switch[switchId]
     this.baseMap.updateFiltersState(this.appState.switch)
-  }
-
-  getCssClass (id: keyof typeof SwitchType): {[key: string]: boolean} {
-    return CssClass[id]
   }
 }

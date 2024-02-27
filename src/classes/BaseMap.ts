@@ -125,6 +125,8 @@ export class BaseMap {
     this.map.addImage("harbor", harbor as ImageBitmap)
     const incident: ImageBitmap = await loadImage(this.map, `${process.env.BASE_URL}/basemaps-icons/incident.png`)
     this.map.addImage("incident", incident as ImageBitmap)
+    const shipwreck: ImageBitmap = await loadImage(this.map, `${process.env.BASE_URL}/basemaps-icons/shipwreck.png`)
+    this.map.addImage("shipwreck", shipwreck as ImageBitmap)
     this.setSources()
   }
 
@@ -226,7 +228,7 @@ export class BaseMap {
       source: "Deaths",
       paint: {
         "circle-radius": ["step", ["zoom"], 4, 6, 6, 7.5, 8, 9, 10],
-        "circle-color": "#32a852"
+        "circle-color": "#00000"
       }
     })
   }
@@ -234,11 +236,12 @@ export class BaseMap {
   private addShipwrecksLayer () {
     this.map.addLayer({
       id: "Shipwrecks",
-      type: "circle",
+      type: "symbol",
       source: "Shipwrecks",
-      paint: {
-        "circle-radius": ["step", ["zoom"], 4, 6, 6, 7.5, 8, 9, 10],
-        "circle-color": "#000000"
+      layout: {
+        "icon-image": "shipwreck",
+        "icon-size": 0.5,
+        "icon-allow-overlap": true
       }
     })
   }
@@ -315,12 +318,12 @@ export class BaseMap {
     } else {
       if (this.map.getLayer("Incidents")) this.map.removeLayer("Incidents")
     }
-    if (this.filtersState.deaths) {
+    if (this.filtersState.death) {
       if (!this.map.getLayer("Deaths")) this.addDeathsLayer()
     } else {
       if (this.map.getLayer("Deaths")) this.map.removeLayer("Deaths")
     }
-    if (this.filtersState.shipwrecks) {
+    if (this.filtersState.shipwreck) {
       if (!this.map.getLayer("Shipwrecks")) this.addShipwrecksLayer()
     } else {
       if (this.map.getLayer("Shipwrecks")) this.map.removeLayer("Shipwrecks")

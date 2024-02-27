@@ -20,11 +20,17 @@
         "others": "Autres"
     },
     "legend": {
-        "harbor": "Ports",
+        "harbor": "Port",
         "rescue": "Sauvetage",
+        "medEvac": "Evacuation médicale",
         "srr": "Région de recherche & sauvetage",
         "title": "Vue",
-        "transfer": "Transfert"
+        "transfer": "Transfert",
+        "shipwreck": "Epave",
+        "incident": "Incident",
+        "death": "Morts & Disparus",
+        "more": "Afficher plus",
+        "less": "Afficher moins"
     },
     "stats": {
         "females": "Femmes",

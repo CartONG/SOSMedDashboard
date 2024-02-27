@@ -18,7 +18,7 @@
 import { store } from "./main"
 import { onMounted } from "vue"
 import AppHeader from "./components/Header.vue"
-import AppLegend from "./components/Legend.vue"
+import AppLegend from "./components/MapLegend.vue"
 import BaseMap from "./components/BaseMap.vue"
 import HistogramSlider from "./components/HistogramSlider.vue"
 import KeyNumbers from "./components/KeyNumbers.vue"

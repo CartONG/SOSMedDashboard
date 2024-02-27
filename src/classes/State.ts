@@ -5,11 +5,12 @@ import { OtherData } from "./data/OtherData"
 export enum SwitchType {
   harbor = "harbor",
   rescue = "rescue",
+  medEvac = "medEvac",
   srr = "srr",
   transfer = "transfer",
   incident = "incident",
-  deaths = "deaths",
-  shipwrecks = "shipwrecks"
+  death = "death",
+  shipwreck = "shipwreck"
 }
 
 export enum PopUpType {
@@ -40,16 +41,4 @@ export interface DataState {
   sar: FeatureCollection
   sarCenters: FeatureCollection
   dataLoaded: boolean
-}
-
-export const CssClass: {
-  [key in SwitchType]: { [key: string]: boolean }
-} = {
-  harbor: { icon: true, "icon-anchor-o": true, "text-black": true, "text-xs": true },
-  rescue: { "bg-secondary": true },
-  srr: { "text-grayClose": true, "legend-srr": true },
-  transfer: { "bg-gray-400": true },
-  incident: { "bg-gray-400": true },
-  deaths: { "bg-gray-400": true },
-  shipwrecks: { "bg-gray-400": true }
 }

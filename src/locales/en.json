@@ -23,8 +23,14 @@
         "title": "View",
         "rescue": "Rescue", 
         "transfer": "Transfer",
+        "medEvac": "Medical evacuation",
         "srr": "Search & rescue region",
-        "harbor": "Ports"
+        "harbor": "Port",
+        "shipwreck": "Shipwreck",
+        "incident": "Incident",
+        "death": "Dead & Missing",
+        "more": "Show more",
+        "less": "Show less"
     },
     "stats": {
         "females": "Women",
