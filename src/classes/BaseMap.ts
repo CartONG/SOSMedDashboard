@@ -227,7 +227,7 @@ export class BaseMap {
       type: "circle",
       source: "Deaths",
       paint: {
-        "circle-radius": ["step", ["zoom"], 4, 6, 6, 7.5, 8, 9, 10],
+        "circle-radius": ["step", ["zoom"], 6, 6, 8, 7.5, 10, 9, 12],
         "circle-color": "#000000"
       }
     })
@@ -299,16 +299,19 @@ export class BaseMap {
   }
 
   private addSarLayers () {
-    this.map.addLayer({ id: "sar", type: "line", source: "sar", layout: {}, paint: { "line-color": "#999999", "line-width": 1, "line-dasharray": [1, 2] } })
+    this.map.addLayer({ id: "sar", type: "line", source: "sar", layout: {}, paint: { "line-color": "#1A2747", "line-width": 2, "line-dasharray": [3, 3] } })
     this.map.addLayer({
       id: "sar-name",
       type: "symbol",
       source: "sarCenters",
+      paint: {
+        "text-color": "#1A2747"
+      },
       layout: {
         "symbol-placement": "point",
-        "text-font": ["Open Sans Regular"],
+        "text-font": ["Open Sans Semibold"],
         "text-field": "{Nom}",
-        "text-size": 10
+        "text-size": 13
       }
     })
   }
@@ -336,6 +339,7 @@ export class BaseMap {
     if (this.filtersState.death) {
       if (!this.map.getLayer("Deaths")) this.addDeathsLayer()
     } else {
+      if (this.map.getLayer("DeathsCount")) this.map.removeLayer("DeathsCount")
       if (this.map.getLayer("Deaths")) this.map.removeLayer("Deaths")
     }
     if (this.filtersState.shipwreck) {

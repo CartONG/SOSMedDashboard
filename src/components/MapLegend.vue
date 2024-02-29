@@ -13,7 +13,7 @@
       <line x1="0" y1="20" x2="100" y2="20" stroke="black"/>
     </svg>
     <Legend-switch :id="SwitchType.harbor" :checked="switchState.harbor" :title="$t(`legend.${SwitchType.harbor}`)" iconName="harbor.png"></Legend-switch>
-    <Legend-switch :id="SwitchType.srr" :checked="switchState.srr" :title="$t(`legend.${SwitchType.srr}`)"></Legend-switch>
+    <Legend-switch :id="SwitchType.srr" :checked="switchState.srr" :title="$t(`legend.${SwitchType.srr}`)" iconName="srr.png" class="srr"></Legend-switch>
   </div>
 </template>
 
@@ -21,7 +21,7 @@
 import { store } from "@/main"
 import { SwitchType } from "@/classes/State"
 import { computed, ref } from "vue"
-import LegendSwitch from "./Switch.vue"
+import LegendSwitch from "./LegendSwitch.vue"
 
 const switchState = computed(() => store.getState().switch)
 const showAllLegend = ref(false)
@@ -37,5 +37,9 @@ const showAllLegend = ref(false)
   text-decoration: underline;
   color: rgb(102, 100, 100);
   margin-right: 10px;
+}
+
+.srr .legend-marker {
+  width: 30px !important;
 }
 </style>

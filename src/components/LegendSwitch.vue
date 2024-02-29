@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-row justify-between">
-    <div class="flex flex-row items-baseline">
+    <div class="flex flex-row items-center legend-label">
       <div v-if="color" class="legend-marker mr-2" :style="{ backgroundColor: color}"></div>
       <div v-if="iconName" class="legend-marker mr-2"><img :src="`${url}/basemaps-icons/${iconName}`" alt=""></div>
       <label :for="id" class="text-xs label-color">{{title}}</label>
@@ -51,5 +51,9 @@ function toggle (id: SwitchType) {
 
   .toggle-checkbox:checked + .toggle-label {
     background-color: theme('colors.secondary');
+  }
+
+  .legend-label{
+    width: 70%;
   }
 </style>
