@@ -28,7 +28,7 @@
         "harbor": "Port",
         "shipwreck": "Shipwreck",
         "incident": "Incident",
-        "death": "Dead & Missing",
+        "death": "Missing and death peoples",
         "more": "Show more",
         "less": "Show less"
     },
@@ -56,7 +56,7 @@
         "dateFilter": "Date of filtering",
         "unknown": "Unknown",
         "facts" : "Facts",
-        "testimony" : "Testimony",
+        "testimony" : "Testimonies",
         "peoplesNB" : "Number of people",
         "shipwreckNB" : "Number of shipwreck"
     }

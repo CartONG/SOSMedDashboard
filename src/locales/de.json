@@ -1,0 +1,63 @@
+{
+    "header": {
+        "sos": "SOS",
+        "mediterranee": "Mediterranee",
+        "title": "Interaktive Karte",
+        "subtitle": "Geschichte der Rettungsaktionen im Mittelmeer",
+        "glossary": "Glossar",
+        "logBook": "Logbuch",
+        "donate": {
+            "title": "Save lives",
+            "subtitle": "Now",
+            "button": "I donnate",
+            "button2": "Make a donation"
+        }
+    },
+    "contributors": {
+        "contrib": "Mitwirkende",
+        "volunteers": "Freiwillige und Mitarbeitende von CartONG", 
+        "dev": "Entwickler",
+        "others": "Andere"
+    },
+    "legend": {
+        "title": "Ansicht",
+        "rescue": "Rettung", 
+        "transfer": "Überführung",
+        "medEvac": "medizinische Evakuierung",
+        "srr": "Such- und Rettungsregion",
+        "harbor": "Hafen",
+        "shipwreck": "Schiffbruch",
+        "incident": "Zwischenfall",
+        "death": "Vermisste und verstorbene Menschen",
+        "more": "Zeig mehr",
+        "less": "Zeige weniger"
+    },
+    "stats": {
+        "females": "Frauen",
+        "males": "Männer", 
+        "minors": "Minderjährige",
+        "pregnants": "Schwangere Frauen",
+        "unaccompanied": "Unbegleitete Minderjährige",
+        "children": "Kinder",
+        "nationalities": "Nationalitäten",
+        "peoples": "Überlebende",
+        "opDays": "Tage der Operation",
+        "rescueNb" : "Rettungseinsätze",
+        "since": "Seit"
+    },
+    "popup": {
+        "wind": "Wind",
+        "windUnit": "knoten",
+        "waves": "Wellenhöhe",
+        "boat": "Boot in Seenot",
+        "boatInvolved": "Boot beteiligt",
+        "port": "Ausschiffungshafen",
+        "videosAndPictures": "Bilder und Videos",
+        "dateFilter": "Datum des Filterns",
+        "unknown": "Unknown",
+        "facts" : "Fakten",
+        "testimony" : "Zeugnisse",
+        "peoplesNB" : "Anzahl der Personen",
+        "shipwreckNB" : "Anzahl der Schiffswracks"
+    }
+}

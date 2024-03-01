@@ -19,8 +19,17 @@
            class="right-0 bg-white w-full">
         <nav class="text-lg text-main flex flex-col font-black">
           <ul class="list-disc pl-12 pt-6 pb-6 space-y-3">
-            <li><a href="https://onboard.sosmediterranee.org/glossary/" target="_blank">{{ $t("header.glossary") }}</a></li>
-            <li><a href="https://onboard.sosmediterranee.org/" target="_blank">{{ $t("header.logBook") }}</a></li>
+            <li>
+              <span @click="setLocale('en')" :class="{activeLanguage: $i18n.locale === 'en'}">EN</span>
+              <span class="mr-2 ml-2">|</span>
+              <span @click="setLocale('fr')" :class="{activeLanguage: $i18n.locale === 'fr'}">FR</span>
+              <span class="mr-2 ml-2">|</span>
+              <span @click="setLocale('it')" :class="{activeLanguage: $i18n.locale === 'it'}">IT</span>
+              <span class="mr-2 ml-2">|</span>
+              <span @click="setLocale('de')" :class="{activeLanguage: $i18n.locale === 'de'}">DE</span>
+            </li>
+            <li><a href="https://www.sosmediterranee.org/glossary/" target="_blank">{{ $t("header.glossary") }}</a></li>
+            <li><a href="https://www.sosmediterranee.org/operations/" target="_blank">{{ $t("header.logBook") }}</a></li>
             <li><HeaderContributorsMobile/></li>
           </ul>
           <a class="bg-secondary text-donationText uppercase hover:bg-donationHoverBackground text-center rounded-b-lg"
@@ -40,6 +49,13 @@
           </a>
         </div>
         <div class="flex-grow"></div>
+        <span @click="setLocale('en')" :class="{activeLanguage: $i18n.locale === 'en'}" class="cursor-pointer">EN</span>
+        <span class="mr-2 ml-2">|</span>
+        <span @click="setLocale('fr')" :class="{activeLanguage: $i18n.locale === 'fr'}" class="cursor-pointer">FR</span>
+        <span class="mr-2 ml-2">|</span>
+        <span @click="setLocale('it')" :class="{activeLanguage: $i18n.locale === 'it'}" class="cursor-pointer">IT</span>
+        <span class="mr-2 ml-2">|</span>
+        <span @click="setLocale('de')" :class="{activeLanguage: $i18n.locale === 'de'}" class="mr-4 cursor-pointer">DE</span>
         <HeaderContributors />
         <a href="#" class=" text-center inline-block h-6 w-6 bg-white ml-4 mr-3 text-black">?</a>
       </nav>
@@ -69,6 +85,9 @@ export default defineComponent({
     },
     updateMenuVisibility () {
       store.updateMenuVisibility()
+    },
+    setLocale (locale: string) {
+      this.$i18n.locale = locale
     }
   },
   name: "Dashboard-Header"
@@ -104,4 +123,8 @@ export default defineComponent({
   display: flex;
 }
 
+.activeLanguage{
+  font-weight: bold;
+  color: #F03E1B;
+}
 </style>
