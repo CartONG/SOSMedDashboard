@@ -14,7 +14,7 @@
 
 <script lang="ts" setup>
 import { store } from "@/main"
-import { computed, watch } from "vue"
+import { computed } from "vue"
 import OperationDescription from "./popUpContent/OperationDescription.vue"
 import IncidentDescription from "./popUpContent/IncidentDescription.vue"
 import DeathDescription from "./popUpContent/DeathDescription.vue"

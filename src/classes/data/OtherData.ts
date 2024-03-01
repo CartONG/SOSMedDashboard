@@ -12,6 +12,7 @@ export enum OtherDataTypes {
 export async function getOtherData (): Promise<DataState["otherData"]> {
   try {
     const dataUrl = `https://sheets.googleapis.com/v4/spreadsheets/1opF61Qq2DgrJIP-kQD5-KHzC4xZkp2u_zqigTGk3V0I/values/Other_data?key=${process.env.VUE_APP_GOOGLE_API_KEY}`
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const sheet: { values: any[] } = await (await fetch(dataUrl)).json()
     sheet.values.shift()
     const dataset:DataState["otherData"] = {
@@ -64,7 +65,7 @@ export async function getOtherData (): Promise<DataState["otherData"]> {
         if (data.properties?.type === OtherDataTypes.DEATH) dataset.deaths.features.push(data)
         if (data.properties?.type === OtherDataTypes.SHIPWRECK) dataset.shipwrecks.features.push(data)
       } catch (error) {
-        console.log(x)
+        // eslint-disable-next-line no-console
         console.log("error on other data for line " + i)
       }
     })
