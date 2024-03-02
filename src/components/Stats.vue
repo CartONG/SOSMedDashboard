@@ -89,7 +89,7 @@
 <script lang="ts">
 
 import { defineComponent } from "vue"
-import { reactiveStore } from "@/Store"
+import { store } from "@/main"
 export default defineComponent({
   data () {
     return { displayingStats: true }
@@ -97,7 +97,7 @@ export default defineComponent({
   name: "Base-Map-Stats",
   methods: {
     showVirtualVisit (): void {
-      reactiveStore.switchVirtualVisitVisibility()
+      store.switchVirtualVisitVisibility()
     }
   }
 })
@@ -106,7 +106,7 @@ export default defineComponent({
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .position-desktop {
-  top: 2%;
+  top: 3rem;
   margin-left: 3%;
 }
 </style>

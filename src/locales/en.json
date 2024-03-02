@@ -23,8 +23,14 @@
         "title": "View",
         "rescue": "Rescue", 
         "transfer": "Transfer",
+        "medEvac": "Medical evacuation",
         "srr": "Search & rescue region",
-        "harbor": "Ports"
+        "harbor": "Port",
+        "shipwreck": "Shipwreck",
+        "incident": "Incident",
+        "death": "Missing and death peoples",
+        "more": "Show more",
+        "less": "Show less"
     },
     "stats": {
         "females": "Women",
@@ -44,8 +50,17 @@
         "windUnit": "knots",
         "waves": "Wave height",
         "boat": "Boat in distress",
+        "boatInvolved": "Boat involved",
         "port": "Disembarkation port",
         "videosAndPictures": "Pictures and videos",
-        "dateFilter": "Date of filtering"
+        "dateFilter": "Date of filtering",
+        "unknown": "Unknown",
+        "facts" : "Facts",
+        "testimony" : "Testimonies",
+        "peoplesNB" : "Number of people",
+        "shipwreckNB" : "Number of shipwreck"
+    },
+    "histogram": {
+        "text": "Number of operation per month"
     }
 }

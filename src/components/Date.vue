@@ -8,14 +8,14 @@
           <h1 class="font-bold text-secondary">{{ $t("popup.dateFilter") }}</h1>
           <button id="dateCloseButton" type="button" class="focus:outline-none text-grayClose" @click="toggleVisible">X</button>
         </div>
-        <Datepicker v-model="date" @update:modelValue="handleDate" inline autoApply/>
+        <Datepicker v-model="date" @update:modelValue="handleDate" inline autoApply :enable-time-picker="false"/>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { store } from "@/Store"
+import { store } from "@/main"
 import Datepicker from "@vuepic/vue-datepicker"
 import { defineComponent } from "vue"
 import "@vuepic/vue-datepicker/dist/main.css"
@@ -33,19 +33,19 @@ export default defineComponent({
   },
   data (): { date: Date, isVisible: boolean } {
     if (this.isMinDate) {
-      return { date: store.state.minDate, isVisible: false }
+      return { date: store.getState().minDate, isVisible: false }
     } else {
-      return { date: store.state.maxDate, isVisible: false }
+      return { date: store.getState().maxDate, isVisible: false }
     }
   },
   methods: {
     handleDate (modelData: Date): void {
       if (this.isMinDate) {
-        store.state.minDate = modelData
+        store.getState().minDate = modelData
       } else {
-        store.state.maxDate = modelData
+        store.getState().maxDate = modelData
       }
-      store.filterData(store.state.minDate, store.state.maxDate)
+      store.filterData(store.getState().minDate, store.getState().maxDate)
       store.updateHistogramSliderFromTo()
     }
   }

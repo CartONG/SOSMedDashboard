@@ -1,5 +1,5 @@
-import { OpsData } from "./OpsData"
-import { reactiveStore, store } from "@/Store"
+import { OpsData } from "./data/OpsData"
+import { store } from "@/main"
 
 const numberToString = function (n: number) {
   if (isNaN(n)) {
@@ -16,33 +16,6 @@ const setInnerText = function (elemId: string, textToAdd: string) {
   }
 }
 
-const fillPopUp = function (data: OpsData) {
-  setInnerText("popUpTypeOps", data.typeOps)
-  setInnerText("popUpDate", new Date(data.date).toDateString())
-  setInnerText("popUpBoatType", data.boatType)
-  setInnerText("popUpPort", data.portDisembarkation)
-  setInnerText("popUpNbSurvivor", numberToString(data.nbSurvivor))
-  setInnerText("popUpFemale", numberToString(data.female))
-  setInnerText("popUpMale", numberToString(data.male))
-  setInnerText("popUpMinor", numberToString(data.under18))
-  setInnerText("popUpPregnant", numberToString(data.pregnantWomen))
-  setInnerText("popUpUnaccompagnied", numberToString(data.under18unacc))
-  setInnerText("popUpChildren", numberToString(data.under5))
-  setInnerText("popUpNationalities", numberToString(data.nbNationalities ? data.nbNationalities.split(";").length : 0))
-  setInnerText("popUpWind", numberToString(data.windForce))
-  setInnerText("popUpWave", numberToString(data.waveHeight))
-  setInnerText("popUpLat", numberToString(data.latitude))
-  setInnerText("popUpLon", numberToString(data.longitude))
-}
-
-export const showPopUp = function (data: OpsData): void {
-  reactiveStore.updatePopUpVisibility()
-  fillPopUp(data)
-  reactiveStore.setVideoAndPicturePopUpVisibility(data.imageSrc.length > 0 || data.videoSrc.length > 0)
-  reactiveStore.setPopUpVideoUrls(data.videoSrc as unknown as string)
-  reactiveStore.setPopUpImageUrls(data.imageSrc as unknown as string)
-}
-
 export const updateStats = function (minDate: Date, maxDate: Date, timeFilteredData: OpsData[]): void {
   setInnerText("statsMinDate", getFormattedDate(minDate))
   setInnerText("statsMaxDate", getFormattedDate(maxDate))
@@ -54,9 +27,9 @@ export const updateStats = function (minDate: Date, maxDate: Date, timeFilteredD
   let under18unacc = 0
   let under5 = 0
   let nbNationalities = 0
-  const nbRescueOps = store.allData.map(x => x.nbOps).reduce((acc, currentVal) => acc + currentVal, 0)
+  const nbRescueOps = store.getData().OpsData.map(x => x.nbOps).reduce((acc, currentVal) => acc + currentVal, 0)
   let filteredNbRescueOps = 0
-  const nbPeopleAssisted = store.allData.filter(el => el.nbSurvivor).map(
+  const nbPeopleAssisted = store.getData().OpsData.filter(el => el.nbSurvivor).map(
     el => el.nbSurvivor).reduce((partialSum, a) => partialSum + a, 0)
   const nationalitiesList = []
   for (const data of timeFilteredData) {

@@ -1,0 +1,66 @@
+{
+    "header": {
+        "sos": "SOS",
+        "mediterranee": "Mediterranee",
+        "title": "Mappa interattiva",
+        "subtitle": "Storia delle operazioni di salvataggio nel Mediterraneo",
+        "glossary": "Glossario",
+        "logBook": "Diario di bordo",
+        "donate": {
+            "title": "Save lives",
+            "subtitle": "Now",
+            "button": "I donnate",
+            "button2": "Make a donation"
+        }
+    },
+    "contributors": {
+        "contrib": "Autori",
+        "volunteers": "Volontari e staff di CartONG", 
+        "dev": "Sviluppatori",
+        "others": "Altri"
+    },
+    "legend": {
+        "title": "Vista",
+        "rescue": "Soccorso", 
+        "transfer": "Trasbordo",
+        "medEvac": "Evacuazione medica",
+        "srr": "Regione di ricerca e soccorso",
+        "harbor": "Porti",
+        "shipwreck": "Naufragio",
+        "incident": "Incidente",
+        "death": "Persone morte e disperse",
+        "more": "Mostra di più",
+        "less": "Mostra meno"
+    },
+    "stats": {
+        "females": "Donne",
+        "males": "Uomini", 
+        "minors": "Minori",
+        "pregnants": "Incinte",
+        "unaccompanied": "Non accompagnati",
+        "children": "Bambini",
+        "nationalities": "Nazionalità",
+        "peoples": "Naufraghi",
+        "opDays": "Giorni in operazioni",
+        "rescueNb" : "Operazioni",
+        "since": "Dal"
+    },
+    "popup": {
+        "wind": "Vento",
+        "windUnit": "nodi",
+        "waves": "Altezza delle onde",
+        "boat": "Imbarcazione in pericolo",
+        "boatInvolved": "Barca coinvolta",
+        "port": "Porto di sbarco",
+        "videosAndPictures": "Immagini e video",
+        "dateFilter": "Data di filtraggio",
+        "unknown": "Sconosciuto",
+        "facts" : "Fatti",
+        "testimony" : "Testimonianze",
+        "peoplesNB" : "Numero di persone",
+        "shipwreckNB" : "Numero di naufragi"
+    },
+    "histogram": {
+        "text": "Numero di operazioni al mese"
+    }
+}

@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col h-screen overflow-hidden">
-    <!-- <AppHeader/> -->
+    <AppHeader/>
     <KeyNumbersMobile/>
     <BaseMap/>
   </div>
@@ -11,32 +11,23 @@
     <HistogramSlider/>
   </div>
   <AppLegend/>
-  <VirtualVisit v-if="reactiveStore.virtualVisitAlreadyOpened"/>
+  <VirtualVisit v-if="store.getState().virtualVisitAlreadyOpened"/>
 </template>
 
-<script lang="ts">
-import { store, reactiveStore } from "./Store"
-import { defineAsyncComponent, defineComponent, onMounted } from "vue"
+<script lang="ts" setup>
+import { store } from "./main"
+import { onMounted } from "vue"
+import AppHeader from "./components/Header.vue"
+import AppLegend from "./components/MapLegend.vue"
+import BaseMap from "./components/BaseMap.vue"
+import HistogramSlider from "./components/HistogramSlider.vue"
+import KeyNumbers from "./components/KeyNumbers.vue"
+import PopUp from "./components/PopUp.vue"
+import Stats from "./components/Stats.vue"
+import VirtualVisit from "./components/VirtualVisit.vue"
 
-export default defineComponent({
-  components: {
-    // AppHeader: defineAsyncComponent(() => import("./components/Header.vue")),
-    AppLegend: defineAsyncComponent(() => import("./components/Legend.vue")),
-    BaseMap: defineAsyncComponent(() => import("./components/BaseMap.vue")),
-    HistogramSlider: defineAsyncComponent(() => import("./components/HistogramSlider.vue")),
-    KeyNumbers: defineAsyncComponent(() => import("./components/KeyNumbers.vue")),
-    KeyNumbersMobile: defineAsyncComponent(() => import("./components/KeyNumbersMobile.vue")),
-    PopUp: defineAsyncComponent(() => import("./components/PopUp.vue")),
-    Stats: defineAsyncComponent(() => import("./components/Stats.vue")),
-    VirtualVisit: defineAsyncComponent(() => import("./components/VirtualVisit.vue"))
-  },
-  setup () {
-    onMounted(() => {
-      store.initStore()
-    })
-
-    return { reactiveStore }
-  }
+onMounted(() => {
+  store.initStore()
 })
 
 </script>

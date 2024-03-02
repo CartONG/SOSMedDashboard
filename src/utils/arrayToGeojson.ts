@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { OpsData } from "@/classes/OpsData"
+import { OpsData } from "@/classes/data/OpsData"
 import { FeatureCollection } from "geojson"
 
 export function opsDataToGeoJSON (rawData: OpsData[]): FeatureCollection {

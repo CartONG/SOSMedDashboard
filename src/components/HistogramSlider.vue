@@ -6,6 +6,7 @@
       <div class="slider-wrapper">
         <input type="text" :id="'histogram-slider'" :name="'histogram-slider'" value=""/>
       </div>
+      <div class="histogram-text hidden lg:block">{{ $t("histogram.text") }}</div>
     </div>
     <span class="hidden md:block icon icon-calendar text-4xl text-right color-secondary cursor-pointer" @click="toggleMaxDateVisibility"/>
   </div>
@@ -15,7 +16,7 @@
 
 <script lang='ts'>
 import "../js/range-slider"
-import { store } from "@/Store"
+import { store } from "@/main"
 import { Colors } from "@/utils/Colors"
 import { computed, defineAsyncComponent, defineComponent, onBeforeUnmount, onMounted, ref } from "vue"
 
@@ -68,7 +69,7 @@ export default defineComponent({
     onMounted(() => {
       window.addEventListener("resize", onResize)
       store.setWidthHistogramSlider(width.value)
-      store.displayHistogramSlider(store.state.minDate.valueOf(), store.state.maxDate.valueOf(), [])
+      store.displayHistogramSlider(store.getState().minDate.valueOf(), store.getState().maxDate.valueOf(), [])
     })
 
     onBeforeUnmount(() => {
@@ -84,7 +85,22 @@ export default defineComponent({
 
 <style>
   .histo{
-    margin-left: 3%;
+    margin-left: 3% !important;
+    height: 20% !important;
+    padding: 20px !important;
+  }
+
+  @media only screen and (max-width: 500px){
+    .histo{
+      padding: 0px !important;
+      width: 93% !important;
+    }
+  }
+
+  .histogram-text{
+    font-size: 0.7em !important;
+    margin-top: 5px;
+    font-style: italic;
   }
 
 .vue-histogram-view {
@@ -327,7 +343,7 @@ export default defineComponent({
   line-height: 1;
   text-shadow: none;
   padding: 3px 5px;
-  background-color: var(--label-color);
+  background-color: rgba(26, 39, 71, 0.7);
   color: white;
   border-radius: 4px;
 }

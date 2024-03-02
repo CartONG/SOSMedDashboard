@@ -1,219 +1,127 @@
-import { OpsData, fetchOpsData } from "./classes/OpsData"
+import { OpsData, fetchOpsData } from "./classes/data/OpsData"
 import { updateStats } from "./classes/PopUpAndStats"
-import { State, SwitchType } from "./classes/State"
-import { reactive, ref } from "vue"
+import { ApplicationState, DataState, PopUpType, SwitchType } from "./classes/State"
+import { reactive } from "vue"
 import { FeatureCollection } from "geojson"
 import { BaseMap } from "@/classes/BaseMap"
 import { HistogramSlider } from "@/classes/HistogramSlider"
-import { GeoJSONSourceRaw } from "mapbox-gl"
-import { convert } from "geo-coordinates-parser"
+import { getHarbors } from "./classes/data/Harbors"
+import { OtherData, getOtherData } from "./classes/data/OtherData"
 
-const CssClass: {
-  [key in SwitchType]: { [key: string]: boolean }
-} = {
-  harbor: { icon: true, "icon-anchor-o": true, "text-black": true, "text-xs": true },
-  rescue: { "bg-secondary": true },
-  srr: { "text-grayClose": true, "legend-srr": true },
-  transfer: { "bg-gray-400": true }
-}
+export class Store {
+  // ////////////// ---------APP STATE---------- \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  private appState: ApplicationState = reactive({
+    isMenuVisible: false,
+    isPopUpVisible: false,
+    popUpType: null,
+    popUpData: null,
+    virtualVisitAlreadyOpened: false,
+    minDate: new Date(2016, 2, 7),
+    maxDate: new Date(),
+    switch: {
+      rescue: true,
+      transfer: true,
+      medEvac: false,
+      harbor: true,
+      srr: true,
+      incident: false,
+      death: true,
+      shipwreck: true
+    }
+  })
 
-export interface ReactiveStore {
-  updateMenuVisibility: () => void;
-  isMenuVisible: boolean;
-
-  updatePopUpVisibility: () => void;
-  isPopUpVisible: boolean;
-
-  setVideoAndPicturePopUpVisibility: (visible: boolean) => void;
-  isVideoAndPicturePopUpVisible: boolean;
-
-  setPopUpVideoUrls: (popUpVideoUrls: string) => void;
-  popUpVideoUrls: string[];
-
-  setPopUpImageUrls: (popUpImageUrls: string) => void;
-  popUpImageUrls: string[];
-
-  switchVirtualVisitVisibility: () => void;
-  virtualVisitVisibility: boolean;
-
-  virtualVisitAlreadyOpened: boolean;
-}
-
-export const reactiveStore : ReactiveStore = reactive({
-  _isMenuVisible: false,
-
-  updateMenuVisibility () {
-    this._isMenuVisible = !this._isMenuVisible
-  },
-
-  get isMenuVisible (): boolean {
-    return this._isMenuVisible
-  },
-
-  _isPopUpVisible: false,
-
-  updatePopUpVisibility () {
-    this._isPopUpVisible = !this._isPopUpVisible
-  },
-
-  get isPopUpVisible (): boolean {
-    return this._isPopUpVisible
-  },
-
-  _isVideoAndPicturePopUpVisible: false,
-
-  setVideoAndPicturePopUpVisibility (visible: boolean) {
-    this._isVideoAndPicturePopUpVisible = visible
-  },
-
-  get isVideoAndPicturePopUpVisible (): boolean {
-    return this._isVideoAndPicturePopUpVisible
-  },
-
-  _popUpVideoUrls: [""],
-
-  setPopUpVideoUrls (popUpVideoUrls: string) {
-    this._popUpVideoUrls = popUpVideoUrls.split(",")
-  },
-
-  get popUpVideoUrls (): string[] {
-    return this._popUpVideoUrls
-  },
-
-  _popUpImageUrls: [""],
-
-  setPopUpImageUrls (popUpImageUrls: string) {
-    this._popUpImageUrls = popUpImageUrls.split(",")
-  },
-
-  get popUpImageUrls (): string[] {
-    return this._popUpImageUrls
-  },
-
-  _virtualVisitVisibility: false,
-
-  switchVirtualVisitVisibility (): void {
-    this._virtualVisitVisibility = !this._virtualVisitVisibility
-    this.updateVirtualVisitAlreadyOpened()
-  },
-
-  get virtualVisitVisibility (): boolean {
-    return this._virtualVisitVisibility
-  },
-
-  _virtualVisitAlreadyOpened: false,
-
-  updateVirtualVisitAlreadyOpened (): void {
-    this._virtualVisitAlreadyOpened = true
-  },
-
-  get virtualVisitAlreadyOpened (): boolean {
-    return this._virtualVisitAlreadyOpened
+  public getState () {
+    return this.appState
   }
-})
 
-// Constant to expose and manage the store
-// It could be seen as a static class
-export const store = {
-  allData: [] as OpsData[],
-  harbors: {} as FeatureCollection,
-  sar: {} as GeoJSONSourceRaw,
-  sarCenters: {} as GeoJSONSourceRaw,
-  state: new State(),
-  baseMap: new BaseMap(),
-  histogramSlider: new HistogramSlider(),
-  dataLoaded: ref(false),
+  public updateMenuVisibility () {
+    this.appState.isMenuVisible = !this.appState.isMenuVisible
+  }
 
-  filterData (minDate: Date, maxDate: Date): void {
-    this.state.minDate = new Date(minDate)
-    this.state.maxDate = new Date(maxDate)
-    const timeFilteredData = this.allData.filter(currentOperation => this.state.minDate <= currentOperation.date && currentOperation.date <= this.state.maxDate)
+  public updatePopUpVisibility () {
+    this.appState.isPopUpVisible = !this.appState.isPopUpVisible
+  }
+
+  public setPopUpData (data: OpsData | OtherData, type: PopUpType) {
+    this.appState.popUpType = type
+    this.appState.popUpData = data
+    this.updatePopUpVisibility()
+  }
+
+  public switchVirtualVisitVisibility () {
+    this.appState.virtualVisitAlreadyOpened = !this.appState.virtualVisitAlreadyOpened
+  }
+
+  // ////////////// ---------DATA STATE---------- \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+  private dataState: DataState = reactive({
+    OpsData: [],
+    otherData: {} as DataState["otherData"],
+    harbors: {} as FeatureCollection,
+    sar: {} as FeatureCollection,
+    sarCenters: {} as FeatureCollection,
+    dataLoaded: false
+  })
+
+  private baseMap = new BaseMap()
+  private histogramSlider = new HistogramSlider()
+
+  public async initStore (): Promise<void> {
+    this.dataState.harbors = await getHarbors()
+    this.dataState.otherData = await getOtherData()
+    this.dataState.sar = require("./assets/resources/SAR.json")
+    this.dataState.sarCenters = require("./assets/resources/SAR_centers.json")
+    this.dataState.OpsData = await fetchOpsData()
+    this.dataState.dataLoaded = true
+    this.updateHistogramSlider()
+    this.updateStats(this.dataState.OpsData)
+  }
+
+  public getData () {
+    return this.dataState
+  }
+
+  public filterData (minDate: Date, maxDate: Date): void {
+    this.appState.minDate = new Date(minDate)
+    this.appState.maxDate = new Date(maxDate)
+    const timeFilteredData = this.dataState.OpsData.filter(currentOperation => this.appState.minDate <= currentOperation.date && currentOperation.date <= this.appState.maxDate)
     this.baseMap.updateOperationsData(timeFilteredData)
     this.updateStats(timeFilteredData)
-  },
+  }
 
-  async initStore (): Promise<void> {
-    this.harbors = await this.getHarbors()
-    this.sar = require("./assets/resources/SAR.json")
-    this.sarCenters = require("./assets/resources/SAR_centers.json")
-    this.allData = await fetchOpsData()
-    this.dataLoaded.value = true
-    this.updateHistogramSlider()
-    this.updateStats(this.allData)
-  },
-
-  displayMap (): void {
-    this.baseMap.setData(this.harbors, this.allData, this.sar, this.sarCenters)
-    this.baseMap.updateFiltersState(this.state.switch)
+  public displayMap (): void {
+    this.baseMap.setData(this.dataState.harbors, this.dataState.OpsData, this.dataState.otherData, this.dataState.sar, this.dataState.sarCenters)
+    this.baseMap.updateFiltersState(this.appState.switch)
     this.baseMap.initMap()
-  },
+  }
 
-  updateBasemap (index: number): void {
+  public updateBasemap (index: number): void {
     this.baseMap.setCurrentBasemap(index)
-  },
-
-  destroyMap (): void {
-    this.baseMap.destroy()
-  },
+  }
 
   displayHistogramSlider (askedMin: number, askedMax: number, data: number[]): void {
     this.histogramSlider.display(askedMin, askedMax, data)
-  },
+  }
 
   setWidthHistogramSlider (width: number): void {
     this.histogramSlider.setWidth(width)
-  },
+  }
 
   updateHistogramSlider (): void {
-    this.histogramSlider.updateHistogram(this.allData.map(d => d.date.getTime()), this)
-  },
+    this.histogramSlider.updateHistogram(this.dataState.OpsData.map(d => d.date.getTime()), this)
+  }
 
   updateHistogramSliderFromTo (): void {
-    this.histogramSlider.updateSlider(this.state.minDate.valueOf(), this.state.maxDate.valueOf())
+    this.histogramSlider.updateSlider(this.appState.minDate.valueOf(), this.appState.maxDate.valueOf())
     this.updateHistogramSlider()
-  },
+  }
 
   updateStats (timeFilteredData: OpsData[]): void {
-    updateStats(this.state.minDate, this.state.maxDate, timeFilteredData)
-  },
+    updateStats(this.appState.minDate, this.appState.maxDate, timeFilteredData)
+  }
 
   toggleSwitch (switchId: keyof typeof SwitchType): void {
-    this.state.switch[switchId] = !this.state.switch[switchId]
-    this.baseMap.updateFiltersState(this.state.switch)
-  },
-
-  getCssClass (id: keyof typeof SwitchType): {[key: string]: boolean} {
-    return CssClass[id]
-  },
-
-  async getHarbors (): Promise<FeatureCollection> {
-    const harborsUrl = `https://sheets.googleapis.com/v4/spreadsheets/1opF61Qq2DgrJIP-kQD5-KHzC4xZkp2u_zqigTGk3V0I/values/Data_ports?key=${process.env.VUE_APP_GOOGLE_API_KEY}`
-    const sheet: { values: [string, string, string][] } = await (await fetch(harborsUrl)).json()
-    sheet.values.shift()
-    const harbors: FeatureCollection = {
-      type: "FeatureCollection",
-      features: []
-    }
-    // eslint-disable-next-line array-callback-return
-    sheet.values.map(x => {
-      const rawCoordinates = x[1] + ", " + x[2]
-      try {
-        const coordinates = convert(rawCoordinates)
-        harbors.features.push({
-          type: "Feature",
-          properties: { name: x[0] },
-          geometry: {
-            coordinates: [
-              coordinates.decimalLongitude,
-              coordinates.decimalLatitude
-            ],
-            type: "Point"
-          }
-        })
-      } catch (error) {
-        console.error("Error on ports:" + x)
-      }
-    })
-    return Promise.resolve(harbors)
+    this.appState.switch[switchId] = !this.appState.switch[switchId]
+    this.baseMap.updateFiltersState(this.appState.switch)
   }
 }

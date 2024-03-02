@@ -7,27 +7,29 @@ export enum TypeOps {
   transfer = "Transfer"
 }
 
-export class OpsData {
-  date = new Date()
-  typeOps = TypeOps.rescue
-  nbOps = NaN
-  nbSurvivor = NaN
-  male = NaN
-  female = NaN
-  under18 = NaN
-  under18unacc = NaN
-  under5 = NaN
-  pregnantWomen = NaN
-  latitude = NaN
-  longitude = NaN
-  windForce = NaN
-  waveHeight = NaN
-  boatType = ""
-  nbNationalities = ""
-  transfertType = ""
-  imageSrc: string[] = []
-  videoSrc: string[] = []
-  portDisembarkation = ""
+export interface OpsData {
+  date : Date
+  typeOps : TypeOps
+  nbOps : number
+  nbSurvivor : number
+  male : number
+  female : number
+  under18 : number
+  under18unacc : number
+  under5 : number
+  pregnantWomen : number
+  latitude : number
+  longitude : number
+  windForce : number
+  waveHeight : number
+  boatType : string
+  nbNationalities : string
+  transfertType : string
+  imageSrc: string[]
+  videoSrc: string[]
+  portDisembarkation : string
+  testimonyName: string;
+  testimonySrc: string;
 }
 
 const createDate = function (dateDayFirst: string) {
@@ -57,7 +59,7 @@ export const fetchOpsData = async function (): Promise<OpsData[]> {
 }
 
 const convertOpsData = function (rawOpsData: {[key: string]: string}, metadataErrorLog?: string) {
-  const res = new OpsData()
+  const res: OpsData = {} as OpsData
   res.date = createDate(rawOpsData.date)
   res.typeOps = rawOpsData.typeOps as TypeOps
   res.nbOps = parseInt(rawOpsData.nbOps)
@@ -84,5 +86,16 @@ const convertOpsData = function (rawOpsData: {[key: string]: string}, metadataEr
   res.imageSrc = rawOpsData.imageSrc ? rawOpsData.imageSrc.split(";") : []
   res.videoSrc = rawOpsData.videoSrv ? rawOpsData.videoSrv.split(";") : []
   res.portDisembarkation = rawOpsData.PortDisembarkation
+  res.testimonyName = rawOpsData.testimony_name
+  res.testimonySrc = rawOpsData.testimony_src
   return res
+}
+
+export interface OpsPopUpContent {
+  typeOps: string;
+  date: Date;
+  boatName: string;
+  portDisembarkation: string;
+  nbRescued: number;
+
 }

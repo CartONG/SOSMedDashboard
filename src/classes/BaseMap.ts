@@ -1,14 +1,18 @@
 /* eslint-disable no-return-assign */
-import { OpsData } from "./OpsData"
+import { OpsData } from "./data/OpsData"
 import { MapboxGLButtonControl } from "./MapboxGLButtonControl"
-import { GeoJSONSource, GeoJSONSourceRaw, LngLatBounds, LngLatLike, Map, MapMouseEvent, Marker, NavigationControl, Popup } from "mapbox-gl"
-import { showPopUp } from "./PopUpAndStats"
+import { GeoJSONSource, LngLatBounds, LngLatLike, Map, MapMouseEvent, NavigationControl, Popup } from "mapbox-gl"
+// import { showOperationPopUp } from "./PopUpAndStats"
 import { FeatureCollection, Point } from "geojson"
-import { State } from "@/classes/State"
 import "mapbox-gl/dist/mapbox-gl.css"
 import { BaseMapPickerControl } from "./BaseMapPickerControl"
 import { opsDataToGeoJSON } from "@/utils/arrayToGeojson"
 import { ref } from "vue"
+import { Store } from "@/Store"
+import { store } from "@/main"
+import { DataState, PopUpType } from "./State"
+import { loadImage } from "@/utils/loadImage"
+import { OtherData, OtherDataTypes } from "./data/OtherData"
 
 export interface SingleBasemap {
   id: number;
@@ -42,23 +46,28 @@ let map: Map
 const popup = new Popup({ closeOnClick: false, closeButton: false })
 
 export class BaseMap {
-  private operationsData!: OpsData[]
-  private filteredOperationsData!: OpsData[]
-
   private map!: Map
   private defaultExtent!: LngLatBounds
+  private operationsData!: OpsData[]
+  private filteredOperationsData!: OpsData[]
+  private incidents!: FeatureCollection
+  private deaths!: FeatureCollection
+  private shipwrecks!: FeatureCollection
   private harbors!: FeatureCollection
-  private sar!: GeoJSONSourceRaw
-  private sarCenters!: GeoJSONSourceRaw
+  private sar!: FeatureCollection
+  private sarCenters!: FeatureCollection
   private iconsLoaded = ref(false)
-  private filtersState!: State["switch"]
+  private filtersState!: Store["appState"]["switch"]
   private sourcesLoaded = false
 
   currentBasemap = 0
 
   /// /////// PUBLIC METHODS TO SET/UPDATE DATA AND MOUNT MAP \\\\\\\
-  public setData (harbors: FeatureCollection, ops: OpsData[], sar: GeoJSONSourceRaw, sarCenters: GeoJSONSourceRaw) {
+  public setData (harbors: FeatureCollection, ops: OpsData[], otherData: DataState["otherData"], sar: FeatureCollection, sarCenters: FeatureCollection) {
     this.harbors = harbors
+    this.incidents = otherData.incidents
+    this.deaths = otherData.deaths
+    this.shipwrecks = otherData.shipwrecks
     this.operationsData = ops
     this.filteredOperationsData = ops
     this.sar = sar
@@ -86,10 +95,13 @@ export class BaseMap {
     this.map.addControl(baseMapPickerControl, "top-right")
     this.map.once("load", () => {
       this.addIcons()
+      this.map.on("click", ["Operation", "Incidents", "Deaths", "Shipwrecks"], this.clickOnDataLayer)
+      this.map.on("mouseenter", ["Operation", "Incidents", "Deaths", "Shipwrecks"], this.setMapCursorPointer)
+      this.map.on("mouseleave", ["Operation", "Incidents", "Deaths", "Shipwrecks"], this.removeMapCursorPointer)
     })
   }
 
-  public updateFiltersState (state: State["switch"]) {
+  public updateFiltersState (state: Store["appState"]["switch"]) {
     this.filtersState = state
     if (this.sourcesLoaded) this.updateLayers()
   }
@@ -108,16 +120,14 @@ export class BaseMap {
   }
 
   /// /////// PRIVATE METHODS TO SET IMAGES AND SOURCES BEFORE ADDING LAYERS \\\\\\\
-  private addIcons () {
-    if (!this.map.hasImage("harbor")) {
-      this.map.loadImage(`${process.env.BASE_URL}/basemaps-icons/harbor.png`, (error, image) => {
-        if (error) console.log(error)
-        this.map.addImage("harbor", image as ImageBitmap)
-        this.setSources()
-      })
-    } else {
-      this.setSources()
-    }
+  private async addIcons () {
+    const harbor: ImageBitmap = await loadImage(this.map, `${process.env.BASE_URL}/basemaps-icons/harbor.png`)
+    this.map.addImage("harbor", harbor as ImageBitmap)
+    const incident: ImageBitmap = await loadImage(this.map, `${process.env.BASE_URL}/basemaps-icons/incident.png`)
+    this.map.addImage("incident", incident as ImageBitmap)
+    const shipwreck: ImageBitmap = await loadImage(this.map, `${process.env.BASE_URL}/basemaps-icons/shipwreck.png`)
+    this.map.addImage("shipwreck", shipwreck as ImageBitmap)
+    this.setSources()
   }
 
   private setSources () {
@@ -128,13 +138,38 @@ export class BaseMap {
       type: "geojson",
       data: opsDataToGeoJSON(this.filteredOperationsData.filter(operation => !isNaN(operation.longitude) && !isNaN(operation.latitude)))
     })
+    // Add Other data sources
+    if (this.map.getLayer("Incidents")) this.map.removeLayer("Incidents")
+    if (this.map.getSource("Incidents")) this.map.removeSource("Incidents")
+    this.map.addSource("Incidents", {
+      type: "geojson",
+      data: this.incidents
+    })
+    if (this.map.getLayer("Deaths")) this.map.removeLayer("Deaths")
+    if (this.map.getSource("Deaths")) this.map.removeSource("Deaths")
+    this.map.addSource("Deaths", {
+      type: "geojson",
+      data: this.deaths
+    })
+    if (this.map.getLayer("Shipwrecks")) this.map.removeLayer("Shipwrecks")
+    if (this.map.getSource("Shipwrecks")) this.map.removeSource("Shipwrecks")
+    this.map.addSource("Shipwrecks", {
+      type: "geojson",
+      data: this.shipwrecks
+    })
     // Add Sar sources
     if (this.map.getLayer("sar")) this.map.removeLayer("sar")
     if (this.map.getSource("sar")) this.map.removeSource("sar")
     if (this.map.getLayer("sarCenters")) this.map.removeLayer("sarCenters")
     if (this.map.getSource("sarCenters")) this.map.removeSource("sarCenters")
-    this.map.addSource("sar", this.sar)
-    this.map.addSource("sarCenters", this.sarCenters)
+    this.map.addSource("sar", {
+      type: "geojson",
+      data: this.sar
+    })
+    this.map.addSource("sarCenters", {
+      type: "geojson",
+      data: this.sarCenters
+    })
     // Add Harbors sources
     this.map.addSource("harbors", {
       type: "geojson",
@@ -151,7 +186,7 @@ export class BaseMap {
       type: "circle",
       source: "operations",
       paint: {
-        "circle-radius": ["step", ["zoom"], 3, 6, 5, 7.5, 8, 9, 10],
+        "circle-radius": ["step", ["zoom"], 4, 6, 6, 7.5, 8, 9, 10],
         "circle-color": [
           "match",
           ["get", "typeOps"],
@@ -163,9 +198,6 @@ export class BaseMap {
         ]
       }
     })
-    this.map.on("mouseenter", "Operation", this.setMapCursorPointer)
-    this.map.on("mouseleave", "Operation", this.removeMapCursorPointer)
-    this.map.on("click", "Operation", this.catchClickOnOperation)
   }
 
   private setMapCursorPointer (): void {
@@ -176,8 +208,68 @@ export class BaseMap {
     map.getCanvas().style.cursor = ""
   }
 
-  private catchClickOnOperation (e: MapMouseEvent): void {
-    showPopUp(map.queryRenderedFeatures(e.point)[0].properties as OpsData)
+  private addIncidentsLayer () {
+    this.map.addLayer({
+      id: "Incidents",
+      type: "symbol",
+      source: "Incidents",
+      layout: {
+        "icon-image": "incident",
+        "icon-size": 0.5,
+        "icon-allow-overlap": true
+      }
+    })
+  }
+
+  private addDeathsLayer () {
+    this.map.addLayer({
+      id: "Deaths",
+      type: "circle",
+      source: "Deaths",
+      paint: {
+        "circle-radius": ["step", ["zoom"], 6, 6, 8, 7.5, 10, 9, 12],
+        "circle-color": "#000000"
+      }
+    })
+    this.map.addLayer({
+      id: "DeathsCount",
+      type: "symbol",
+      source: "Deaths",
+      paint: {
+        "text-color": "white"
+      },
+      layout: {
+        "text-field": ["get", "deathNumber"],
+        // "text-size": ["step", ["zoom"], 0, 13, 15],
+        "text-size": 12,
+        "text-justify": "auto",
+        "text-font": ["Open Sans Semibold"]
+      }
+    })
+  }
+
+  private addShipwrecksLayer () {
+    this.map.addLayer({
+      id: "Shipwrecks",
+      type: "symbol",
+      source: "Shipwrecks",
+      layout: {
+        "icon-image": "shipwreck",
+        "icon-size": 0.5,
+        "icon-allow-overlap": true
+      }
+    })
+  }
+
+  private clickOnDataLayer (e: MapMouseEvent) {
+    const data = map.queryRenderedFeatures(e.point)[0].properties
+    data!.imageSrc = data!.imageSrc ? data!.imageSrc.split(";").filter((x: any) => x !== "") : ""
+    data!.videoSrc = data!.videoSrc ? data!.videoSrc.split(";").filter((x: any) => x !== "") : ""
+    let type = PopUpType.OPS
+    if (data?.type && data.type === OtherDataTypes.INCIDENT) type = PopUpType.INCIDENT
+    if (data?.type && data.type === OtherDataTypes.DEATH) type = PopUpType.DEAD
+    if (data?.type && data.type === OtherDataTypes.SHIPWRECK) type = PopUpType.SHIPWRECK
+    store.setPopUpData(data as OtherData, type)
   }
 
   private addHarborsLayer () {
@@ -207,16 +299,19 @@ export class BaseMap {
   }
 
   private addSarLayers () {
-    this.map.addLayer({ id: "sar", type: "line", source: "sar", layout: {}, paint: { "line-color": "#999999", "line-width": 1, "line-dasharray": [1, 2] } })
+    this.map.addLayer({ id: "sar", type: "line", source: "sar", layout: {}, paint: { "line-color": "#1A2747", "line-width": 2, "line-dasharray": [3, 3] } })
     this.map.addLayer({
       id: "sar-name",
       type: "symbol",
       source: "sarCenters",
+      paint: {
+        "text-color": "#1A2747"
+      },
       layout: {
         "symbol-placement": "point",
-        "text-font": ["Open Sans Regular"],
+        "text-font": ["Open Sans Semibold"],
         "text-field": "{Nom}",
-        "text-size": 10
+        "text-size": 13
       }
     })
   }
@@ -235,9 +330,22 @@ export class BaseMap {
       this.filterOperationsData()
     } else {
       if (this.map.getLayer("Operation")) this.map.removeLayer("Operation")
-      this.map.off("mouseenter", "Operation", this.setMapCursorPointer)
-      this.map.off("mouseleave", "Operation", this.removeMapCursorPointer)
-      this.map.off("click", "Operation", this.catchClickOnOperation)
+    }
+    if (this.filtersState.incident) {
+      if (!this.map.getLayer("Incidents")) this.addIncidentsLayer()
+    } else {
+      if (this.map.getLayer("Incidents")) this.map.removeLayer("Incidents")
+    }
+    if (this.filtersState.death) {
+      if (!this.map.getLayer("Deaths")) this.addDeathsLayer()
+    } else {
+      if (this.map.getLayer("DeathsCount")) this.map.removeLayer("DeathsCount")
+      if (this.map.getLayer("Deaths")) this.map.removeLayer("Deaths")
+    }
+    if (this.filtersState.shipwreck) {
+      if (!this.map.getLayer("Shipwrecks")) this.addShipwrecksLayer()
+    } else {
+      if (this.map.getLayer("Shipwrecks")) this.map.removeLayer("Shipwrecks")
     }
     if (this.filtersState.srr) {
       if (this.map.getLayer("sar")) this.map.removeLayer("sar")
