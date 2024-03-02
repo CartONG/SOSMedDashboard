@@ -59,5 +59,8 @@
         "testimony" : "Testimonianze",
         "peoplesNB" : "Numero di persone",
         "shipwreckNB" : "Numero di naufragi"
+    },
+    "histogram": {
+        "text": "Numero di operazioni al mese"
     }
 }

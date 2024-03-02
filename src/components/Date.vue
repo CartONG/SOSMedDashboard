@@ -8,7 +8,7 @@
           <h1 class="font-bold text-secondary">{{ $t("popup.dateFilter") }}</h1>
           <button id="dateCloseButton" type="button" class="focus:outline-none text-grayClose" @click="toggleVisible">X</button>
         </div>
-        <Datepicker v-model="date" @update:modelValue="handleDate" inline autoApply/>
+        <Datepicker v-model="date" @update:modelValue="handleDate" inline autoApply :enable-time-picker="false"/>
       </div>
     </div>
   </div>

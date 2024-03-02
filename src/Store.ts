@@ -16,7 +16,7 @@ export class Store {
     popUpType: null,
     popUpData: null,
     virtualVisitAlreadyOpened: false,
-    minDate: new Date(2016, 0, 1),
+    minDate: new Date(2016, 2, 7),
     maxDate: new Date(),
     switch: {
       rescue: true,
