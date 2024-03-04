@@ -2,7 +2,7 @@
   <div class="flex flex-row justify-between">
     <div class="flex flex-row items-center legend-label">
       <div v-if="color" class="legend-marker mr-2" :style="{ backgroundColor: color}"></div>
-      <div v-if="iconName" class="legend-marker mr-2"><img :src="`${url}/basemaps-icons/${iconName}`" alt=""></div>
+      <div v-if="iconName" class="legend-marker mr-2"><img :src="`./basemaps-icons/${iconName}`" alt=""></div>
       <label :for="id" class="text-xs label-color">{{title}}</label>
     </div>
     <div class="relative inline-block w-8 mr-2 align-middle select-none transition duration-200 ease-in">

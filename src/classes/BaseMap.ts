@@ -24,19 +24,19 @@ export interface SingleBasemap {
 export const BASEMAPS: Array<SingleBasemap> = [{
   id: 0,
   name: "SOS Mediterranee",
-  img: "/basemaps-icons/sosmed.png",
+  img: "./basemaps-icons/sosmed.png",
   style: "mapbox://styles/sosmediterranee/ckkdvswwr0ol117t7d91p7wac"
 },
 {
   id: 1,
   name: "Satellite Imagery",
-  img: "/basemaps-icons/satellite.png",
+  img: "./basemaps-icons/satellite.png",
   style: "mapbox://styles/mapbox/satellite-v9"
 },
 {
   id: 2,
   name: "Dark",
-  img: "/basemaps-icons/dark.png",
+  img: "./basemaps-icons/dark.png",
   style: "mapbox://styles/mapbox/dark-v10"
 }]
 
@@ -121,11 +121,11 @@ export class BaseMap {
 
   /// /////// PRIVATE METHODS TO SET IMAGES AND SOURCES BEFORE ADDING LAYERS \\\\\\\
   private async addIcons () {
-    const harbor: ImageBitmap = await loadImage(this.map, `${process.env.BASE_URL}/basemaps-icons/harbor.png`)
+    const harbor: ImageBitmap = await loadImage(this.map, "./basemaps-icons/harbor.png")
     this.map.addImage("harbor", harbor as ImageBitmap)
-    const incident: ImageBitmap = await loadImage(this.map, `${process.env.BASE_URL}/basemaps-icons/incident.png`)
+    const incident: ImageBitmap = await loadImage(this.map, "./basemaps-icons/incident.png")
     this.map.addImage("incident", incident as ImageBitmap)
-    const shipwreck: ImageBitmap = await loadImage(this.map, `${process.env.BASE_URL}/basemaps-icons/shipwreck.png`)
+    const shipwreck: ImageBitmap = await loadImage(this.map, "./basemaps-icons/shipwreck.png")
     this.map.addImage("shipwreck", shipwreck as ImageBitmap)
     this.setSources()
   }
