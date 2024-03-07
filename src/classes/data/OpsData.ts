@@ -4,7 +4,8 @@ const dataRequestUrl = `https://sheets.googleapis.com/v4/spreadsheets/1opF61Qq2D
 
 export enum TypeOps {
   rescue = "Rescue",
-  transfer = "Transfer"
+  transfer = "Transfer",
+  medEvac = "Medevac"
 }
 
 export interface OpsData {
@@ -28,8 +29,8 @@ export interface OpsData {
   imageSrc: string[]
   videoSrc: string[]
   portDisembarkation : string
-  testimonyName: string;
-  testimonySrc: string;
+  testimonyName: string[];
+  testimonySrc: string[];
 }
 
 const createDate = function (dateDayFirst: string) {
@@ -86,8 +87,8 @@ const convertOpsData = function (rawOpsData: {[key: string]: string}, metadataEr
   res.imageSrc = rawOpsData.imageSrc ? rawOpsData.imageSrc.split(";") : []
   res.videoSrc = rawOpsData.videoSrv ? rawOpsData.videoSrv.split(";") : []
   res.portDisembarkation = rawOpsData.PortDisembarkation
-  res.testimonyName = rawOpsData.testimony_name
-  res.testimonySrc = rawOpsData.testimony_src
+  res.testimonyName = rawOpsData.testimony_name ? rawOpsData.testimony_name.split(";") : []
+  res.testimonySrc = rawOpsData.testimony_src ? rawOpsData.testimony_src.split(";") : []
   return res
 }
 

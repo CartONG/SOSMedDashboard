@@ -1,6 +1,6 @@
 <template>
-  <div class="Contributors__container flex flex-col w-9 justify-center items-center">
-    <img alt="logo CartONG" class="Contributors__img cursor-pointer inline-block h-full" src="@/assets/Cartong_logo-square-white.png"/>
+  <div class="Contributors__container flex flex-col h-full justify-center items">
+    <img alt="logo CartONG" class="h-full py-2" src="@/assets/Cartong_logo.png"/>
     <div class="Contributors__content text-main bg-white p-0 rounded-3xl overflow-hidden ">
       <div class="m-8 flex flex-col">
       <h1 class="font-bold text-xl text-secondary">

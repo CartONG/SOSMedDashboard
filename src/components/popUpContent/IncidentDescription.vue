@@ -5,17 +5,22 @@
           <div class="flex justify-between">
             <h1 class="font-bold text-secondary">{{ incidentData.type }}</h1>
           </div>
-          <p>{{ format(incidentData.date, "full") }}</p>
+          <p class="font-bold">{{ format(incidentData.date, "full") }}</p>
           <hr class="border-dotted border-main border"/>
           <p class="text-sm"><span class="icon icon-lifebuoy text-xl mr-3"/> {{ $t("popup.boatInvolved") }}:
             <span class="font-bold">{{ incidentData.boatInvolved }}</span>
           </p>
-          <p class="text-sm"><span class="icon icon-danger text-xl mr-3"/> {{ $t("popup.facts") }}:
+          <p class="text-sm flex">
+            <img src="@/assets/warning.svg" class="popup-icon"> {{ $t("popup.facts") }}:
             <span class="font-bold">{{ incidentData.incAction }}</span>
           </p>
-          <p class="text-sm" v-if="incidentData.testimonySrc"><span class="icon icon-danger text-xl mr-3"/> {{ $t("popup.testimony") }}:
-            <span class="font-bold"><a :href="incidentData.testimonySrc" target="_blank">{{ incidentData.testimonyName }}</a></span>
+          <p class="text-sm flex" v-if="incidentData.testimonySrc.length > 0">
+            <img src="@/assets/comments.svg" class="popup-icon"> {{ $t("popup.testimony") }}:
+            <span class="font-bold ml-2 underline" v-for="(src, i) in incidentData.testimonySrc" :key="src+i">
+              <a :href="src" target="_blank">{{ incidentData.testimonyName[i] }} {{ i < incidentData.testimonySrc.length -1 ? "," : "" }}</a>
+            </span>
           </p>
+          <div class="divider"></div>
           <p class="text-sm"><span class="icon icon-weather text-xl mr-3"/>{{ $t("popup.wind") }}: <span class="font-bold">{{ incidentData.windForce ? incidentData.windForce + $t("popup.windUnit") : $t("popup.unknown") }}</span>- {{ $t("popup.waves") }}: <span class="font-bold">{{ incidentData.waveHeight ? incidentData.waveHeight + "m" : $t("popup.unknown")}}</span></p>
           <p class="text-sm"><span class="icon icon-marker text-xl mr-3"/><span>Lat: {{ incidentData.latitude }} - Lon: {{ incidentData.longitude }}</span></p>
 

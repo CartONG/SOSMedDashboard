@@ -29,8 +29,8 @@
         "shipwreck": "Epave",
         "incident": "Incident",
         "death": "Morts & Disparus",
-        "more": "Afficher plus",
-        "less": "Afficher moins"
+        "more": "Plus",
+        "less": "Moins"
     },
     "stats": {
         "females": "Femmes",
