@@ -29,8 +29,8 @@
         "shipwreck": "Naufragio",
         "incident": "Incidente",
         "death": "Persone morte e disperse",
-        "more": "Mostra di più",
-        "less": "Mostra meno"
+        "more": "Più",
+        "less": "Meno"
     },
     "stats": {
         "females": "Donne",

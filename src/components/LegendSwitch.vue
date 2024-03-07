@@ -1,11 +1,11 @@
 <template>
   <div class="flex flex-row justify-between">
-    <div class="flex flex-row items-center legend-label">
+    <div class="flex flex-row items-start legend-label">
       <div v-if="color" class="legend-marker mr-2" :style="{ backgroundColor: color}"></div>
       <div v-if="iconName" class="legend-marker mr-2"><img :src="`${url}/basemaps-icons/${iconName}`" alt=""></div>
       <label :for="id" class="text-xs label-color">{{title}}</label>
     </div>
-    <div class="relative inline-block w-8 mr-2 align-middle select-none transition duration-200 ease-in">
+    <div class="relative inline-block w-8 mr-2 align-middle select-none transition duration-200 ease-in" v-if="switchable">
         <input
             type="checkbox"
             :name="id"
@@ -27,6 +27,7 @@ import { store } from "@/main"
 import { SwitchType } from "@/classes/State"
 
 defineProps<{
+  switchable: boolean
   checked: boolean
   id: SwitchType
   title: string
@@ -39,7 +40,7 @@ function toggle (id: SwitchType) {
 }
 </script>
 
-<style scoped>
+<style>
   .label-color {
     color: theme('colors.main')
   }

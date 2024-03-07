@@ -39,8 +39,8 @@
       </div>
     </div>
     <div class="hidden lg:block">
-      <nav class="bg-main text-white flex h-10 items-center">
-        <div class="flex-none flex ml-8">
+      <nav class="bg-main text-white flex h-10 items-center header-desktop">
+        <div class="flex-none flex">
           <a href="https://www.sosmediterranee.org/glossary/" target="_blank" class="px-1 flex-initial inline-block">{{ $t("header.glossary") }}</a>
         </div>
         <div class="flex-none flex ml-8">
@@ -49,15 +49,14 @@
           </a>
         </div>
         <div class="flex-grow"></div>
-        <span @click="setLocale('en')" :class="{activeLanguage: $i18n.locale === 'en'}" class="cursor-pointer">EN</span>
+        <span @click="setLocale('en')" :class="{activeLanguage: $i18n.locale === 'en'}" class="cursor-pointer text-sm">EN</span>
         <span class="mr-2 ml-2">|</span>
-        <span @click="setLocale('fr')" :class="{activeLanguage: $i18n.locale === 'fr'}" class="cursor-pointer">FR</span>
+        <span @click="setLocale('fr')" :class="{activeLanguage: $i18n.locale === 'fr'}" class="cursor-pointer text-sm">FR</span>
         <span class="mr-2 ml-2">|</span>
-        <span @click="setLocale('it')" :class="{activeLanguage: $i18n.locale === 'it'}" class="cursor-pointer">IT</span>
+        <span @click="setLocale('it')" :class="{activeLanguage: $i18n.locale === 'it'}" class="cursor-pointer text-sm">IT</span>
         <span class="mr-2 ml-2">|</span>
-        <span @click="setLocale('de')" :class="{activeLanguage: $i18n.locale === 'de'}" class="mr-4 cursor-pointer">DE</span>
+        <span @click="setLocale('de')" :class="{activeLanguage: $i18n.locale === 'de'}" class="mr-4 cursor-pointer text-sm">DE</span>
         <HeaderContributors />
-        <a href="#" class=" text-center inline-block h-6 w-6 bg-white ml-4 mr-3 text-black">?</a>
       </nav>
     </div>
   </header>
@@ -95,6 +94,10 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.header-desktop{
+  padding-left: 3%;
+  padding-right: 3%;
+}
 .up-arrow {
   transform: rotate(180deg);
 }

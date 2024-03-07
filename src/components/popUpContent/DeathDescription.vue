@@ -5,16 +5,20 @@
         <div class="flex justify-between">
           <h1 class="font-bold text-secondary">{{ deathData.type }}</h1>
         </div>
-        <p>{{ format(deathData.date, "full") }}</p>
+        <p class="font-bold">{{ format(deathData.date, "full") }}</p>
         <hr class="border-dotted border-main border"/>
         <p class="text-sm"><span class="icon icon-lifebuoy text-xl mr-3"/> {{ $t("popup.boatInvolved") }}:
           <span class="font-bold">{{ deathData.boatInvolved }}</span>
         </p>
-        <p class="text-sm"><span class="icon icon-lifebuoy text-xl mr-3"/> {{ $t("popup.peoplesNB") }}:
+        <p class="text-sm"><span class="icon icon-rescue text-xl mr-3"/> {{ $t("popup.peoplesNB") }}:
           <span class="font-bold">{{ deathData.deathNumber }}</span>
         </p>
-        <p class="text-sm" v-if="deathData.testimonySrc"><span class="icon icon-danger text-xl mr-3"/> {{ $t("popup.testimony") }}:
-          <span class="font-bold"><a :href="deathData.testimonySrc" target="_blank">{{ deathData.testimonyName }}</a></span>
+        <div class="divider"></div>
+        <p class="text-sm flex" v-if="deathData.testimonySrc.length > 0">
+          <img src="@/assets/comments.svg" class="popup-icon"> {{ $t("popup.testimony") }}:
+          <span class="font-bold ml-2 underline" v-for="(src, i) in deathData.testimonySrc" :key="src+i">
+            <a :href="src" target="_blank">{{ deathData.testimonyName[i] }} {{ i < deathData.testimonySrc.length -1 ? "," : "" }}</a>
+          </span>
         </p>
         <p class="text-sm"><span class="icon icon-weather text-xl mr-3"/>{{ $t("popup.wind") }}: <span class="font-bold">{{ deathData.windForce ? deathData.windForce + $t("popup.windUnit") : $t("popup.unknown") }}</span>- {{ $t("popup.waves") }}: <span class="font-bold">{{ deathData.waveHeight ? deathData.waveHeight + "m" : $t("popup.unknown")}}</span></p>
         <p class="text-sm"><span class="icon icon-marker text-xl mr-3"/><span>Lat: {{ deathData.latitude }} - Lon: {{ deathData.longitude }}</span></p>

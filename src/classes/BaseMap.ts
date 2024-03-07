@@ -1,13 +1,12 @@
 /* eslint-disable no-return-assign */
 import { OpsData } from "./data/OpsData"
 import { MapboxGLButtonControl } from "./MapboxGLButtonControl"
-import { GeoJSONSource, LngLatBounds, LngLatLike, Map, MapMouseEvent, NavigationControl, Popup } from "mapbox-gl"
-// import { showOperationPopUp } from "./PopUpAndStats"
-import { FeatureCollection, Point } from "geojson"
+import { GeoJSONSource, LngLatBounds, Map, MapMouseEvent, NavigationControl, Popup } from "mapbox-gl"
+import { FeatureCollection } from "geojson"
 import "mapbox-gl/dist/mapbox-gl.css"
 import { BaseMapPickerControl } from "./BaseMapPickerControl"
 import { opsDataToGeoJSON } from "@/utils/arrayToGeojson"
-import { ref } from "vue"
+import { ref, reactive } from "vue"
 import { Store } from "@/Store"
 import { store } from "@/main"
 import { DataState, PopUpType } from "./State"
@@ -43,7 +42,15 @@ export const BASEMAPS: Array<SingleBasemap> = [{
 // Global variable used for setting on/off map event like click on operations layer
 // Explanation here: https://stackoverflow.com/questions/63036623/how-to-disable-an-event-listener-in-mapbox
 let map: Map
-const popup = new Popup({ closeOnClick: false, closeButton: false })
+// const popup = new Popup({ closeOnClick: false, closeButton: false, className: "harborPopUp" })
+export const harborPopUp = reactive({
+  visible: false,
+  content: "",
+  coordinates: {
+    x: 0,
+    y: 0
+  }
+})
 
 export class BaseMap {
   private map!: Map
@@ -194,6 +201,8 @@ export class BaseMap {
           "#F03E1B",
           "Transfer",
           "#9CA3AF",
+          "Medevac",
+          "#1A2747",
           /* other */ "#000"
         ]
       }
@@ -227,7 +236,7 @@ export class BaseMap {
       type: "circle",
       source: "Deaths",
       paint: {
-        "circle-radius": ["step", ["zoom"], 6, 6, 8, 7.5, 10, 9, 12],
+        "circle-radius": ["step", ["zoom"], 4, 6, 6, 7.5, 8, 9, 10],
         "circle-color": "#000000"
       }
     })
@@ -241,7 +250,7 @@ export class BaseMap {
       layout: {
         "text-field": ["get", "deathNumber"],
         // "text-size": ["step", ["zoom"], 0, 13, 15],
-        "text-size": 12,
+        "text-size": 10,
         "text-justify": "auto",
         "text-font": ["Open Sans Semibold"]
       }
@@ -255,7 +264,7 @@ export class BaseMap {
       source: "Shipwrecks",
       layout: {
         "icon-image": "shipwreck",
-        "icon-size": 0.5,
+        "icon-size": ["step", ["zoom"], 0.2, 6, 0.3, 7.5, 0.4, 9, 0.5],
         "icon-allow-overlap": true
       }
     })
@@ -263,8 +272,15 @@ export class BaseMap {
 
   private clickOnDataLayer (e: MapMouseEvent) {
     const data = map.queryRenderedFeatures(e.point)[0].properties
-    data!.imageSrc = data!.imageSrc ? data!.imageSrc.split(";").filter((x: any) => x !== "") : ""
-    data!.videoSrc = data!.videoSrc ? data!.videoSrc.split(";").filter((x: any) => x !== "") : ""
+    data!.imageSrc = data!.imageSrc ? data!.imageSrc.split(";").filter((x: any) => x !== "") : []
+    data!.videoSrc = data!.videoSrc ? data!.videoSrc.split(";").filter((x: any) => x !== "") : []
+    if (data!.testimonyName) {
+      data!.testimonyName = data!.testimonyName !== "[]" ? data!.testimonyName.split(";").filter((x: any) => x !== "") : []
+      data!.testimonySrc = data!.testimonySrc !== "[]" ? data!.testimonySrc.split(";").filter((x: any) => x !== "") : []
+    } else {
+      data!.testimonyName = []
+      data!.testimonySrc = []
+    }
     let type = PopUpType.OPS
     if (data?.type && data.type === OtherDataTypes.INCIDENT) type = PopUpType.INCIDENT
     if (data?.type && data.type === OtherDataTypes.DEATH) type = PopUpType.DEAD
@@ -279,7 +295,7 @@ export class BaseMap {
       source: "harbors",
       layout: {
         "icon-image": "harbor",
-        "icon-size": 0.35,
+        "icon-size": 0.45,
         "icon-allow-overlap": true
       }
     })
@@ -288,14 +304,13 @@ export class BaseMap {
   }
 
   private setHarborsPopUp (e: MapMouseEvent) {
-    const features = map.queryRenderedFeatures(e.point, { layers: ["harbors"] })
-    popup
-      .setLngLat((features[0].geometry as Point).coordinates as LngLatLike)
-      .setHTML(`<h1>${features[0].properties?.name}</h1>`).addTo(map)
+    harborPopUp.coordinates = e.point
+    harborPopUp.content = map.queryRenderedFeatures(e.point, { layers: ["harbors"] })[0].properties?.name
+    harborPopUp.visible = true
   }
 
   private removeHarborsPopUp () {
-    popup.remove()
+    harborPopUp.visible = false
   }
 
   private addSarLayers () {
@@ -325,7 +340,7 @@ export class BaseMap {
       this.map.off("mouseenter", "harbors", this.setHarborsPopUp)
       this.map.off("mouseleave", "harbors", this.removeHarborsPopUp)
     }
-    if (this.filtersState.rescue || this.filtersState.transfer) {
+    if (this.filtersState.rescue || this.filtersState.transfer || this.filtersState.medEvac) {
       if (!this.map.getLayer("Operation")) this.addOperationLayer()
       this.filterOperationsData()
     } else {
@@ -364,6 +379,9 @@ export class BaseMap {
     }
     if (!this.filtersState.transfer) {
       this.filteredOperationsData = this.operationsData.filter(x => x.typeOps !== "Transfer")
+    }
+    if (!this.filtersState.medEvac) {
+      this.filteredOperationsData = this.operationsData.filter(x => x.typeOps !== "Medevac")
     }
     (this.map.getSource("operations") as GeoJSONSource).setData(opsDataToGeoJSON(this.filteredOperationsData))
   }

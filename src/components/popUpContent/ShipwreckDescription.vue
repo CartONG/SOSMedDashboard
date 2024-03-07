@@ -5,19 +5,24 @@
         <div class="flex justify-between">
           <h1 class="font-bold text-secondary">{{ shipwreckData.type }}</h1>
         </div>
-        <p>{{ format(shipwreckData.date, "full") }}</p>
+        <p class="font-bold">{{ format(shipwreckData.date, "full") }}</p>
         <hr class="border-dotted border-main border"/>
         <p class="text-sm"><span class="icon icon-lifebuoy text-xl mr-3"/> {{ $t("popup.boatInvolved") }}:
           <span class="font-bold">{{ shipwreckData.boatInvolved }}</span>
         </p>
-        <p class="text-sm"><span class="icon icon-lifebuoy text-xl mr-3"/> {{ $t("popup.shipwreckNB") }}:
-          <span class="font-bold">{{ shipwreckData.shipwreckNumber }}</span>
+        <p class="text-sm flex mt-1">
+            <img src="@/assets/shipwreck.svg" class="popup-icon"> {{ $t("popup.shipwreckNB") }}:
+          <span class="font-bold ml-2">{{ shipwreckData.shipwreckNumber }}</span>
         </p>
-        <p class="text-sm"><span class="icon icon-lifebuoy text-xl mr-3"/> {{ $t("popup.peoplesNB") }}:
+        <p class="text-sm"><span class="icon icon-rescue text-xl mr-3"/> {{ $t("popup.peoplesNB") }}:
           <span class="font-bold">{{ shipwreckData.deathNumber }}</span>
         </p>
-        <p class="text-sm" v-if="shipwreckData.testimonySrc"><span class="icon icon-danger text-xl mr-3"/> {{ $t("popup.testimony") }}:
-          <span class="font-bold"><a :href="shipwreckData.testimonySrc" target="_blank">{{ shipwreckData.testimonyName }}</a></span>
+        <div class="divider"></div>
+        <p class="text-sm flex" v-if="shipwreckData.testimonySrc.length > 0">
+            <img src="@/assets/comments.svg" class="popup-icon"> {{ $t("popup.testimony") }}:
+          <span class="font-bold ml-2 underlinex" v-for="(src, i) in shipwreckData.testimonySrc" :key="src+i">
+            <a :href="src" target="_blank">{{ shipwreckData.testimonyName[i] }} {{ i < shipwreckData.testimonySrc.length -1 ? "," : "" }}</a>
+          </span>
         </p>
         <p class="text-sm"><span class="icon icon-weather text-xl mr-3"/>{{ $t("popup.wind") }}: <span class="font-bold">{{ shipwreckData.windForce ? shipwreckData.windForce + $t("popup.windUnit") : $t("popup.unknown") }}</span>- {{ $t("popup.waves") }}: <span class="font-bold">{{ shipwreckData.waveHeight ? shipwreckData.waveHeight + "m" : $t("popup.unknown")}}</span></p>
         <p class="text-sm"><span class="icon icon-marker text-xl mr-3"/><span>Lat: {{ shipwreckData.latitude }} - Lon: {{ shipwreckData.longitude }}</span></p>

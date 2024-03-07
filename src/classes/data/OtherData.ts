@@ -87,8 +87,8 @@ export interface OtherData {
     incAction: string;
     shipwreckNumber: number;
     boatInvolved: string;
-    testimonyName: string;
-    testimonySrc: string;
+    testimonyName: string[];
+    testimonySrc: string[];
     imageSrc: string[];
     videoSrc: string[];
 }

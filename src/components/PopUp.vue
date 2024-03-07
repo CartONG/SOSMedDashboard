@@ -27,7 +27,7 @@ const isPopUpVisible = computed(() => store.getState().isPopUpVisible)
 const popUpType = computed(() => store.getState().popUpType)
 </script>
 
-<style scoped>
+<style>
 .pop-up{
   /* display: flex; */
   max-width: 33%;
@@ -56,5 +56,14 @@ const popUpType = computed(() => store.getState().popUpType)
   border-radius: 5%;
   overflow-y: auto;
 }
+}
+.popup-icon{
+  height: 20px;
+  margin-right: 15px;
+}
+
+.divider{
+  margin: 10px 40px;
+  border-bottom: 1px solid var(--text-color);
 }
 </style>
