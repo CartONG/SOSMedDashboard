@@ -39,14 +39,7 @@ onMounted(() => {
 })
 
 const tooltipPosition = computed(() => {
-  console.log(store.getTooltipPosition())
   return store.getTooltipPosition()
-})
-
-watch(() => store.getState().informationTooltip.visible, () => {
-  if (store.getState().informationTooltip.visible) {
-    console.log("x:" + store.getState().informationTooltip.position.x + " y: " + store.getState().informationTooltip.position.y)
-  }
 })
 
 </script>
