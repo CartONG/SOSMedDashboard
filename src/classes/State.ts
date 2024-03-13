@@ -27,7 +27,19 @@ export interface ApplicationState {
   virtualVisitAlreadyOpened: boolean;
   minDate: Date;
   maxDate: Date;
-  switch: { [key in SwitchType]: boolean }
+  switch: { [key in SwitchType]: boolean };
+  informationTooltip: {
+    visible: boolean;
+    position: {
+      orientation: "right" | "left";
+      x: number;
+      y: number;
+    };
+    content: {
+      title: string;
+      text: string;
+    }
+  };
 }
 
 export interface DataState {

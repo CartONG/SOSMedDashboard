@@ -4,6 +4,7 @@
       <div v-if="color" class="legend-marker mr-2" :style="{ backgroundColor: color}"></div>
       <div v-if="iconName" class="legend-marker mr-2"><img :src="`./basemaps-icons/${iconName}`" alt=""></div>
       <label :for="id" class="text-xs label-color">{{title}}</label>
+      <img v-if="tooltip" class="more-information-button ml-1" src="@/assets/question.svg" alt="" @mouseenter="setInformationTooltip($event, tooltip[0], tooltip[1])" @mouseleave="removeInformationTooltip">
     </div>
     <div class="relative inline-block w-8 mr-2 align-middle select-none transition duration-200 ease-in" v-if="switchable">
         <input
@@ -33,10 +34,17 @@ defineProps<{
   title: string
   iconName? : string
   color?: string
+  tooltip?: [string, string]
 }>()
 const url = process.env.BASE_URL
 function toggle (id: SwitchType) {
   store.toggleSwitch(id)
+}
+function setInformationTooltip (event: MouseEvent, title: string, text: string) {
+  store.setInformationTooltipParameters(true, { orientation: "left", x: event.clientX, y: event.clientY }, { title, text })
+}
+function removeInformationTooltip () {
+  store.setInformationTooltipParameters(false)
 }
 </script>
 

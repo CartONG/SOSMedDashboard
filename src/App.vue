@@ -12,11 +12,19 @@
   </div>
   <AppLegend/>
   <VirtualVisit v-if="store.getState().virtualVisitAlreadyOpened"/>
+  <div
+    v-if="store.getState().informationTooltip.visible"
+    class="information-tooltip"
+    :style="tooltipPosition"
+  >
+    <p class="information-tooltip-title">{{ store.getState().informationTooltip.content.title }}</p>
+    <p class="information-tooltip-text">{{ store.getState().informationTooltip.content.text }}</p>
+  </div>
 </template>
 
 <script lang="ts" setup>
 import { store } from "./main"
-import { onMounted } from "vue"
+import { computed, onMounted, watch } from "vue"
 import AppHeader from "./components/Header.vue"
 import AppLegend from "./components/MapLegend.vue"
 import BaseMap from "./components/BaseMap.vue"
@@ -28,6 +36,17 @@ import VirtualVisit from "./components/VirtualVisit.vue"
 
 onMounted(() => {
   store.initStore()
+})
+
+const tooltipPosition = computed(() => {
+  console.log(store.getTooltipPosition())
+  return store.getTooltipPosition()
+})
+
+watch(() => store.getState().informationTooltip.visible, () => {
+  if (store.getState().informationTooltip.visible) {
+    console.log("x:" + store.getState().informationTooltip.position.x + " y: " + store.getState().informationTooltip.position.y)
+  }
 })
 
 </script>

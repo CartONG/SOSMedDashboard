@@ -19,7 +19,7 @@ watch(() => store.getData().dataLoaded, () => {
   position: absolute;
   background-color: rgba(26, 39, 71, 0.8);
   color: white;
-  padding: 10px;
+  padding: 2px 5px;
   border-radius: 5px;
   z-index: 1000;
 }

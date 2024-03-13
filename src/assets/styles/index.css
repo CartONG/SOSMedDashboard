@@ -58,3 +58,26 @@
 .BaseMapPicker__itemBtnGrp {
     overflow: hidden;
 }
+
+.more-information-button{
+    height: 12px;
+    cursor: pointer;
+}
+
+.information-tooltip{
+    position: fixed;
+    z-index: 3000;
+    background-color: rgba(26, 39, 71, 0.9);
+    color: white;
+    padding: 15px;
+    max-width: 350px;
+    border-radius: 5px;
+}
+
+.information-tooltip-title{
+    color: #F03E1B;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+/* .information-tooltip-text */

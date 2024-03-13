@@ -64,6 +64,9 @@ const popUpType = computed(() => store.getState().popUpType)
 
 .divider{
   margin: 10px 40px;
-  border-bottom: 1px solid var(--text-color);
+  /* border-bottom: 1px solid var(--text-color); */
+}
+.testimony-text{
+  text-decoration: underline dotted;
 }
 </style>
