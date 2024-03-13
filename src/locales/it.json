@@ -35,10 +35,10 @@
     "stats": {
         "females": "Donne",
         "males": "Uomini", 
-        "minors": "Minori",
-        "pregnants": "Incinte",
+        "minors": "Minori non accompagnati",
+        "pregnants": "Donne incinte",
         "unaccompanied": "Non accompagnati",
-        "children": "Bambini",
+        "children": "Bambini sotto i 5 anni",
         "nationalities": "Nazionalità",
         "peoples": "Naufraghi",
         "opDays": "Giorni in operazioni",
