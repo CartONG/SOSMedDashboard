@@ -16,7 +16,7 @@
           </p>
           <p class="text-sm flex" v-if="incidentData.testimonySrc.length > 0">
             <img src="@/assets/comments.svg" class="popup-icon"> {{ $t("popup.testimony") }}:
-            <span class="font-bold ml-2 underline" v-for="(src, i) in incidentData.testimonySrc" :key="src+i">
+            <span class="font-bold ml-2 testimony-text" v-for="(src, i) in incidentData.testimonySrc" :key="src+i">
               <a :href="src" target="_blank">{{ incidentData.testimonyName[i] }} {{ i < incidentData.testimonySrc.length -1 ? "," : "" }}</a>
             </span>
           </p>

@@ -23,8 +23,11 @@
         "title": "Vista",
         "rescue": "Soccorso", 
         "transfer": "Trasbordo",
+        "transferDescription": "Trasferimento delle persone soccorse tra due navi. Questo può essere fatto dai RIB o a fianco.",
         "medEvac": "Evacuazione medica",
+        "medEvacDescription": "Tecnica di soccorso basata sul trasporto rapido e sul follow-up medico di feriti e malati verso una struttura di cura più attrezzata.",
         "srr": "Regione di ricerca e soccorso",
+        "srrDescription": "Un'area di dimensioni definite, associata ad aRCC, all'interno della quale vengono forniti servizi SAR. Ricerca: un'operazione, normalmente coordinata da un centro di coordinamento di salvataggio o da un sottocentro di salvataggio, che utilizza il personale e le strutture disponibili per localizzare le persone in pericolo. Salvataggio Un'operazione volta a recuperare persone in pericolo, provvedere alle loro prime necessità mediche o di altro tipo e trasportarle in un luogo sicuro; (Fonte: Convenzione SAR 1979, capitolo 1.3.1-2)",
         "harbor": "Porti",
         "shipwreck": "Naufragio",
         "incident": "Incidente",
@@ -41,8 +44,10 @@
         "children": "Bambini sotto i 5 anni",
         "nationalities": "Nazionalità",
         "peoples": "Naufraghi",
+        "peoplesDescription": "Termine ufficiale per designare le persone salvate da una situazione di disagio.",
         "opDays": "Giorni in operazioni",
         "rescueNb" : "Operazioni",
+        "rescueDescription" : "",
         "since": "Dal"
     },
     "popup": {

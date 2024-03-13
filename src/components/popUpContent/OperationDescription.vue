@@ -64,7 +64,7 @@
           </div>
           <p class="text-sm flex" v-if="opsData.testimonySrc.length > 0">
             <img src="@/assets/comments.svg" class="popup-icon"> {{ $t("popup.testimony") }}:
-            <span class="font-bold ml-2 underline" v-for="(src, i) in opsData.testimonySrc" :key="src+i">
+            <span class="font-bold ml-2 testimony-text" v-for="(src, i) in opsData.testimonySrc" :key="src+i">
               <a :href="src" target="_blank">{{ opsData.testimonyName[i] }} {{ i < opsData.testimonySrc.length -1 ? "," : "" }}</a>
             </span>
           </p>

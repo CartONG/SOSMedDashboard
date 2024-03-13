@@ -16,7 +16,7 @@
         <div class="divider"></div>
         <p class="text-sm flex" v-if="deathData.testimonySrc.length > 0">
           <img src="@/assets/comments.svg" class="popup-icon"> {{ $t("popup.testimony") }}:
-          <span class="font-bold ml-2 underline" v-for="(src, i) in deathData.testimonySrc" :key="src+i">
+          <span class="font-bold ml-2 testimony-text" v-for="(src, i) in deathData.testimonySrc" :key="src+i">
             <a :href="src" target="_blank">{{ deathData.testimonyName[i] }} {{ i < deathData.testimonySrc.length -1 ? "," : "" }}</a>
           </span>
         </p>

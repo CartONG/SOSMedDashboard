@@ -23,8 +23,11 @@
         "title": "View",
         "rescue": "Rescue", 
         "transfer": "Transfer",
+        "transferDescription": "Transfer of rescued people between two ships. This can be done by RIBs, or alongside.",
         "medEvac": "Medical evacuation",
+        "medEvacDescription": "Rescue technique based on rapid transport and medical follow-up of injured and sick people to a better-equipped care facility.",
         "srr": "Search & rescue region",
+        "srrDescription": "An area of defined dimensions, associated with aRCC, within which SAR services are provided. Search: An operation, normally co-ordinated by a rescue coordination center or rescue sub-center, using available personnel and facilities to locate persons in distress. Rescue An operation to retrieve persons in distress, provide for their initial medical or other needs, and deliver them to a place of safety; (Source: SAR Convention 1979, Chapter 1.3.1-2)",
         "harbor": "Harbor",
         "shipwreck": "Shipwreck",
         "incident": "Incident",
@@ -41,8 +44,10 @@
         "children": "Children under 5 year",
         "nationalities": "Nationalities",
         "peoples": "Survivors",
+        "peoplesDescription": "Offical term to designate the people rescued from a distress situation.",
         "opDays": "Days of operation",
         "rescueNb" : "Operations",
+        "rescueDescription" : "",
         "since": "Since"
     },
     "popup": {

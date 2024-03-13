@@ -25,8 +25,20 @@ export class Store {
       harbor: true,
       srr: true,
       incident: false,
-      death: true,
-      shipwreck: true
+      death: false,
+      shipwreck: false
+    },
+    informationTooltip: {
+      visible: false,
+      position: {
+        orientation: "left",
+        x: 0,
+        y: 0
+      },
+      content: {
+        title: "",
+        text: ""
+      }
     }
   })
 
@@ -50,6 +62,23 @@ export class Store {
 
   public switchVirtualVisitVisibility () {
     this.appState.virtualVisitAlreadyOpened = !this.appState.virtualVisitAlreadyOpened
+  }
+
+  public setInformationTooltipParameters (visible: boolean, position?: ApplicationState["informationTooltip"]["position"], content?: ApplicationState["informationTooltip"]["content"]) {
+    if (position) this.appState.informationTooltip.position = position
+    if (content) this.appState.informationTooltip.content = content
+    this.appState.informationTooltip.visible = visible
+  }
+
+  public getTooltipPosition () {
+    const position: any = {}
+    this.appState.informationTooltip.position.orientation === "right"
+      ? position.top = this.appState.informationTooltip.position.y - 15 + "px"
+      : position.bottom = (window.innerHeight - this.appState.informationTooltip.position.y) + 5 + "px"
+    this.appState.informationTooltip.position.orientation === "right"
+      ? position.left = this.appState.informationTooltip.position.x + 15 + "px"
+      : position.right = (window.innerWidth - this.appState.informationTooltip.position.x) + 15 + "px"
+    return position
   }
 
   // ////////////// ---------DATA STATE---------- \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\

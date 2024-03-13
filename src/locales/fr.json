@@ -23,9 +23,12 @@
         "harbor": "Port",
         "rescue": "Sauvetage",
         "medEvac": "Evacuation médicale",
+        "medEvacDescription": "Technique de sauvetage basée sur le transport rapide et le suivi médical des personnes blessées et malades vers un établissement de soins mieux équipé.",
         "srr": "Région de recherche & sauvetage",
+        "srrDescription": "Recherche : Opération, habituellement coordonnée par un centre de coordination des secours ou un sous-centre de secours, utilisant les ressources humaines et matérielles disponibles pour localiser des personnes en détresse. Sauvetage : Opération visant à secourir des personnes en détresse, à subvenir à leurs besoins médicaux et autres besoins élémentaires, et à les transporter vers un lieu sûr ; (Convention SAR 1979)",
         "title": "Vue",
         "transfer": "Transfert",
+        "transferDescription": "Transfert des personnes secourues entre deux navires. Cela peut être fait par des RIB ou à côté.",
         "shipwreck": "Epave",
         "incident": "Incident",
         "death": "Morts & Disparus",
@@ -41,8 +44,10 @@
         "children": "Enfants de moins de 5 ans",
         "nationalities": "Nationalités",
         "peoples": "Personnes rescapées",
+        "peoplesDescription": "Terme officiel désignant les personnes rescapées d’une situation de détresse.",
         "opDays": "Jours d'opérations",
         "rescueNb" : "Opérations",
+        "rescueDescription" : "",
         "since": "Depuis"
     },
     "popup": {

@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
 
   <!-- mobile version -->
@@ -35,7 +36,10 @@
     </h1>
     <div class="flex flex-col pb-3 pl-6 pr-6">
       <span class="icon icon-rescue text-3xl text-center text-secondary"/>
-      <p class="text-main text-xl font-bold mb-2"><span id="statsNbSurvivor" class="text-secondary"/> {{ $t("stats.peoples") }}</p>
+      <p class="text-main text-xl font-bold mb-2 flex justify-center">
+        <span id="statsNbSurvivor" class="text-secondary mr-2"/> {{ $t("stats.peoples") }}
+        <img class="more-information-button ml-2" src="@/assets/question.svg" alt="" @mouseenter="setInformationTooltip($event, $t('stats.peoples'), $t('stats.peoplesDescription'))" @mouseleave="removeInformationTooltip">
+      </p>
       <div class="flex flex-row justify-around mb-2 text-main">
         <div class="flex flex-col">
           <span class="icon icon-female text-3xl text-center"/>
@@ -80,27 +84,29 @@
       <div class="flex flex-col flex-wrap align-center cursor-pointer virtual-visit-shower" @click.stop="showVirtualVisit()">
         <span class="icon icon-tour text-8xl leading-6 text-center text-secondary mb-2"/>
         <span class="icon icon-sosmed-ship  text-8xl leading-6 text-center text-secondary mb-2"/>
-        <p class="text-center text-main text-xl font-bold"><span id="statsOps3" class="text-secondary"/> {{ $t("stats.rescueNb") }}</p>
+        <p class="text-center text-main text-xl font-bold flex justify-center">
+          <span id="statsOps3" class="text-secondary mr-2"/> {{ $t("stats.rescueNb") }}
+          <img class="more-information-button ml-2" src="@/assets/question.svg" alt="" @mouseenter="setInformationTooltip($event, $t('stats.rescueNb'), $t('stats.rescueDescription'))" @mouseleave="removeInformationTooltip">
+        </p>
       </div>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-
-import { defineComponent } from "vue"
+<script lang="ts" setup>
 import { store } from "@/main"
-export default defineComponent({
-  data () {
-    return { displayingStats: true }
-  },
-  name: "Base-Map-Stats",
-  methods: {
-    showVirtualVisit (): void {
-      store.switchVirtualVisitVisibility()
-    }
-  }
-})
+import { ref } from "vue"
+const displayingStats = ref(true)
+function showVirtualVisit (): void {
+  store.switchVirtualVisitVisibility()
+}
+
+function setInformationTooltip (event: MouseEvent, title: string, text: string) {
+  store.setInformationTooltipParameters(true, { orientation: "right", x: event.clientX, y: event.clientY }, { title, text })
+}
+function removeInformationTooltip () {
+  store.setInformationTooltipParameters(false)
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

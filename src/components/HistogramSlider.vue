@@ -86,8 +86,13 @@ export default defineComponent({
 <style>
   .histo{
     margin-left: 3% !important;
-    height: 20% !important;
     padding: 20px !important;
+  }
+
+  @media only screen and (min-width: 500px) {
+    .histo{
+      height: 9rem !important;
+    }
   }
 
   @media only screen and (max-width: 500px){
