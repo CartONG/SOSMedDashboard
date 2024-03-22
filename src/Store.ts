@@ -26,7 +26,8 @@ export class Store {
       srr: true,
       incident: false,
       death: false,
-      shipwreck: false
+      shipwreck: false,
+      zone12Miles: true
     },
     informationTooltip: {
       visible: false,
@@ -89,6 +90,7 @@ export class Store {
     harbors: {} as FeatureCollection,
     sar: {} as FeatureCollection,
     sarCenters: {} as FeatureCollection,
+    zones12Miles: {} as FeatureCollection,
     dataLoaded: false
   })
 
@@ -100,6 +102,7 @@ export class Store {
     this.dataState.otherData = await getOtherData()
     this.dataState.sar = require("./assets/resources/SAR.json")
     this.dataState.sarCenters = require("./assets/resources/SAR_centers.json")
+    this.dataState.zones12Miles = require("./assets/resources/zones_12_miles.json")
     this.dataState.OpsData = await fetchOpsData()
     this.dataState.dataLoaded = true
     this.updateHistogramSlider()
@@ -119,7 +122,7 @@ export class Store {
   }
 
   public displayMap (): void {
-    this.baseMap.setData(this.dataState.harbors, this.dataState.OpsData, this.dataState.otherData, this.dataState.sar, this.dataState.sarCenters)
+    this.baseMap.setData(this.dataState.harbors, this.dataState.OpsData, this.dataState.otherData, this.dataState.sar, this.dataState.sarCenters, this.dataState.zones12Miles)
     this.baseMap.updateFiltersState(this.appState.switch)
     this.baseMap.initMap()
   }

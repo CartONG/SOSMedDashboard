@@ -1,7 +1,7 @@
 /* eslint-disable no-return-assign */
 import { OpsData } from "./data/OpsData"
 import { MapboxGLButtonControl } from "./MapboxGLButtonControl"
-import { GeoJSONSource, LngLatBounds, Map, MapMouseEvent, NavigationControl, Popup } from "mapbox-gl"
+import { GeoJSONSource, LngLatBounds, LngLatBoundsLike, Map, MapMouseEvent, NavigationControl, Popup } from "mapbox-gl"
 import { FeatureCollection } from "geojson"
 import "mapbox-gl/dist/mapbox-gl.css"
 import { BaseMapPickerControl } from "./BaseMapPickerControl"
@@ -63,6 +63,7 @@ export class BaseMap {
   private harbors!: FeatureCollection
   private sar!: FeatureCollection
   private sarCenters!: FeatureCollection
+  private zone12Miles!: FeatureCollection
   private iconsLoaded = ref(false)
   private filtersState!: Store["appState"]["switch"]
   private sourcesLoaded = false
@@ -70,7 +71,7 @@ export class BaseMap {
   currentBasemap = 0
 
   /// /////// PUBLIC METHODS TO SET/UPDATE DATA AND MOUNT MAP \\\\\\\
-  public setData (harbors: FeatureCollection, ops: OpsData[], otherData: DataState["otherData"], sar: FeatureCollection, sarCenters: FeatureCollection) {
+  public setData (harbors: FeatureCollection, ops: OpsData[], otherData: DataState["otherData"], sar: FeatureCollection, sarCenters: FeatureCollection, zone12Miles: FeatureCollection) {
     this.harbors = harbors
     this.incidents = otherData.incidents
     this.deaths = otherData.deaths
@@ -79,15 +80,22 @@ export class BaseMap {
     this.filteredOperationsData = ops
     this.sar = sar
     this.sarCenters = sarCenters
+    this.zone12Miles = zone12Miles
+    console.log(this.zone12Miles)
   }
 
   public initMap (): void {
+    const bounds = [
+      [-11.645509, 29.979384],
+      [37.397460, 46.331957]
+    ] as LngLatBoundsLike
     this.map = new Map({
       accessToken: "pk.eyJ1Ijoid2VzbGV5YmFuZmllbGQiLCJhIjoiY2pmMDRwb202MGlzNDJ3bm44cHA3YXZiNCJ9.b2yOf2vbWnWiV7mlsFAywg",
       container: "mapContainer",
       style: BASEMAPS[this.currentBasemap].style,
       center: [9, 35],
-      zoom: 4
+      zoom: 4,
+      maxBounds: bounds
     })
     map = this.map
     this.defaultExtent = this.map.getBounds()
@@ -176,6 +184,12 @@ export class BaseMap {
     this.map.addSource("sarCenters", {
       type: "geojson",
       data: this.sarCenters
+    })
+    // Add 12 miles zones source
+    console.log(this.zone12Miles)
+    this.map.addSource("zone12Miles", {
+      type: "geojson",
+      data: this.zone12Miles
     })
     // Add Harbors sources
     this.map.addSource("harbors", {
@@ -331,6 +345,10 @@ export class BaseMap {
     })
   }
 
+  private add12MilesLayers () {
+    this.map.addLayer({ id: "zone12miles", type: "line", source: "zone12Miles", layout: {}, paint: { "line-color": "#F03E1B", "line-width": 2, "line-dasharray": [3, 3] } })
+  }
+
   /// /////// PRIVATE METHODS TO UPDATE LAYERS VISIBILITY AND SOURCES CONTENT \\\\\\\
   private updateLayers () {
     if (this.filtersState.harbor) {
@@ -370,18 +388,24 @@ export class BaseMap {
       if (this.map.getLayer("sar")) this.map.removeLayer("sar")
       if (this.map.getLayer("sar-name")) this.map.removeLayer("sar-name")
     }
+    if (this.filtersState.zone12Miles) {
+      if (this.map.getLayer("zone12miles")) this.map.removeLayer("zone12miles")
+      this.add12MilesLayers()
+    } else {
+      if (this.map.getLayer("zone12miles")) this.map.removeLayer("zone12miles")
+    }
   }
 
   private filterOperationsData () {
     this.filteredOperationsData = [...this.operationsData]
     if (!this.filtersState.rescue) {
-      this.filteredOperationsData = this.operationsData.filter(x => x.typeOps !== "Rescue")
+      this.filteredOperationsData = this.filteredOperationsData.filter(x => x.typeOps !== "Rescue")
     }
     if (!this.filtersState.transfer) {
-      this.filteredOperationsData = this.operationsData.filter(x => x.typeOps !== "Transfer")
+      this.filteredOperationsData = this.filteredOperationsData.filter(x => x.typeOps !== "Transfer")
     }
     if (!this.filtersState.medEvac) {
-      this.filteredOperationsData = this.operationsData.filter(x => x.typeOps !== "Medevac")
+      this.filteredOperationsData = this.filteredOperationsData.filter(x => x.typeOps !== "Medevac")
     }
     (this.map.getSource("operations") as GeoJSONSource).setData(opsDataToGeoJSON(this.filteredOperationsData))
   }

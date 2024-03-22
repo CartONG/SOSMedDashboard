@@ -10,7 +10,8 @@ export enum SwitchType {
   transfer = "transfer",
   incident = "incident",
   death = "death",
-  shipwreck = "shipwreck"
+  shipwreck = "shipwreck",
+  zone12Miles = "zone12Miles"
 }
 
 export enum PopUpType {
@@ -52,5 +53,6 @@ export interface DataState {
   harbors: FeatureCollection
   sar: FeatureCollection
   sarCenters: FeatureCollection
+  zones12Miles: FeatureCollection
   dataLoaded: boolean
 }

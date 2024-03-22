@@ -33,7 +33,8 @@
         "incident": "Incident",
         "death": "Morts & Disparus",
         "more": "Plus",
-        "less": "Moins"
+        "less": "Moins",
+        "water": "Eaux territoriales"
     },
     "stats": {
         "females": "Femmes",
