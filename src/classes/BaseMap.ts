@@ -81,7 +81,6 @@ export class BaseMap {
     this.sar = sar
     this.sarCenters = sarCenters
     this.zone12Miles = zone12Miles
-    console.log(this.zone12Miles)
   }
 
   public initMap (): void {
@@ -186,7 +185,6 @@ export class BaseMap {
       data: this.sarCenters
     })
     // Add 12 miles zones source
-    console.log(this.zone12Miles)
     this.map.addSource("zone12Miles", {
       type: "geojson",
       data: this.zone12Miles
@@ -295,7 +293,6 @@ export class BaseMap {
       data!.testimonyName = []
       data!.testimonySrc = []
     }
-    console.log(data)
     let type = PopUpType.OPS
     if (data?.type && data.type === OtherDataTypes.INCIDENT) type = PopUpType.INCIDENT
     if (data?.type && data.type === OtherDataTypes.DEATH) type = PopUpType.DEAD

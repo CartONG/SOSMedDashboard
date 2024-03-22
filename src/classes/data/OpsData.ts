@@ -47,7 +47,6 @@ export const fetchOpsData = async function (): Promise<OpsData[]> {
     }
     return value
   })
-  console.log(model)
   // Remove artefacts like empty lines or empty cells
   sheet.values = sheet.values.filter(x => x.length > 0).filter(x => x[0] !== "")
 

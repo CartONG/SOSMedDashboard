@@ -104,7 +104,6 @@ export class Store {
     this.dataState.sarCenters = require("./assets/resources/SAR_centers.json")
     this.dataState.zones12Miles = require("./assets/resources/zones_12_miles.json")
     this.dataState.OpsData = await fetchOpsData()
-    console.log(this.dataState.OpsData)
     this.dataState.dataLoaded = true
     this.updateHistogramSlider()
     this.updateStats(this.dataState.OpsData)
