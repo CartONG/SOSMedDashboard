@@ -13,13 +13,13 @@
         <p class="text-sm"><span class="icon icon-rescue text-xl mr-3"/> {{ $t("popup.peoplesNB") }}:
           <span class="font-bold">{{ deathData.deathNumber }}</span>
         </p>
-        <div class="divider"></div>
         <p class="text-sm flex" v-if="deathData.testimonySrc.length > 0">
           <img src="@/assets/comments.svg" class="popup-icon"> {{ $t("popup.testimony") }}:
           <span class="font-bold ml-2 testimony-text" v-for="(src, i) in deathData.testimonySrc" :key="src+i">
             <a :href="src" target="_blank">{{ deathData.testimonyName[i] }} {{ i < deathData.testimonySrc.length -1 ? "," : "" }}</a>
           </span>
         </p>
+        <div class="divider"></div>
         <p class="text-sm"><span class="icon icon-weather text-xl mr-3"/>{{ $t("popup.wind") }}: <span class="font-bold">{{ deathData.windForce ? deathData.windForce + $t("popup.windUnit") : $t("popup.unknown") }}</span>- {{ $t("popup.waves") }}: <span class="font-bold">{{ deathData.waveHeight ? deathData.waveHeight + "m" : $t("popup.unknown")}}</span></p>
         <p class="text-sm"><span class="icon icon-marker text-xl mr-3"/><span>Lat: {{ deathData.latitude }} - Lon: {{ deathData.longitude }}</span></p>
 

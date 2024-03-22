@@ -18,7 +18,7 @@
 
 @layer utilities {
     .legend-background {
-        background-color: rgba(255, 255, 255, 0.7);
+        background-color: rgba(255, 255, 255, 0.9);
         padding-top: 5px;
         padding-bottom: 5px;
         padding-left: 10px;
@@ -78,6 +78,10 @@
     color: #F03E1B;
     font-size: 1.2em;
     font-weight: bold;
+}
+
+.text-stats-box{
+    max-width: 50px;
 }
 
 /* .information-tooltip-text */

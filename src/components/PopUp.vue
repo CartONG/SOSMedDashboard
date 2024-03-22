@@ -30,7 +30,7 @@ const popUpType = computed(() => store.getState().popUpType)
 <style>
 .pop-up{
   /* display: flex; */
-  max-width: 33%;
+  width: 400px;
   max-height: 80%;
   z-index: 99;
   position: fixed;

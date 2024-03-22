@@ -29,8 +29,8 @@ export interface OpsData {
   imageSrc: string[]
   videoSrc: string[]
   portDisembarkation : string
-  testimonyName: string[];
-  testimonySrc: string[];
+  testimonyName: string[]
+  testimonySrc: string[]
 }
 
 const createDate = function (dateDayFirst: string) {
@@ -87,8 +87,10 @@ const convertOpsData = function (rawOpsData: {[key: string]: string}, metadataEr
   res.imageSrc = rawOpsData.imageSrc ? rawOpsData.imageSrc.split(";") : []
   res.videoSrc = rawOpsData.videoSrv ? rawOpsData.videoSrv.split(";") : []
   res.portDisembarkation = rawOpsData.PortDisembarkation
-  res.testimonyName = rawOpsData.testimony_name ? rawOpsData.testimony_name.split(";") : []
-  res.testimonySrc = rawOpsData.testimony_src ? rawOpsData.testimony_src.split(";") : []
+  res.testimonyName = rawOpsData.testimonyName ? rawOpsData.testimonyName.split(";") : []
+  if (res.testimonyName.length === 1) res.testimonyName = res.testimonyName.pop() as unknown as string[]
+  res.testimonySrc = rawOpsData.testimonySrc ? rawOpsData.testimonySrc.split(";") : []
+  if (res.testimonySrc.length === 1) res.testimonySrc = res.testimonySrc.pop() as unknown as string[]
   return res
 }
 

@@ -61,20 +61,20 @@
         <div class="flex flex-row">
           <div class="flex flex-col">
             <span id="statsPregnant" class="font-bold text-right text-secondary"/>
-            <p class="text-3xs uppercase text-right text-secondary">{{ $t("stats.pregnants") }}</p>
+            <p class="text-3xs uppercase text-right text-secondary text-stats-box">{{ $t("stats.pregnants") }}</p>
           </div>
           <span class="icon icon-pregnant text-4xl text-right text-secondary"/>
         </div>
         <div class="flex flex-col">
           <span class="icon text-4xl text-center text-secondary"/>
           <span id="statsUnaccompagnied" class="font-bold text-center text-secondary"/>
-          <p class="text-3xs uppercase text-center text-secondary">{{ $t("stats.unaccompanied") }}</p>
+          <p class="text-3xs uppercase text-center text-secondary text-stats-box">{{ $t("stats.unaccompanied") }}</p>
         </div>
         <div class="flex flex-row">
           <span class="icon icon-bib text-3xl text-left text-secondary"/>
           <div class="flex flex-col">
             <span id="statsChildren" class="font-bold text-center text-secondary"/>
-            <p class="text-3xs uppercase text-left text-secondary">{{ $t("stats.children") }}</p>
+            <p class="text-3xs uppercase text-left text-secondary text-stats-box">{{ $t("stats.children") }}</p>
           </div>
         </div>
       </div>

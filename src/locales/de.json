@@ -33,7 +33,9 @@
         "incident": "Zwischenfall",
         "death": "Vermisste und verstorbene Menschen",
         "more": "Mehr",
-        "less": "Weniger"
+        "less": "Weniger",
+        "water": "Staatsgewässer",
+        "waterDescription": "Gürtel von Küstengewässern, der sich höchstens 12 Seemeilen von der Basislinie (normalerweise der mittleren Niedrigwassermarke) eines Küstenstaates erstreckt. Das Küstenmeer gilt als souveränes Staatsgebiet, obwohl ausländischen (zivilen) Schiffen die friedliche Durchfahrt oder die Durchfahrt durch Meerengen gestattet ist; Diese Souveränität erstreckt sich auch auf den Luftraum darüber und den Meeresboden darunter. Die Anpassung dieser Grenzen wird im Völkerrecht als Seegrenzen bezeichnet."
     },
     "stats": {
         "females": "Frauen",
