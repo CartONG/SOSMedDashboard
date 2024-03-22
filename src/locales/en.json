@@ -34,7 +34,8 @@
         "death": "Missing and death peoples",
         "more": "More",
         "less": "Less",
-        "water": "Territorial Seas"
+        "water": "Territorial waters",
+        "waterDescription": "Belt of coastal waters extending at most 12 nautical miles from the baseline (usually the mean low-water mark) of a coastal state. The territorial sea is regarded as the sovereign territory of the state, although foreign ships (civilian) are allowed innocent passage through it, or transit passage for straits; this sovereignty also extends to the airspace over and seabed below. Adjustment of these boundaries is called, in international law, maritime delimitation."
     },
     "stats": {
         "females": "Women",

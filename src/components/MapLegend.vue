@@ -14,7 +14,7 @@
     </svg>
     <Legend-switch :id="SwitchType.harbor" :checked="switchState.harbor" :title="$t(`legend.${SwitchType.harbor}`)" iconName="harbor.png" :switchable="false"></Legend-switch>
     <Legend-switch :id="SwitchType.srr" :checked="switchState.srr" :title="$t(`legend.${SwitchType.srr}`)" iconName="srr.png" class="srr" :switchable="false" :tooltip="[$t(`legend.${SwitchType.srr}`), $t('legend.srrDescription')]"></Legend-switch>
-    <Legend-switch :id="SwitchType.zone12Miles" :checked="switchState.zone12Miles" :title="$t(`legend.water`)" iconName="territorial_water.png" :switchable="false"></Legend-switch>
+    <Legend-switch :id="SwitchType.zone12Miles" :checked="switchState.zone12Miles" :title="$t(`legend.water`)" iconName="territorial_water.png" :switchable="false" :tooltip="[$t(`legend.water`), $t('legend.waterDescription')]"></Legend-switch>
   </div>
 </template>
 

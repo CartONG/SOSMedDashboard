@@ -34,7 +34,8 @@
         "death": "Morts & Disparus",
         "more": "Plus",
         "less": "Moins",
-        "water": "Eaux territoriales"
+        "water": "Eaux territoriales",
+        "waterDescription": "Eaux côtières s'étendant jusqu’à 12 milles marins de la ligne de base (souvent définie par la laisse de basse mer) d’un État côtier. La mer territoriale est considérée comme territoire souverain de l'État. Les navires étrangers (civils) y ont tout de même droit de passage inoffensif et en transit pour les détroits. La souveraineté s'étend à l’espace aérien au dessus de la zone et à ses fonds marins. En droit international, l’ajustement de ces limites est appelé la délimitation maritime."
     },
     "stats": {
         "females": "Femmes",

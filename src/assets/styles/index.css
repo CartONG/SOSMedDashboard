@@ -80,4 +80,8 @@
     font-weight: bold;
 }
 
+.text-stats-box{
+    max-width: 50px;
+}
+
 /* .information-tooltip-text */

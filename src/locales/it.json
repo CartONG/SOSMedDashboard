@@ -34,7 +34,8 @@
         "death": "Persone morte e disperse",
         "more": "Più",
         "less": "Meno",
-        "water": "Mari territoriali"
+        "water": "Acque territoriali",
+        "waterDescription": "Cintura di acque costiere che si estende al massimo per 12 miglia nautiche dalla linea di base (solitamente la linea media della bassa marea) di uno stato costiero. Il mare territoriale è considerato territorio sovrano dello Stato, sebbene alle navi straniere (civili) sia consentito il passaggio innocuo attraverso di esso, o il passaggio di transito per gli stretti; questa sovranità si estende anche allo spazio aereo sovrastante e al fondale marino sottostante. L'adeguamento di questi confini è chiamato, nel diritto internazionale, delimitazione marittima."
     },
     "stats": {
         "females": "Donne",

@@ -238,7 +238,7 @@ export class BaseMap {
       source: "Incidents",
       layout: {
         "icon-image": "incident",
-        "icon-size": 0.5,
+        "icon-size": ["step", ["zoom"], 0.25, 7, 0.3, 9, 0.4],
         "icon-allow-overlap": true
       }
     })
@@ -295,6 +295,7 @@ export class BaseMap {
       data!.testimonyName = []
       data!.testimonySrc = []
     }
+    console.log(data)
     let type = PopUpType.OPS
     if (data?.type && data.type === OtherDataTypes.INCIDENT) type = PopUpType.INCIDENT
     if (data?.type && data.type === OtherDataTypes.DEATH) type = PopUpType.DEAD

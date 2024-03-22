@@ -17,13 +17,13 @@
         <p class="text-sm"><span class="icon icon-rescue text-xl mr-3"/> {{ $t("popup.peoplesNB") }}:
           <span class="font-bold">{{ shipwreckData.deathNumber }}</span>
         </p>
-        <div class="divider"></div>
         <p class="text-sm flex" v-if="shipwreckData.testimonySrc.length > 0">
             <img src="@/assets/comments.svg" class="popup-icon"> {{ $t("popup.testimony") }}:
           <span class="font-bold ml-2 testimony-text" v-for="(src, i) in shipwreckData.testimonySrc" :key="src+i">
             <a :href="src" target="_blank">{{ shipwreckData.testimonyName[i] }} {{ i < shipwreckData.testimonySrc.length -1 ? "," : "" }}</a>
           </span>
         </p>
+        <div class="divider"></div>
         <p class="text-sm"><span class="icon icon-weather text-xl mr-3"/>{{ $t("popup.wind") }}: <span class="font-bold">{{ shipwreckData.windForce ? shipwreckData.windForce + $t("popup.windUnit") : $t("popup.unknown") }}</span>- {{ $t("popup.waves") }}: <span class="font-bold">{{ shipwreckData.waveHeight ? shipwreckData.waveHeight + "m" : $t("popup.unknown")}}</span></p>
         <p class="text-sm"><span class="icon icon-marker text-xl mr-3"/><span>Lat: {{ shipwreckData.latitude }} - Lon: {{ shipwreckData.longitude }}</span></p>
 
