@@ -8,7 +8,7 @@
   <div class="absolute bottom-0 flex flex-col w-full items-center bg-white md:static md:block">
     <Stats/>
     <KeyNumbers/>
-    <Chart/>
+    <div class="hidden lg:block"><Chart/></div>
   </div>
   <AppLegend/>
   <VirtualVisit v-if="store.getState().virtualVisitAlreadyOpened"/>
