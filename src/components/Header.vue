@@ -50,7 +50,7 @@
           </a>
         </div>
         <div class="flex-grow header-middle">
-          <span class="text-xs mb-2">Filtrer les trucs</span>
+          <span class="text-xs mb-2">{{ $t("header.filterData") }}</span>
           <div class="header-slider"><header-slider /></div>
         </div>
         <span @click="$i18n.locale = 'en'" :class="{activeLanguage: $i18n.locale === 'en'}" class="cursor-pointer text-sm">EN</span>
