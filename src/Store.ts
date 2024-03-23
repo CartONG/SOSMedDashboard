@@ -154,7 +154,7 @@ export class Store {
   }
 
   updateStats (timeFilteredData: OpsData[]): void {
-    updateStats(this.appState.minDate, this.appState.maxDate, timeFilteredData)
+    updateStats(this.appState.selectedMinDate, this.appState.selectedMaxDate, timeFilteredData)
   }
 
   toggleSwitch (switchId: keyof typeof SwitchType): void {

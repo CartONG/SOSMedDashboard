@@ -17,8 +17,8 @@ const setInnerText = function (elemId: string, textToAdd: string) {
 }
 
 export const updateStats = function (minDate: Date, maxDate: Date, timeFilteredData: OpsData[]): void {
-  setInnerText("statsMinDate", getFormattedDate(minDate))
-  setInnerText("statsMaxDate", getFormattedDate(maxDate))
+  setInnerText("statsMinDate", minDate.toLocaleDateString())
+  setInnerText("statsMaxDate", maxDate.toLocaleDateString())
   let nbSurvivor = 0
   let female = 0
   let male = 0

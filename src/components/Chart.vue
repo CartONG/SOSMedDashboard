@@ -110,15 +110,15 @@ const opsText = computed(() => {
 const survivorsText = computed(() => {
   switch (i18nLocale.locale.value) {
     case "en":
-      return "Number of operations per months"
+      return "Survivors per months"
     case "fr":
-      return "Nombre d'opérations par mois"
+      return "Personnes rescapées par mois"
     case "it":
-      return "Numero di operazioni al mese"
+      return "Naufraghi al mese"
     case "de":
-      return "Anzahl der Operationen pro Monat"
+      return "Überlebende pro Monat"
     default:
-      return "Number of operations per months"
+      return "Survivors per months"
   }
 })
 </script>
