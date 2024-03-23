@@ -8,7 +8,7 @@
   <div class="absolute bottom-0 flex flex-col w-full items-center bg-white md:static md:block">
     <Stats/>
     <KeyNumbers/>
-    <HistogramSlider/>
+    <Chart/>
   </div>
   <AppLegend/>
   <VirtualVisit v-if="store.getState().virtualVisitAlreadyOpened"/>
@@ -24,11 +24,11 @@
 
 <script lang="ts" setup>
 import { store } from "./main"
-import { computed, onMounted, watch } from "vue"
+import { computed, onMounted } from "vue"
 import AppHeader from "./components/Header.vue"
 import AppLegend from "./components/MapLegend.vue"
 import BaseMap from "./components/BaseMap.vue"
-import HistogramSlider from "./components/HistogramSlider.vue"
+import Chart from "./components/Chart.vue"
 import KeyNumbers from "./components/KeyNumbers.vue"
 import PopUp from "./components/PopUp.vue"
 import Stats from "./components/Stats.vue"

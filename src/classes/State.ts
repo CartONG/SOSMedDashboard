@@ -47,6 +47,7 @@ export interface ApplicationState {
 
 export interface DataState {
   OpsData: OpsData[]
+  filteredOpsData: OpsData[]
   otherData: {
     incidents: FeatureCollection
     deaths: FeatureCollection

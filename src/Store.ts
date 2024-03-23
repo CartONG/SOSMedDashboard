@@ -88,6 +88,7 @@ export class Store {
 
   private dataState: DataState = reactive({
     OpsData: [],
+    filteredOpsData: [],
     otherData: {} as DataState["otherData"],
     harbors: {} as FeatureCollection,
     sar: {} as FeatureCollection,
@@ -106,6 +107,7 @@ export class Store {
     this.dataState.sarCenters = require("./assets/resources/SAR_centers.json")
     this.dataState.zones12Miles = require("./assets/resources/zones_12_miles.json")
     this.dataState.OpsData = await fetchOpsData()
+    this.dataState.filteredOpsData = [...this.dataState.OpsData]
     this.dataState.dataLoaded = true
     this.updateHistogramSlider()
     this.updateStats(this.dataState.OpsData)
@@ -116,10 +118,10 @@ export class Store {
   }
 
   public filterData (minDate: Date, maxDate: Date): void {
-    console.log(minDate)
     this.appState.selectedMinDate = new Date(minDate)
     this.appState.selectedMaxDate = new Date(maxDate)
     const timeFilteredData = this.dataState.OpsData.filter(currentOperation => this.appState.selectedMinDate <= currentOperation.date && currentOperation.date <= this.appState.selectedMaxDate)
+    this.dataState.filteredOpsData = timeFilteredData
     this.baseMap.updateOperationsData(timeFilteredData)
     this.updateStats(timeFilteredData)
   }
