@@ -28,6 +28,8 @@ export interface ApplicationState {
   virtualVisitAlreadyOpened: boolean;
   minDate: Date;
   maxDate: Date;
+  selectedMinDate: Date;
+  selectedMaxDate: Date;
   switch: { [key in SwitchType]: boolean };
   informationTooltip: {
     visible: boolean;

@@ -18,6 +18,8 @@ export class Store {
     virtualVisitAlreadyOpened: false,
     minDate: new Date(2016, 2, 7),
     maxDate: new Date(),
+    selectedMinDate: new Date(2016, 2, 7),
+    selectedMaxDate: new Date(),
     switch: {
       rescue: true,
       transfer: true,
@@ -114,9 +116,10 @@ export class Store {
   }
 
   public filterData (minDate: Date, maxDate: Date): void {
-    this.appState.minDate = new Date(minDate)
-    this.appState.maxDate = new Date(maxDate)
-    const timeFilteredData = this.dataState.OpsData.filter(currentOperation => this.appState.minDate <= currentOperation.date && currentOperation.date <= this.appState.maxDate)
+    console.log(minDate)
+    this.appState.selectedMinDate = new Date(minDate)
+    this.appState.selectedMaxDate = new Date(maxDate)
+    const timeFilteredData = this.dataState.OpsData.filter(currentOperation => this.appState.selectedMinDate <= currentOperation.date && currentOperation.date <= this.appState.selectedMaxDate)
     this.baseMap.updateOperationsData(timeFilteredData)
     this.updateStats(timeFilteredData)
   }

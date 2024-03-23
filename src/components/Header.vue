@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <header>
     <div class="lg:hidden">
@@ -20,13 +21,13 @@
         <nav class="text-lg text-main flex flex-col font-black">
           <ul class="list-disc pl-12 pt-6 pb-6 space-y-3">
             <li>
-              <span @click="setLocale('en')" :class="{activeLanguage: $i18n.locale === 'en'}">EN</span>
+              <span @click="$i18n.locale = 'en'" :class="{activeLanguage: $i18n.locale === 'en'}">EN</span>
               <span class="mr-2 ml-2">|</span>
-              <span @click="setLocale('fr')" :class="{activeLanguage: $i18n.locale === 'fr'}">FR</span>
+              <span @click="$i18n.locale = 'fr'" :class="{activeLanguage: $i18n.locale === 'fr'}">FR</span>
               <span class="mr-2 ml-2">|</span>
-              <span @click="setLocale('it')" :class="{activeLanguage: $i18n.locale === 'it'}">IT</span>
+              <span @click="$i18n.locale = 'it'" :class="{activeLanguage: $i18n.locale === 'it'}">IT</span>
               <span class="mr-2 ml-2">|</span>
-              <span @click="setLocale('de')" :class="{activeLanguage: $i18n.locale === 'de'}">DE</span>
+              <span @click="$i18n.locale = 'de'" :class="{activeLanguage: $i18n.locale === 'de'}">DE</span>
             </li>
             <li><a href="https://www.sosmediterranee.org/glossary/" target="_blank">{{ $t("header.glossary") }}</a></li>
             <li><a href="https://www.sosmediterranee.org/operations/" target="_blank">{{ $t("header.logBook") }}</a></li>
@@ -48,55 +49,54 @@
             {{ $t("header.logBook") }}
           </a>
         </div>
-        <div class="flex-grow"></div>
-        <span @click="setLocale('en')" :class="{activeLanguage: $i18n.locale === 'en'}" class="cursor-pointer text-sm">EN</span>
+        <div class="flex-grow header-middle">
+          <span class="text-xs mb-2">Filtrer les trucs</span>
+          <div class="header-slider"><header-slider /></div>
+        </div>
+        <span @click="$i18n.locale = 'en'" :class="{activeLanguage: $i18n.locale === 'en'}" class="cursor-pointer text-sm">EN</span>
         <span class="mr-2 ml-2">|</span>
-        <span @click="setLocale('fr')" :class="{activeLanguage: $i18n.locale === 'fr'}" class="cursor-pointer text-sm">FR</span>
+        <span @click="$i18n.locale = 'fr'" :class="{activeLanguage: $i18n.locale === 'fr'}" class="cursor-pointer text-sm">FR</span>
         <span class="mr-2 ml-2">|</span>
-        <span @click="setLocale('it')" :class="{activeLanguage: $i18n.locale === 'it'}" class="cursor-pointer text-sm">IT</span>
+        <span @click="$i18n.locale = 'it'" :class="{activeLanguage: $i18n.locale === 'it'}" class="cursor-pointer text-sm">IT</span>
         <span class="mr-2 ml-2">|</span>
-        <span @click="setLocale('de')" :class="{activeLanguage: $i18n.locale === 'de'}" class="mr-4 cursor-pointer text-sm">DE</span>
+        <span @click="$i18n.locale = 'de'" :class="{activeLanguage: $i18n.locale === 'de'}" class="mr-4 cursor-pointer text-sm">DE</span>
         <HeaderContributors />
       </nav>
     </div>
   </header>
 </template>
 
-<script lang="ts">
-import { defineAsyncComponent, defineComponent } from "vue"
+<script setup lang="ts">
 import { store } from "@/main"
+import HeaderSlider from "@/components/HeaderSlider.vue"
 
-export default defineComponent({
-  components: {
-    BurgerMenu: defineAsyncComponent(() => import("./Mobile/BurgerMenu.vue")),
-    HeaderContributorsMobile: defineAsyncComponent(() => import("./Mobile/HeaderContributorsMobile.vue")),
-    HeaderContributors: defineAsyncComponent(() => import("./HeaderContributors.vue"))
-  },
-  data () {
-    return { store, showForm: false }
-  },
-  methods: {
-    maxHeightStyle (booleanValue: boolean): { "max-height": string | number } {
-      return { "max-height": (booleanValue ? "1000px" : 0) }
-    },
-    transitionClasses (): string[] {
-      return ["z-100", "absolute", "transition-[max-height]", "ease-in-out", "duration-500", "overflow-hidden"]
-    },
-    updateMenuVisibility () {
-      store.updateMenuVisibility()
-    },
-    setLocale (locale: string) {
-      this.$i18n.locale = locale
-    }
-  },
-  name: "Dashboard-Header"
-})
+function maxHeightStyle (booleanValue: boolean): { "max-height": string | number } {
+  return { "max-height": (booleanValue ? "1000px" : 0) }
+}
+function transitionClasses (): string[] {
+  return ["z-100", "absolute", "transition-[max-height]", "ease-in-out", "duration-500", "overflow-hidden"]
+}
+function updateMenuVisibility () {
+  store.updateMenuVisibility()
+}
 </script>
 
 <style scoped>
 .header-desktop{
   padding-left: 3%;
   padding-right: 3%;
+  height: 60px;
+}
+.header-middle{
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content:center;
+}
+.header-slider{
+  display: block;
+  width: 100%;
 }
 .up-arrow {
   transform: rotate(180deg);
