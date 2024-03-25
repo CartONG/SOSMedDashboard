@@ -114,5 +114,6 @@ function removeInformationTooltip () {
 .position-desktop {
   top: 75px;
   margin-left: 3%;
+  width: 23vw;
 }
 </style>
