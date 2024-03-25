@@ -85,8 +85,8 @@ export class BaseMap {
 
   public initMap (): void {
     const bounds = [
-      [-11.645509, 29.979384],
-      [37.397460, 46.331957]
+      [-13.218747, 23.570882],
+      [36.527347, 46.194746]
     ] as LngLatBoundsLike
     this.map = new Map({
       accessToken: "pk.eyJ1Ijoid2VzbGV5YmFuZmllbGQiLCJhIjoiY2pmMDRwb202MGlzNDJ3bm44cHA3YXZiNCJ9.b2yOf2vbWnWiV7mlsFAywg",
@@ -344,7 +344,7 @@ export class BaseMap {
   }
 
   private add12MilesLayers () {
-    this.map.addLayer({ id: "zone12miles", type: "line", source: "zone12Miles", layout: {}, paint: { "line-color": "#F03E1B", "line-width": 2, "line-dasharray": [3, 3] } })
+    this.map.addLayer({ id: "zone12miles", type: "line", source: "zone12Miles", layout: {}, paint: { "line-color": "#F03E1B", "line-width": 1, "line-dasharray": [1, 2] } })
   }
 
   /// /////// PRIVATE METHODS TO UPDATE LAYERS VISIBILITY AND SOURCES CONTENT \\\\\\\
