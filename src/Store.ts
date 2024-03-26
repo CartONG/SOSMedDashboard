@@ -13,6 +13,8 @@ export class Store {
   private appState: ApplicationState = reactive({
     isMenuVisible: false,
     isPopUpVisible: false,
+    isImageModalVisible: false,
+    imageModalUrl: "",
     popUpType: null,
     popUpData: null,
     virtualVisitAlreadyOpened: false,
@@ -53,6 +55,14 @@ export class Store {
 
   public updatePopUpVisibility () {
     this.appState.isPopUpVisible = !this.appState.isPopUpVisible
+  }
+
+  public updateImageModalVisibility (visibility: boolean) {
+    this.appState.isImageModalVisible = visibility
+  }
+
+  public setImageModalUrl (url: string) {
+    this.appState.imageModalUrl = url
   }
 
   public setPopUpData (data: OpsData | OtherData, type: PopUpType) {

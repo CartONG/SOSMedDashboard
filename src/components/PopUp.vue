@@ -10,11 +10,25 @@
       </div>
     </div>
   </transition>
+  <transition name="fade">
+        <div v-if="isModalVisible">
+          <div
+            @click="toggleImageModalVisibility"
+            class="image-modal"
+          >
+            <div
+              class="max-w-7xl p-3 rounded-xl shadow-lg bg-white opacity-100"
+            >
+                <img class="w-full" :src="currentImage">
+            </div>
+          </div>
+        </div>
+      </transition>
 </template>
 
 <script lang="ts" setup>
 import { store } from "@/main"
-import { computed } from "vue"
+import { computed, ref } from "vue"
 import OperationDescription from "./popUpContent/OperationDescription.vue"
 import IncidentDescription from "./popUpContent/IncidentDescription.vue"
 import DeathDescription from "./popUpContent/DeathDescription.vue"
@@ -25,6 +39,12 @@ function toggleVisibility () {
 }
 const isPopUpVisible = computed(() => store.getState().isPopUpVisible)
 const popUpType = computed(() => store.getState().popUpType)
+
+const isModalVisible = computed(() => store.getState().isImageModalVisible)
+function toggleImageModalVisibility () {
+  store.updateImageModalVisibility(false)
+}
+const currentImage = computed(() => store.getState().imageModalUrl)
 </script>
 
 <style>
@@ -69,4 +89,17 @@ const popUpType = computed(() => store.getState().popUpType)
 .testimony-text{
   text-decoration: underline dotted;
 }
+
+.image-modal{
+    display: flex;
+    z-index: 500;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+  }
 </style>

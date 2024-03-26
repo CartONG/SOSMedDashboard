@@ -7,10 +7,10 @@
           </div>
           <p class="font-bold">{{ format(incidentData.date, "full") }}</p>
           <hr class="border-dotted border-main border"/>
-          <p class="text-sm"><span class="icon icon-lifebuoy text-xl mr-3"/> {{ $t("popup.boatInvolved") }}:
+          <p class="text-sm mb-2 mt-2"><span class="icon icon-lifebuoy text-xl mr-3"/> {{ $t("popup.boatInvolved") }}:
             <span class="font-bold">{{ incidentData.boatInvolved }}</span>
           </p>
-          <p class="text-sm flex">
+          <p class="text-sm mb-2 flex">
             <img src="@/assets/warning.svg" class="popup-icon"> {{ $t("popup.facts") }}:
             <span class="font-bold">{{ incidentData.incAction }}</span>
           </p>
@@ -36,20 +36,6 @@
         </div>
       </div>
     </div>
-    <transition name="fade">
-        <div v-if="isModalVisible">
-          <div
-            @click="toggleImageModalVisibility"
-            class="image-modal"
-          >
-            <div
-              class="max-w-7xl p-3 rounded-xl shadow-lg bg-white opacity-100"
-            >
-                <img class="w-full" :src="currentImage">
-            </div>
-          </div>
-        </div>
-      </transition>
   </template>
 
 <script lang="ts" setup>
@@ -62,15 +48,10 @@ import { format } from "@formkit/tempo"
 const incidentData = computed(() => store.getState().popUpData as OtherData)
 const style = `--text-color: ${Colors.BLUE};`
 
-const isModalVisible = ref(false)
-function toggleImageModalVisibility () {
-  isModalVisible.value = !isModalVisible.value
-}
 function setCurrentImage (url: string) {
-  currentImage.value = url
-  isModalVisible.value = true
+  store.setImageModalUrl(url)
+  store.updateImageModalVisibility(true)
 }
-const currentImage = ref("")
 
 </script>
 
@@ -95,18 +76,5 @@ const currentImage = ref("")
 
   button {
     left: 100%;
-  }
-
-  .image-modal{
-    display: flex;
-    z-index: 100;
-    justify-content: center;
-    align-items: center;
-    background-color: black;
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    height: 100%;
-    width: 100%;
   }
   </style>
