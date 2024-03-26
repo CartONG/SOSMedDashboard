@@ -42,17 +42,17 @@
       </p>
       <div class="flex flex-row justify-around mb-2 text-main">
         <div class="flex flex-col">
-          <span class="icon icon-female text-3xl text-center"/>
+          <span class="icon icon-female text-4xl text-center"/>
           <span id="statsFemale" class="font-bold text-center"/>
           <p class="text-xs uppercase text-center">{{ $t("stats.females") }}</p>
         </div>
         <div class="flex flex-col">
-          <span class="icon icon-male text-3xl text-center"/>
+          <span class="icon icon-male text-4xl text-center"/>
           <span id="statsMale" class="font-bold text-center"/>
           <p class="text-xs uppercase text-center">{{ $t("stats.males") }}</p>
         </div>
         <div class="flex flex-col">
-          <span class="icon icon-kid text-3xl text-center"/>
+          <span class="icon icon-kid text-4xl text-center"/>
           <span id="statsMinor" class="font-bold text-center"/>
           <p class="text-xs uppercase text-center">{{ $t("stats.minors") }}</p>
         </div>
@@ -73,7 +73,7 @@
         <div class="flex flex-row">
           <span class="icon icon-bib text-3xl text-left text-secondary"/>
           <div class="flex flex-col">
-            <span id="statsChildren" class="font-bold text-center text-secondary"/>
+            <span id="statsChildren" class="font-bold text-left text-secondary"/>
             <p class="text-3xs uppercase text-left text-secondary text-stats-box">{{ $t("stats.children") }}</p>
           </div>
         </div>

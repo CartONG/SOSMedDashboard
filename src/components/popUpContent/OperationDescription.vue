@@ -85,7 +85,7 @@
 <script lang="ts" setup>
 // import { Colors } from "@/utils/Colors"
 import { store } from "@/main"
-import { computed, ref } from "vue"
+import { computed } from "vue"
 import { OpsData } from "@/classes/data/OpsData"
 import { format } from "@formkit/tempo"
 
@@ -116,4 +116,8 @@ function setCurrentImage (url: string) {
   button {
     left: 100%;
   }
+
+  p, span {
+  color: var(--text-color);
+}
   </style>

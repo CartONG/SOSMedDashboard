@@ -7,10 +7,10 @@
         </div>
         <p class="font-bold">{{ format(deathData.date, "full") }}</p>
         <hr class="border-dotted border-main border"/>
-        <p class="text-sm"><span class="icon icon-lifebuoy text-xl mr-3"/> {{ $t("popup.boatInvolved") }}:
+        <p class="text-sm mt-2 mb-2"><span class="icon icon-lifebuoy text-xl mr-3"/> {{ $t("popup.boatInvolved") }}:
           <span class="font-bold">{{ deathData.boatInvolved }}</span>
         </p>
-        <p class="text-sm"><span class="icon icon-rescue text-xl mr-3"/> {{ $t("popup.peoplesNB") }}:
+        <p class="text-sm mb-2"><span class="icon icon-rescue text-xl mr-3"/> {{ $t("popup.peoplesNB") }}:
           <span class="font-bold">{{ deathData.deathNumber }}</span>
         </p>
         <p class="text-sm flex" v-if="deathData.testimonySrc.length > 0">
