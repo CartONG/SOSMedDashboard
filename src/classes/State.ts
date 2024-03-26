@@ -23,6 +23,8 @@ export enum PopUpType {
 export interface ApplicationState {
   isMenuVisible: boolean;
   isPopUpVisible: boolean;
+  isImageModalVisible: boolean;
+  imageModalUrl: string;
   popUpType: PopUpType | null;
   popUpData: OpsData | OtherData | null;
   virtualVisitAlreadyOpened: boolean;
