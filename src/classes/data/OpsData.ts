@@ -26,11 +26,11 @@ export interface OpsData {
   boatType : string
   nbNationalities : string
   transfertType : string
-  imageSrc: string[]
-  videoSrc: string[]
+  imageSrc: string
+  videoSrc: string
   portDisembarkation : string
-  testimonyName: string[]
-  testimonySrc: string[]
+  testimonyName: string
+  testimonySrc: string
 }
 
 const createDate = function (dateDayFirst: string) {
@@ -84,13 +84,13 @@ const convertOpsData = function (rawOpsData: {[key: string]: string}, metadataEr
   res.boatType = rawOpsData.boatType
   res.nbNationalities = rawOpsData.typeNationalities
   res.transfertType = rawOpsData.transfertType
-  res.imageSrc = rawOpsData.imageSrc ? rawOpsData.imageSrc.split(";") : []
-  res.videoSrc = rawOpsData.videoSrv ? rawOpsData.videoSrv.split(";") : []
+  res.imageSrc = rawOpsData.imageSrc
+  res.videoSrc = rawOpsData.videoSrv
   res.portDisembarkation = rawOpsData.PortDisembarkation
-  res.testimonyName = rawOpsData.testimonyName ? rawOpsData.testimonyName.split(";") : []
-  if (res.testimonyName.length === 1) res.testimonyName = res.testimonyName.pop() as unknown as string[]
-  res.testimonySrc = rawOpsData.testimonySrc ? rawOpsData.testimonySrc.split(";") : []
-  if (res.testimonySrc.length === 1) res.testimonySrc = res.testimonySrc.pop() as unknown as string[]
+  res.testimonyName = rawOpsData.testimonyName
+  // if (res.testimonyName.length === 1) res.testimonyName = res.testimonyName.pop() as unknown as string[]
+  res.testimonySrc = rawOpsData.testimonySrc
+  // if (res.testimonySrc.length === 1) res.testimonySrc = res.testimonySrc.pop() as unknown as string[]
   return res
 }
 
