@@ -93,8 +93,8 @@ export class BaseMap {
       container: "mapContainer",
       style: BASEMAPS[this.currentBasemap].style,
       center: [9, 35],
-      zoom: 4
-      // maxBounds: bounds
+      zoom: 4,
+      maxBounds: bounds
     })
     map = this.map
     this.defaultExtent = this.map.getBounds()
