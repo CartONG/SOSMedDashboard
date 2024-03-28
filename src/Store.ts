@@ -20,6 +20,8 @@ export class Store {
     virtualVisitAlreadyOpened: false,
     minDate: new Date(2016, 2, 7),
     maxDate: new Date(),
+    selectedMinDate: new Date(2016, 2, 7),
+    selectedMaxDate: new Date(),
     switch: {
       rescue: true,
       transfer: true,
@@ -96,6 +98,7 @@ export class Store {
 
   private dataState: DataState = reactive({
     OpsData: [],
+    filteredOpsData: [],
     otherData: {} as DataState["otherData"],
     harbors: {} as FeatureCollection,
     sar: {} as FeatureCollection,
@@ -114,6 +117,7 @@ export class Store {
     this.dataState.sarCenters = require("./assets/resources/SAR_centers.json")
     this.dataState.zones12Miles = require("./assets/resources/zones_12_miles.json")
     this.dataState.OpsData = await fetchOpsData()
+    this.dataState.filteredOpsData = [...this.dataState.OpsData]
     this.dataState.dataLoaded = true
     this.updateHistogramSlider()
     this.updateStats(this.dataState.OpsData)
@@ -124,9 +128,10 @@ export class Store {
   }
 
   public filterData (minDate: Date, maxDate: Date): void {
-    this.appState.minDate = new Date(minDate)
-    this.appState.maxDate = new Date(maxDate)
-    const timeFilteredData = this.dataState.OpsData.filter(currentOperation => this.appState.minDate <= currentOperation.date && currentOperation.date <= this.appState.maxDate)
+    this.appState.selectedMinDate = new Date(minDate)
+    this.appState.selectedMaxDate = new Date(maxDate)
+    const timeFilteredData = this.dataState.OpsData.filter(currentOperation => this.appState.selectedMinDate <= currentOperation.date && currentOperation.date <= this.appState.selectedMaxDate)
+    this.dataState.filteredOpsData = timeFilteredData
     this.baseMap.updateOperationsData(timeFilteredData)
     this.updateStats(timeFilteredData)
   }
@@ -159,7 +164,7 @@ export class Store {
   }
 
   updateStats (timeFilteredData: OpsData[]): void {
-    updateStats(this.appState.minDate, this.appState.maxDate, timeFilteredData)
+    updateStats(this.appState.selectedMinDate, this.appState.selectedMaxDate, timeFilteredData)
   }
 
   toggleSwitch (switchId: keyof typeof SwitchType): void {

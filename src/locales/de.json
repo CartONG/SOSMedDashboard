@@ -11,7 +11,8 @@
             "subtitle": "Now",
             "button": "I donnate",
             "button2": "Make a donation"
-        }
+        },
+        "filterData": "Daten nach Datum filtern"
     },
     "contributors": {
         "contrib": "Mitwirkende",

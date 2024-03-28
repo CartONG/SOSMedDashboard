@@ -34,7 +34,7 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx"
-  ],
+, "BaseMapPickerControl.ts"  ],
   "exclude": [
     "node_modules"
   ]

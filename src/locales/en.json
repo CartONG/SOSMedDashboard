@@ -11,7 +11,8 @@
             "subtitle": "Now",
             "button": "I donnate",
             "button2": "Make a donation"
-        }
+        },
+        "filterData": "Filter data by date"
     },
     "contributors": {
         "contrib": "Contributors",
