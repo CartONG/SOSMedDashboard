@@ -10,6 +10,7 @@ import { loadLocaleMessages } from "@/i18n"
 import { Store } from "./Store"
 
 const i18n = createI18n({
+  legacy: false,
   locale: navigator.language.split("-")[0],
   fallbackLocale: "en",
   messages: loadLocaleMessages()

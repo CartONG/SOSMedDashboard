@@ -11,7 +11,8 @@
             "subtitle": "Maintenant",
             "button": "Je donne",
             "button2": "Faire un don"
-        }
+        },
+        "filterData": "Filtrer les données par date"
     },
     "contributors": {
         "contrib": "Contributeurs",

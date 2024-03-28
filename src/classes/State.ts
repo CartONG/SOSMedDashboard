@@ -30,6 +30,8 @@ export interface ApplicationState {
   virtualVisitAlreadyOpened: boolean;
   minDate: Date;
   maxDate: Date;
+  selectedMinDate: Date;
+  selectedMaxDate: Date;
   switch: { [key in SwitchType]: boolean };
   informationTooltip: {
     visible: boolean;
@@ -47,6 +49,7 @@ export interface ApplicationState {
 
 export interface DataState {
   OpsData: OpsData[]
+  filteredOpsData: OpsData[]
   otherData: {
     incidents: FeatureCollection
     deaths: FeatureCollection
